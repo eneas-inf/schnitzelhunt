@@ -1,0 +1,38 @@
+.leaderboard-container {
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  ion-card {
+    margin-bottom: 30px;
+
+    .description {
+      margin-bottom: 20px;
+      color: var(--ion-color-medium);
+    }
+
+    ion-list {
+      ion-item {
+        --padding-start: 0;
+
+        h2 {
+          font-weight: bold;
+        }
+
+        p {
+          font-size: 12px;
+          color: var(--ion-color-medium);
+        }
+
+        ion-badge {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  .action-button {
+    margin-top: 20px;
+  }
+}

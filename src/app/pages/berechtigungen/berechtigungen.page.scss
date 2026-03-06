@@ -1,0 +1,24 @@
+.permissions-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  ion-card {
+    margin-bottom: 30px;
+
+    .info-text {
+      margin-top: 15px;
+      font-size: 14px;
+      color: var(--ion-color-medium);
+    }
+  }
+
+  .continue-button {
+    margin-top: auto;
+  }
+}
