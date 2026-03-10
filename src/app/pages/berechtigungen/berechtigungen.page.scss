@@ -1,24 +1,73 @@
-.permissions-container {
+ion-header {
+  background: white;
+  --background: white;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+}
+
+.permission-step {
   display: flex;
   flex-direction: column;
   height: 100%;
+  justify-content: space-between;
+}
 
-  h1 {
-    text-align: center;
-    margin-bottom: 30px;
-  }
+.icon-container {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
 
-  ion-card {
-    margin-bottom: 30px;
+.large-icon {
+  font-size: 150px;
+  color: black;
+}
 
-    .info-text {
-      margin-top: 15px;
-      font-size: 14px;
-      color: var(--ion-color-medium);
-    }
-  }
+.info-card {
+  background-color: #f4f5f8; /* Light grey background for the card */
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
 
-  .continue-button {
-    margin-top: auto;
-  }
+.info-card h2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.info-card p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.continue-btn {
+  --background: #e0e0e0; /* Light grey button initially? Screenshot shows "Continue" button. */
+  /* Wait, screenshot shows a button that looks like it might be outlined or light grey with text. */
+  /* Actually, looking at the screenshot, the button is a rectangle with "Continue" text. */
+  /* The "Continue" button in the screenshot has a light background, maybe white or very light grey, with a border? */
+  /* Let's make it look like a standard button but maybe grey if it's "secondary" or just outlined. */
+  /* The screenshot shows a button with a border. */
+  --background: transparent;
+  --color: #666;
+  --border-color: #999;
+  --border-width: 1px;
+  --border-style: solid;
+  --box-shadow: none;
+  font-weight: normal;
+  text-transform: none;
+  height: 50px;
 }

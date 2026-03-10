@@ -1,7 +1,19 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { 
+  IonContent, 
+  IonHeader, 
+  IonToolbar, 
+  IonTitle, 
+  IonCard, 
+  IonCardContent, 
+  IonList, 
+  IonItem, 
+  IonIcon, 
+  IonLabel, 
+  IonButton 
+} from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { restaurant, egg, time } from 'ionicons/icons';
@@ -11,7 +23,22 @@ import { restaurant, egg, time } from 'ionicons/icons';
   templateUrl: './ergebnisse.page.html',
   styleUrls: ['./ergebnisse.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    RouterModule,
+    IonContent, 
+    IonHeader, 
+    IonToolbar, 
+    IonTitle, 
+    IonCard, 
+    IonCardContent, 
+    IonList, 
+    IonItem, 
+    IonIcon, 
+    IonLabel, 
+    IonButton
+  ],
 })
 export class ErgebnissePage {
   constructor() {
