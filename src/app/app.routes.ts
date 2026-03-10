@@ -8,6 +8,7 @@ import { HomePage } from './pages/home/home.page';
 import { SettingsPage } from './pages/settings/settings.page';
 import { LeaderboardPage } from './pages/leaderboard/leaderboard.page';
 import { ExplorePage } from './pages/explore/explore.page';
+import { TasksPage } from './pages/tasks/tasks.page';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'start-screen', pathMatch: 'full' },
@@ -29,6 +30,7 @@ export const routes: Routes = [
       { path: 'explore', component: ExplorePage },
       { path: 'leaderboard', component: LeaderboardPage },
       { path: 'settings', component: SettingsPage },
+      { path: 'hunt/:huntid/tasks', component: TasksPage },
     ],
   },
 ];

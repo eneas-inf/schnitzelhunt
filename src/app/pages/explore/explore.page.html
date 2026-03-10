@@ -23,12 +23,12 @@
     @for (hunt of hunts; track hunt) {
       <ion-card>
         <ion-card-header>
-          <ion-card-title>{{ hunt.title }}</ion-card-title>
+          <ion-card-title>{{ hunt.name }}</ion-card-title>
           <ion-card-subtitle>Difficulty: {{ hunt.difficulty }}</ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
           <p>{{ hunt.description }}</p>
-          <ion-button expand="block" class="ion-margin-top" routerLink="/tasks/1">Start</ion-button>
+          <ion-button expand="block" class="ion-margin-top" (click)="startHunt(hunt)">Start</ion-button>
         </ion-card-content>
       </ion-card>
     }

@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
-import {
-  IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonChip, IonContent, IonHeader,
-  IonIcon, IonList, IonSearchbar, IonTitle, IonToolbar
-} from '@ionic/angular/standalone';
-import { RouterLink } from '@angular/router';
-import {addIcons} from "ionicons";
-import { compass } from "ionicons/icons";
+import { Component, inject, OnInit } from '@angular/core';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonChip, IonContent, IonHeader, IonIcon, IonList, IonSearchbar, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { Router } from '@angular/router';
+import { addIcons } from 'ionicons';
+import { compass } from 'ionicons/icons';
+import { SchnitzelhuntInfo } from '../../models/schnitzelhunt';
+import { SchnitzelhuntService } from '../../services/schnitzelhunt.service';
 
 @Component({
   selector: 'app-explore',
@@ -13,7 +12,6 @@ import { compass } from "ionicons/icons";
   styleUrls: ['./explore.page.scss'],
   standalone: true,
   imports: [
-    RouterLink,
     IonContent,
     IonHeader,
     IonToolbar,
@@ -30,18 +28,23 @@ import { compass } from "ionicons/icons";
     IonIcon,
   ],
 })
-export class ExplorePage {
-  hunts = [
-    { title: 'City Explorer Hunt', description: 'Explore the city\'s hidden gems.', difficulty: 'Easy', type: 'easy' },
-    {
-      title: 'Nature Trail Adventure',
-      description: 'Discover the beauty of nature.',
-      difficulty: 'Medium',
-      type: 'medium',
-    },
-    { title: 'Historical Quest', description: 'Uncover secrets from the past.', difficulty: 'Hard', type: 'hard' },
-  ];
+export class ExplorePage implements OnInit {
+  private readonly huntService = inject(SchnitzelhuntService);
+  private readonly router = inject(Router);
+
+  protected hunts!: SchnitzelhuntInfo[];
+
   constructor() {
     addIcons({ compass });
+  }
+
+  ngOnInit(): void {
+    this.huntService.getSchnitzelhunts()
+      .subscribe(hunts => this.hunts = hunts);
+  }
+
+  async startHunt(hunt: SchnitzelhuntInfo) {
+    const active = this.huntService.initSchnitzelhunt(hunt);
+    await this.router.navigate(['hunt', active.id, 'tasks']);
   }
 }
