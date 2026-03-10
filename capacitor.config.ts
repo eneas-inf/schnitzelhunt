@@ -1,9 +1,9 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'schnitzelhunt',
-  webDir: 'www'
+  appId: 'ch.timjeromeeneas.schnitzelhunt',
+  appName: 'Schnitzelhunt',
+  webDir: 'www',
 };
 
 export default config;
