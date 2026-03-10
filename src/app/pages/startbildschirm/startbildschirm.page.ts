@@ -25,7 +25,7 @@ export class StartbildschirmPage {
       return;
     } else {
       this.userService.setUsername(value);
-      this.router.navigate(['/berechtigungen']);
+      await this.router.navigate(['/berechtigungen']);
     }
   }
 }
