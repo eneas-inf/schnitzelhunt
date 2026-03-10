@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/startbildschirm"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-list lines="none">
+    <ion-item>
+      <ion-input label="Email / Username" labelPlacement="stacked" placeholder="Enter your Email or Username"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="password" label="Password" labelPlacement="stacked" placeholder="Enter your Password"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <div class="ion-text-end ion-padding-horizontal">
+    <a href="#">Forgot password?</a>
+  </div>
+
+  <div class="ion-padding">
+    <ion-button expand="block" routerLink="/home">Login</ion-button>
+  </div>
+
+  <div class="ion-text-center">
+    <p>Not registered yet? <a routerLink="/register">Register now.</a></p>
+  </div>
+</ion-content>

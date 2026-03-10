@@ -1,30 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/explore"></ion-back-button>
+    </ion-buttons>
+    <ion-title>City Explorer Hunt</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [fullscreen]="true" class="ion-padding">
-  <div class="task-container">
-    <ion-text>
-      <h1>Aufgabe anzeigen</h1>
-    </ion-text>
+  <div class="task-header ion-padding-bottom">
+    <h2>Task 1/7:</h2>
+    <h1>Go to Migros</h1>
+  </div>
 
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>Aktuelle Aufgabe</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-text>
-          <p>Zeigt den Titel und Einführungstext der aktuellen Schnitzeljagd-Aufgabe an.</p>
-        </ion-text>
-      </ion-card-content>
-    </ion-card>
+  <div class="task-details ion-margin-vertical">
+    <ion-item lines="none">
+      <ion-icon name="navigate-circle-outline" slot="start" size="large"></ion-icon>
+      <ion-label>
+        <h2>Distance</h2>
+        <p>172 meters</p>
+      </ion-label>
+    </ion-item>
+  </div>
 
-    <ion-button expand="block" color="primary" class="action-button" routerLink="/aufgabe-abgeschlossen">
-      Aufgabe erledigt
-    </ion-button>
+  <div class="progress-section ion-margin-vertical">
+    <div class="progress-label">
+      <span>Progress: 75% to destination</span>
+    </div>
+    <ion-progress-bar value="0.75" color="primary"></ion-progress-bar>
+  </div>
 
-    <ion-button expand="block" fill="outline" color="medium" class="action-button" routerLink="/aufgabe-abgeschlossen">
-      Aufgabe überspringen
-    </ion-button>
+  <div class="map-placeholder ion-margin-vertical" style="height: 200px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+    <ion-text color="medium">Map View</ion-text>
+  </div>
 
-    <ion-button expand="block" fill="clear" color="danger" class="action-button" routerLink="/leaderboard">
-      Schnitzeljagd abbrechen
-    </ion-button>
+  <div class="actions ion-padding-top">
+    <ion-button expand="block" size="large" routerLink="/aufgabe-abgeschlossen">Next Task</ion-button>
+    <ion-button expand="block" fill="clear" color="danger" routerLink="/ergebnisse">Surrender</ion-button>
   </div>
 </ion-content>

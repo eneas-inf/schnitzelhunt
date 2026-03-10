@@ -1,63 +1,81 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Global Leaderboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [fullscreen]="true" class="ion-padding">
-  <div class="leaderboard-container">
-    <ion-text>
-      <h1>Leaderboard</h1>
-    </ion-text>
-
-    <ion-card>
-      <ion-card-content>
-        <ion-text>
-          <p class="description">
-            Rangliste aller Schnitzeljagd-Spiele:Hält Rang, Datum und Punkte.
-          </p>
-        </ion-text>
-
-        <ion-list>
-          <ion-item>
-            <ion-label>
-              <h2>Spieler 1</h2>
-              <p>2023-10-24</p>
-            </ion-label>
-            <ion-badge color="primary" slot="end">121 Punkte</ion-badge>
-          </ion-item>
-
-          <ion-item>
-            <ion-label>
-              <h2>Spieler 2</h2>
-              <p>2023-10-23</p>
-            </ion-label>
-            <ion-badge color="primary" slot="end">120 Punkte</ion-badge>
-          </ion-item>
-
-          <ion-item>
-            <ion-label>
-              <h2>Spieler 3</h2>
-              <p>2023-10-24</p>
-            </ion-label>
-            <ion-badge color="primary" slot="end">100 Punkte</ion-badge>
-          </ion-item>
-
-          <ion-item>
-            <ion-label>
-              <h2>Spieler 4</h2>
-              <p>2023-10-23</p>
-            </ion-label>
-            <ion-badge color="primary" slot="end">10 Punkte</ion-badge>
-          </ion-item>
-
-          <ion-item>
-            <ion-label>
-              <h2>Spieler 5</h2>
-              <p>2023-10-23</p>
-            </ion-label>
-            <ion-badge color="primary" slot="end">10 Punkte</ion-badge>
-          </ion-item>
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-button expand="block" color="primary" class="action-button" routerLink="/startbildschirm">
-      Neue Schnitzeljagd
-    </ion-button>
-  </div>
+  <ion-list>
+    <ion-item>
+      <ion-label>
+        <h2>1. User A</h2>
+      </ion-label>
+      <ion-badge color="gold" slot="end">1250 pts</ion-badge>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h2>2. User B</h2>
+      </ion-label>
+      <ion-badge color="silver" slot="end">1100 pts</ion-badge>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h2>3. User C</h2>
+      </ion-label>
+      <ion-badge color="bronze" slot="end">980 pts</ion-badge>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h2>4. User D</h2>
+      </ion-label>
+      <ion-badge color="medium" slot="end">950 pts</ion-badge>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h2>5. User E</h2>
+      </ion-label>
+      <ion-badge color="medium" slot="end">900 pts</ion-badge>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h2>6. User F</h2>
+      </ion-label>
+      <ion-badge color="medium" slot="end">800 pts</ion-badge>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h2>7. User G</h2>
+      </ion-label>
+      <ion-badge color="medium" slot="end">350 pts</ion-badge>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h2>8. User H</h2>
+      </ion-label>
+      <ion-badge color="medium" slot="end">200 pts</ion-badge>
+    </ion-item>
+  </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="home" href="/home">
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Home</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="explore" href="/explore">
+        <ion-icon name="compass"></ion-icon>
+        <ion-label>Explore</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="leaderboard" href="/leaderboard" selected>
+        <ion-icon name="trophy"></ion-icon>
+        <ion-label>Leaderboard</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="settings" href="/settings">
+        <ion-icon name="settings"></ion-icon>
+        <ion-label>Settings</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-toolbar>
+</ion-footer>

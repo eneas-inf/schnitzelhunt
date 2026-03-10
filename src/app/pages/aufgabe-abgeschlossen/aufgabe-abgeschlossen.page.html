@@ -1,27 +1,28 @@
-<ion-content [fullscreen]="true" class="ion-padding">
-  <div class="completed-container">
-    <div class="success-icon">
-      <ion-icon name="checkmark-circle" color="success"></ion-icon>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>City Explorer Hunt</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding ion-text-center">
+  <div class="completion-icon ion-margin-top">
+    <ion-icon name="checkmark-circle" color="success" style="font-size: 80px;"></ion-icon>
+  </div>
+  
+  <div class="task-info ion-margin-vertical">
+    <h2>Task Finished</h2>
+    <h1>Go to Migros</h1>
+    <p>Distance: 0 meters</p>
+  </div>
+
+  <div class="progress-section ion-margin-vertical">
+    <div class="progress-label">
+      <span>Progress: 100% to destination</span>
     </div>
+    <ion-progress-bar value="1.0" color="success"></ion-progress-bar>
+  </div>
 
-    <ion-text>
-      <h1>Aufgabe erfolgreich abgeschlossen!</h1>
-    </ion-text>
-
-    <ion-card>
-      <ion-card-content>
-        <ion-text>
-          <p>Du hast diese Aufgabe gemeistert und Punkte gesammelt.</p>
-        </ion-text>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-button expand="block" color="primary" class="action-button" routerLink="/aufgabe-anzeigen">
-      Nächste Aufgabe
-    </ion-button>
-
-    <ion-button expand="block" fill="outline" color="medium" class="action-button" routerLink="/ergebnisse">
-      Schnitzeljagd beendet
-    </ion-button>
+  <div class="actions ion-padding-top">
+    <ion-button expand="block" size="large" routerLink="/ergebnisse">Next Task</ion-button>
   </div>
 </ion-content>

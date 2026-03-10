@@ -1,0 +1,36 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/startbildschirm"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-list lines="none">
+    <ion-item>
+      <ion-input label="Full Name" labelPlacement="stacked" placeholder="Enter your full name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="email" label="Email" labelPlacement="stacked" placeholder="Enter your email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Username" labelPlacement="stacked" placeholder="Choose a username"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="password" label="Password" labelPlacement="stacked" placeholder="Create a password"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="password" label="Confirm Password" labelPlacement="stacked" placeholder="Confirm your password"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <div class="ion-padding">
+    <ion-button expand="block" routerLink="/berechtigungen">Create Account</ion-button>
+  </div>
+
+  <div class="ion-text-center">
+    <p>Already have an account? <a routerLink="/login">Sign in.</a></p>
+  </div>
+</ion-content>

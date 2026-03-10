@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Home</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <h2>Your Recent Activities</h2>
+  
+  <ion-list>
+    <ion-item *ngFor="let activity of recentActivities" lines="none" class="activity-item">
+      <ion-label>
+        <h3>{{ activity.name }}</h3>
+        <p>Completed: {{ activity.completed }}</p>
+        <p>Score: {{ activity.score }} points</p>
+      </ion-label>
+      <ion-button slot="end" fill="outline" size="small">Hunt again</ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" class="ion-margin-top" routerLink="/explore">Start a new Schnitzelhunt</ion-button>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="home" href="/home" selected>
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Home</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="explore" href="/explore">
+        <ion-icon name="compass"></ion-icon>
+        <ion-label>Explore</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="leaderboard" href="/leaderboard">
+        <ion-icon name="trophy"></ion-icon>
+        <ion-label>Leaderboard</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="settings" href="/settings">
+        <ion-icon name="settings"></ion-icon>
+        <ion-label>Settings</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-toolbar>
+</ion-footer>

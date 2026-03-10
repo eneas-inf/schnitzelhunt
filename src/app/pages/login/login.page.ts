@@ -5,11 +5,12 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-startbildschirm',
-  templateUrl: './startbildschirm.page.html',
-  styleUrls: ['./startbildschirm.page.scss'],
+  selector: 'app-login',
+  templateUrl: './login.page.html',
+  styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterModule],
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule]
 })
-export class StartbildschirmPage {
+export class LoginPage {
+  constructor() { }
 }

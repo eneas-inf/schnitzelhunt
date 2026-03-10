@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { restaurant, egg, time } from 'ionicons/icons';
+import { home, compass, trophy, settings } from 'ionicons/icons';
 
 @Component({
-  selector: 'app-ergebnisse',
-  templateUrl: './ergebnisse.page.html',
-  styleUrls: ['./ergebnisse.page.scss'],
+  selector: 'app-settings',
+  templateUrl: './settings.page.html',
+  styleUrls: ['./settings.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterModule],
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule]
 })
-export class ErgebnissePage {
+export class SettingsPage {
   constructor() {
-    addIcons({ restaurant, egg, time });
+    addIcons({ home, compass, trophy, settings });
   }
 }

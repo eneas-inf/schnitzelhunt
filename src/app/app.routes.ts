@@ -11,6 +11,26 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/startbildschirm/startbildschirm.page').then( m => m.StartbildschirmPage)
   },
   {
+    path: 'login',
+    loadComponent: () => import('./pages/login/login.page').then( m => m.LoginPage)
+  },
+  {
+    path: 'register',
+    loadComponent: () => import('./pages/register/register.page').then( m => m.RegisterPage)
+  },
+  {
+    path: 'home',
+    loadComponent: () => import('./pages/home/home.page').then( m => m.HomePage)
+  },
+  {
+    path: 'explore',
+    loadComponent: () => import('./pages/explore/explore.page').then( m => m.ExplorePage)
+  },
+  {
+    path: 'settings',
+    loadComponent: () => import('./pages/settings/settings.page').then( m => m.SettingsPage)
+  },
+  {
     path: 'berechtigungen',
     loadComponent: () => import('./pages/berechtigungen/berechtigungen.page').then( m => m.BerechtigungenPage)
   },
