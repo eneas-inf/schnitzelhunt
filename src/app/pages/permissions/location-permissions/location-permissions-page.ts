@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
     PermissionsComponent,
   ],
 })
-export class LocationBerechtigungenPage {
+export class LocationPermissionsPage {
   protected readonly permService = inject(PermissionService);
   protected readonly router = inject(Router);
 
