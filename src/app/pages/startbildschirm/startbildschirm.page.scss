@@ -1,76 +1,7 @@
-.background-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 0;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--sh-blue-bg); /* Base/Bottom color */
+ion-content {
+  --background: none; /* Remove default Ionic background */
+  background: url('/assets/background.png') no-repeat center center / cover;
 }
-
-.layer {
-  width: 100%;
-  position: absolute;
-  left: 0;
-  right: 0;
-}
-
-/* 
-  Approximation of the zigzag layers using clip-path or background-image.
-  Since I don't have the SVG for the background, I'll use CSS clip-path to create the jagged edges.
-*/
-
-.layer-1 {
-  /* Top dark blue layer */
-  top: 0;
-  height: 35%;
-  background-color: var(--sh-blue-dark);
-  /* Zigzag bottom edge */
-  clip-path: polygon(
-    0 0, 100% 0, 100% 85%, 
-    90% 95%, 80% 85%, 70% 95%, 60% 85%, 50% 95%, 40% 85%, 30% 95%, 20% 85%, 10% 95%, 
-    0 85%
-  );
-  z-index: 4;
-}
-
-.layer-2 {
-  /* Mid blue 1 */
-  top: 30%;
-  height: 25%;
-  background-color: var(--sh-blue-mid-1);
-  clip-path: polygon(
-    0 0, 100% 0, 100% 85%, 
-    95% 95%, 85% 85%, 75% 95%, 65% 85%, 55% 95%, 45% 85%, 35% 95%, 25% 85%, 15% 95%, 5% 85%, 
-    0 95%
-  );
-  z-index: 3;
-}
-
-.layer-3 {
-  /* Mid blue 2 */
-  top: 50%;
-  height: 25%;
-  background-color: var(--sh-blue-mid-2);
-  clip-path: polygon(
-    0 0, 100% 0, 100% 85%, 
-    90% 95%, 80% 85%, 70% 95%, 60% 85%, 50% 95%, 40% 85%, 30% 95%, 20% 85%, 10% 95%, 
-    0 85%
-  );
-  z-index: 2;
-}
-
-.layer-4 {
-  /* Light blue - just fills the rest or another layer */
-  top: 70%;
-  height: 30%;
-  background-color: var(--sh-blue-light);
-  /* No clip path needed if it's the bottom layer, but to match the jagged look above it */
-  z-index: 1;
-}
-
 
 .content-container {
   position: relative;
@@ -81,7 +12,7 @@
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  padding-top: 60px; /* Space for status bar/top */
+  padding-top: 60px;
   padding-bottom: 40px;
 }
 
@@ -108,7 +39,6 @@
 }
 
 .logo-circle {
-  /* The logo image itself seems to have the circle and crosshairs */
   width: 250px;
   height: 250px;
   display: flex;
@@ -119,7 +49,6 @@
 .logo-circle img {
   width: 100%;
   height: auto;
-  /* Filter drop-shadow if needed */
 }
 
 .footer-section {
@@ -128,10 +57,10 @@
 }
 
 .get-started-btn {
-  --background: #3b82f6; /* Bright blue */
+  --background: #3b82f6;
   --border-radius: 8px;
   font-weight: bold;
   font-size: 18px;
   height: 50px;
-  text-transform: none; /* Keep "Get Started" casing */
+  text-transform: none;
 }

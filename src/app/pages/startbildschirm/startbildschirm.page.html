@@ -1,11 +1,4 @@
 <ion-content [fullscreen]="true" class="ion-no-padding">
-  <div class="background-container">
-    <div class="layer layer-1"></div>
-    <div class="layer layer-2"></div>
-    <div class="layer layer-3"></div>
-    <div class="layer layer-4"></div>
-  </div>
-
   <div class="content-container ion-padding">
     <div class="header-section">
       <h1 class="app-title">Schnitzl Hunt</h1>
@@ -19,7 +12,7 @@
     </div>
 
     <div class="footer-section">
-      <ion-button expand="block" class="get-started-btn" routerLink="/berechtigungen">Get Started</ion-button>
+      <ion-button expand="block" class="get-started-btn" routerLink="/berechtigungen" (click)="usernameAlert()">Get Started</ion-button>
     </div>
   </div>
 </ion-content>
