@@ -1,0 +1,8 @@
+<app-berechtigungen
+  icon="location"
+  title="Grant access to Location"
+  description="To complete location-based challenges, please allow the Schnitzelhunt app
+   to access your device's location in your system settings."
+  [checkPermission]="permService.hasLocationPermission"
+  (continue)="continueToHome()"
+/>

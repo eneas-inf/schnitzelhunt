@@ -1,0 +1,28 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>
+      <div class="header-title">
+        <ion-icon name="shield-checkmark-outline"></ion-icon>
+        <span>Permissions</span>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="permission-step">
+    <div class="icon-container">
+      <ion-icon [name]="icon()" class="large-icon"></ion-icon>
+    </div>
+    <div class="info-card">
+      <h2>{{ title() }}</h2>
+      <p>{{ description() }}</p>
+      <ion-button expand="block"
+                  class="continue-btn"
+                  [disabled]="!hasPermission"
+                  (click)="continue.emit()">
+        Continue
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

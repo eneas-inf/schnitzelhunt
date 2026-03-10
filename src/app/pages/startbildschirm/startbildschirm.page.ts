@@ -1,8 +1,9 @@
-import {Component, inject} from '@angular/core';
-import {IonButton, IonContent} from '@ionic/angular/standalone';
-import {Router, RouterLink} from '@angular/router';
-import {Dialog} from "@capacitor/dialog";
-import {Userservice} from "../../userservice";
+import { Component, inject } from '@angular/core';
+import { IonButton, IonContent } from '@ionic/angular/standalone';
+import { Router, RouterLink } from '@angular/router';
+import { Dialog } from '@capacitor/dialog';
+import { Userservice } from '../../userservice';
+import { PermissionService } from '../../services/permission.service';
 
 @Component({
   selector: 'app-startbildschirm',
@@ -14,9 +15,10 @@ import {Userservice} from "../../userservice";
 export class StartbildschirmPage {
   private router: Router = inject(Router);
   private userService: Userservice = inject(Userservice);
+  private permissionService: PermissionService = inject(PermissionService);
 
   async usernameAlert() {
-    const {value, cancelled} = await Dialog.prompt({
+    const { value, cancelled } = await Dialog.prompt({
       title: 'Username',
       message: 'Please enter your username',
     });
@@ -25,7 +27,11 @@ export class StartbildschirmPage {
       return;
     } else {
       this.userService.setUsername(value);
-      await this.router.navigate(['/berechtigungen']);
+      if (!await this.permissionService.hasCameraPermission()) {
+        await this.router.navigate(['/berechtigungen/camera']);
+      } else if (await this.permissionService.hasLocationPermission()) {
+        await this.router.navigate(['/berechtigungen/location']);
+      }
     }
   }
 }

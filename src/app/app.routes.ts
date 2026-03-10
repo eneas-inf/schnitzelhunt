@@ -4,7 +4,7 @@ export const routes: Routes = [
   {
     path: '',
     redirectTo: 'startbildschirm',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'tabs',
@@ -54,19 +54,30 @@ export const routes: Routes = [
   },
   {
     path: 'berechtigungen',
-    loadComponent: () => import('./pages/berechtigungen/berechtigungen.page').then( m => m.BerechtigungenPage)
+    children: [
+      {
+        path: 'camera',
+        loadComponent: () => import('./pages/berechtigungen/camera-berechtigungen/camera-berechtigungen-page.component')
+          .then(m => m.CameraBerechtigungenPage),
+      },
+      {
+        path: 'location',
+        loadComponent: () => import('./pages/berechtigungen/location-berechtigungen/location-berechtigungen-page.component')
+          .then(m => m.LocationBerechtigungenPage),
+      },
+    ],
   },
   {
     path: 'aufgabe-anzeigen',
-    loadComponent: () => import('./pages/aufgabe-anzeigen/aufgabe-anzeigen.page').then( m => m.AufgabeAnzeigenPage)
+    loadComponent: () => import('./pages/aufgabe-anzeigen/aufgabe-anzeigen.page').then(m => m.AufgabeAnzeigenPage),
   },
   {
     path: 'aufgabe-abgeschlossen',
-    loadComponent: () => import('./pages/aufgabe-abgeschlossen/aufgabe-abgeschlossen.page').then( m => m.AufgabeAbgeschlossenPage)
+    loadComponent: () => import('./pages/aufgabe-abgeschlossen/aufgabe-abgeschlossen.page').then(m => m.AufgabeAbgeschlossenPage),
   },
   {
     path: 'ergebnisse',
-    loadComponent: () => import('./pages/ergebnisse/ergebnisse.page').then( m => m.ErgebnissePage)
+    loadComponent: () => import('./pages/ergebnisse/ergebnisse.page').then(m => m.ErgebnissePage),
   },
   {
     path: 'leaderboard',
