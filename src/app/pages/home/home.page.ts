@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {
   IonButton,
-  IonContent,
+  IonContent, IonFooter,
   IonHeader,
   IonIcon,
   IonItem,
@@ -30,6 +30,7 @@ import { homeOutline } from "ionicons/icons";
     IonLabel,
     IonButton,
     IonIcon,
+    IonFooter,
   ],
 })
 export class HomePage {
