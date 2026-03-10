@@ -7,8 +7,8 @@ import { AppService } from '../../services/app.service';
 
 @Component({
   selector: 'app-berechtigungen',
-  templateUrl: './berechtigungen.component.html',
-  styleUrls: ['./berechtigungen.component.scss'],
+  templateUrl: './permissions.component.html',
+  styleUrls: ['./permissions.component.scss'],
   standalone: true,
   imports: [
     FormsModule,
@@ -20,7 +20,7 @@ import { AppService } from '../../services/app.service';
     IonIcon,
   ],
 })
-export class BerechtigungenComponent implements OnInit {
+export class PermissionsComponent implements OnInit {
   public icon = input.required<string>();
   public title = input.required<string>();
   public description = input.required<string>();

@@ -3,39 +3,39 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'startbildschirm',
+    redirectTo: 'start-screen',
     pathMatch: 'full',
   },
   {
-    path: 'startbildschirm',
-    loadComponent: () => import('./pages/startbildschirm/startbildschirm.page').then( m => m.StartbildschirmPage)
+    path: 'start-screen',
+    loadComponent: () => import('./pages/start-screen/start-screen-page').then(m => m.StartScreenPage)
   },
   {
     path: 'berechtigungen',
     children: [
       {
         path: 'camera',
-        loadComponent: () => import('./pages/berechtigungen/camera-berechtigungen/camera-berechtigungen-page.component')
+        loadComponent: () => import('./pages/berechtigungen/camera-permissions/camera-permissions-page')
           .then(m => m.CameraBerechtigungenPage),
       },
       {
         path: 'location',
-        loadComponent: () => import('./pages/berechtigungen/location-berechtigungen/location-berechtigungen-page.component')
+        loadComponent: () => import('./pages/berechtigungen/location-permissions/location-permissions-page')
           .then(m => m.LocationBerechtigungenPage),
       },
     ],
   },
   {
-    path: 'aufgabe-anzeigen',
-    loadComponent: () => import('./pages/aufgabe-anzeigen/aufgabe-anzeigen.page').then(m => m.AufgabeAnzeigenPage),
+    path: 'show-task',
+    loadComponent: () => import('./pages/show-task/show-task-page').then(m => m.ShowTaskPage),
   },
   {
-    path: 'aufgabe-abgeschlossen',
-    loadComponent: () => import('./pages/aufgabe-abgeschlossen/aufgabe-abgeschlossen.page').then(m => m.AufgabeAbgeschlossenPage),
+    path: 'task-completed',
+    loadComponent: () => import('./pages/task-completed/task-completed-page').then(m => m.TaskCompletedPage),
   },
   {
-    path: 'ergebnisse',
-    loadComponent: () => import('./pages/ergebnisse/ergebnisse.page').then(m => m.ErgebnissePage),
+    path: 'results',
+    loadComponent: () => import('./pages/results/results-page').then(m => m.ResultsPage),
   },
   {
     path: '',

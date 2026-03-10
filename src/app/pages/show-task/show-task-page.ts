@@ -5,9 +5,9 @@ import { navigateCircleOutline } from 'ionicons/icons';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-aufgabe-anzeigen',
-  templateUrl: './aufgabe-anzeigen.page.html',
-  styleUrls: ['./aufgabe-anzeigen.page.scss'],
+  selector: 'app-show-task',
+  templateUrl: './show-task-page.html',
+  styleUrls: ['./show-task-page.scss'],
   standalone: true,
   imports: [
     RouterLink,
@@ -25,7 +25,7 @@ import { RouterLink } from '@angular/router';
     IonButton,
   ],
 })
-export class AufgabeAnzeigenPage {
+export class ShowTaskPage {
   constructor() {
     addIcons({ navigateCircleOutline });
   }

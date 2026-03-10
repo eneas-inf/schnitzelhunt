@@ -6,13 +6,13 @@ import { UserService } from '../../services/user.service';
 import { PermissionService } from '../../services/permission.service';
 
 @Component({
-  selector: 'app-startbildschirm',
-  templateUrl: './startbildschirm.page.html',
-  styleUrls: ['./startbildschirm.page.scss'],
+  selector: 'app-start-screen',
+  templateUrl: './start-screen-page.html',
+  styleUrls: ['./start-screen-page.scss'],
   standalone: true,
   imports: [IonContent, IonButton, RouterLink],
 })
-export class StartbildschirmPage {
+export class StartScreenPage {
   private router: Router = inject(Router);
   private userService: UserService = inject(UserService);
   private permissionService: PermissionService = inject(PermissionService);

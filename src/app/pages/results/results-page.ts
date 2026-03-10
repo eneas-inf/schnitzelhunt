@@ -5,9 +5,9 @@ import { egg, restaurant, time } from 'ionicons/icons';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-ergebnisse',
-  templateUrl: './ergebnisse.page.html',
-  styleUrls: ['./ergebnisse.page.scss'],
+  selector: 'app-results',
+  templateUrl: './results-page.html',
+  styleUrls: ['./results-page.scss'],
   standalone: true,
   imports: [
     RouterLink,
@@ -24,7 +24,7 @@ import { RouterLink } from '@angular/router';
     IonButton,
   ],
 })
-export class ErgebnissePage {
+export class ResultsPage {
   constructor() {
     addIcons({ restaurant, egg, time });
   }

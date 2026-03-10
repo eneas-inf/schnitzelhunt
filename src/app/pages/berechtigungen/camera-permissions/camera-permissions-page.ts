@@ -1,14 +1,14 @@
 import { Component, inject } from '@angular/core';
-import { BerechtigungenComponent } from '../berechtigungen.component';
+import { PermissionsComponent } from '../permissions.component';
 import { PermissionService } from '../../../services/permission.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-camera-berechtigungen',
-  templateUrl: './camera-berechtigungen-page.component.html',
-  styleUrls: ['./camera-berechtigungen-page.component.scss'],
+  selector: 'app-camera-permissions',
+  templateUrl: './camera-permissions-page.html',
+  styleUrls: ['./camera-permissions-page.scss'],
   imports: [
-    BerechtigungenComponent,
+    PermissionsComponent,
   ],
 })
 export class CameraBerechtigungenPage {

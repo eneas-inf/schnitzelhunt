@@ -1,14 +1,14 @@
 import { Component, inject } from '@angular/core';
-import { BerechtigungenComponent } from '../berechtigungen.component';
+import { PermissionsComponent } from '../permissions.component';
 import { PermissionService } from '../../../services/permission.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-location-berechtigungen',
-  templateUrl: './location-berechtigungen-page.component.html',
-  styleUrls: ['./location-berechtigungen-page.component.scss'],
+  selector: 'app-location-permissions',
+  templateUrl: './location-permissions-page.html',
+  styleUrls: ['./location-permissions-page.scss'],
   imports: [
-    BerechtigungenComponent,
+    PermissionsComponent,
   ],
 })
 export class LocationBerechtigungenPage {
