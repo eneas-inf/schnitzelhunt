@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { IonContent, IonFooter, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonTabBar, IonTabButton, IonTitle, IonToggle, IonToolbar } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { compass, home, settings, trophy } from 'ionicons/icons';
+import { IonContent, IonHeader, IonItem, IonLabel, IonList, IonListHeader, IonTitle, IonToggle, IonToolbar } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -19,15 +17,7 @@ import { RouterLink } from '@angular/router';
     IonListHeader,
     IonItem,
     IonLabel,
-    IonIcon,
     IonToggle,
-    IonFooter,
-    IonTabBar,
-    IonTabButton,
   ],
 })
-export class SettingsPage {
-  constructor() {
-    addIcons({ home, compass, trophy, settings });
-  }
-}
+export class SettingsPage {}

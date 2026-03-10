@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { IonBadge, IonContent, IonFooter, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonTabBar, IonTabButton, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { compass, home, settings, trophy } from 'ionicons/icons';
+import { IonBadge, IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-leaderboard',
@@ -17,14 +15,7 @@ import { compass, home, settings, trophy } from 'ionicons/icons';
     IonItem,
     IonLabel,
     IonBadge,
-    IonFooter,
-    IonTabBar,
-    IonTabButton,
-    IonIcon,
   ],
 })
 export class LeaderboardPage {
-  constructor() {
-    addIcons({ home, compass, trophy, settings });
-  }
 }

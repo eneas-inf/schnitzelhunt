@@ -7,7 +7,7 @@ import {
   IonToolbar, 
   IonTitle, 
   IonButton, 
-  IonIcon
+  IonIcon,
 } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
@@ -25,7 +25,7 @@ import { camera, location, shieldCheckmarkOutline } from 'ionicons/icons';
     IonToolbar,
     IonTitle,
     IonButton,
-    IonIcon
+    IonIcon,
 ],
 })
 export class BerechtigungenPage {

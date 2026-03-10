@@ -7,20 +7,50 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'tabs',
+    loadComponent: () => import('./pages/tabs/tabs.page').then((m) => m.TabsPage),
+    children: [
+      {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full',
+      },
+      {
+        path: 'home',
+        loadComponent: () => import('./pages/home/home.page').then((m) => m.HomePage),
+      },
+      {
+        path: 'explore',
+        loadComponent: () => import('./pages/explore/explore.page').then((m) => m.ExplorePage),
+      },
+      {
+        path: 'leaderboard',
+        loadComponent: () => import('./pages/leaderboard/leaderboard.page').then((m) => m.LeaderboardPage),
+      },
+      {
+        path: 'settings',
+        loadComponent: () => import('./pages/settings/settings.page').then((m) => m.SettingsPage),
+      },
+    ],
+  },
+  {
     path: 'startbildschirm',
     loadComponent: () => import('./pages/startbildschirm/startbildschirm.page').then( m => m.StartbildschirmPage)
   },
   {
     path: 'home',
-    loadComponent: () => import('./pages/home/home.page').then( m => m.HomePage)
+    redirectTo: 'tabs/home',
+    pathMatch: 'full',
   },
   {
     path: 'explore',
-    loadComponent: () => import('./pages/explore/explore.page').then( m => m.ExplorePage)
+    redirectTo: 'tabs/explore',
+    pathMatch: 'full',
   },
   {
     path: 'settings',
-    loadComponent: () => import('./pages/settings/settings.page').then( m => m.SettingsPage)
+    redirectTo: 'tabs/settings',
+    pathMatch: 'full',
   },
   {
     path: 'berechtigungen',
@@ -40,6 +70,7 @@ export const routes: Routes = [
   },
   {
     path: 'leaderboard',
-    loadComponent: () => import('./pages/leaderboard/leaderboard.page').then( m => m.LeaderboardPage)
+    redirectTo: 'tabs/leaderboard',
+    pathMatch: 'full',
   },
 ];

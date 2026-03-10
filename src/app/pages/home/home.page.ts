@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { IonButton, IonContent, IonFooter, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonTabBar, IonTabButton, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { compass, home, settings, trophy } from 'ionicons/icons';
+import { IonButton, IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -19,10 +17,6 @@ import { RouterLink } from '@angular/router';
     IonItem,
     IonLabel,
     IonButton,
-    IonIcon,
-    IonFooter,
-    IonTabBar,
-    IonTabButton,
   ],
 })
 export class HomePage {
@@ -31,8 +25,4 @@ export class HomePage {
     { name: 'Schnitzel Hunt: Subway Adventure', completed: '3 days ago', score: 1800 },
     { name: 'Schnitzel Hunt: City Explorer', completed: '2 hours ago', score: 1500 },
   ];
-
-  constructor() {
-    addIcons({ home, compass, trophy, settings });
-  }
 }
