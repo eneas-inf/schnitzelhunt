@@ -1,0 +1,151 @@
+.background-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--sh-blue-bg);
+}
+
+.layer {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+/* Similar layers to start screen but adapted for content */
+.layer-1 {
+  top: 0;
+  height: 25%; /* Header area */
+  background-color: var(--sh-blue-dark);
+  clip-path: polygon(
+    0 0, 100% 0, 100% 85%, 
+    90% 95%, 80% 85%, 70% 95%, 60% 85%, 50% 95%, 40% 85%, 30% 95%, 20% 85%, 10% 95%, 
+    0 85%
+  );
+  z-index: 4;
+}
+
+.layer-2 {
+  top: 20%;
+  height: 30%;
+  background-color: var(--sh-blue-mid-1);
+  clip-path: polygon(
+    0 0, 100% 0, 100% 85%, 
+    95% 95%, 85% 85%, 75% 95%, 65% 85%, 55% 95%, 45% 85%, 35% 95%, 25% 85%, 15% 95%, 5% 85%, 
+    0 95%
+  );
+  z-index: 3;
+}
+
+.layer-3 {
+  top: 45%;
+  height: 30%;
+  background-color: var(--sh-blue-mid-2);
+  clip-path: polygon(
+    0 0, 100% 0, 100% 85%, 
+    90% 95%, 80% 85%, 70% 95%, 60% 85%, 50% 95%, 40% 85%, 30% 95%, 20% 85%, 10% 95%, 
+    0 85%
+  );
+  z-index: 2;
+}
+
+.layer-4 {
+  bottom: 0;
+  height: 30%;
+  background-color: var(--sh-blue-light);
+  z-index: 1;
+}
+
+.content-container {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 40px;
+}
+
+.header-section {
+  color: white;
+  margin-bottom: 20px;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-icon {
+  font-size: 28px;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.form-section {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow-y: auto; /* Allow scrolling if inputs take too much space */
+  padding-bottom: 20px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.input-label {
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.custom-input {
+  --background: white;
+  --color: black;
+  --placeholder-color: #666;
+  --padding-start: 15px;
+  --padding-end: 15px;
+  --border-radius: 8px;
+  height: 50px;
+  font-size: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.footer-section {
+  margin-top: auto;
+  padding-bottom: 20px;
+}
+
+.action-btn {
+  --background: #3b82f6;
+  --border-radius: 8px;
+  height: 50px;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 15px;
+  text-transform: none;
+}
+
+.link-text {
+  text-align: center;
+}
+
+.link-text a {
+  color: white;
+  text-decoration: underline;
+  font-size: 14px;
+}

@@ -1,36 +1,55 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/startbildschirm"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Register</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true" class="ion-padding">
-  <ion-list lines="none">
-    <ion-item>
-      <ion-input label="Full Name" labelPlacement="stacked" placeholder="Enter your full name"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input type="email" label="Email" labelPlacement="stacked" placeholder="Enter your email"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input label="Username" labelPlacement="stacked" placeholder="Choose a username"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input type="password" label="Password" labelPlacement="stacked" placeholder="Create a password"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input type="password" label="Confirm Password" labelPlacement="stacked" placeholder="Confirm your password"></ion-input>
-    </ion-item>
-  </ion-list>
-
-  <div class="ion-padding">
-    <ion-button expand="block" routerLink="/berechtigungen">Create Account</ion-button>
+<ion-content [fullscreen]="true" class="ion-no-padding">
+  <div class="background-container">
+    <div class="layer layer-1"></div>
+    <div class="layer layer-2"></div>
+    <div class="layer layer-3"></div>
+    <div class="layer layer-4"></div>
   </div>
 
-  <div class="ion-text-center">
-    <p>Already have an account? <a routerLink="/login">Sign in.</a></p>
+  <div class="content-container ion-padding">
+    <div class="header-section">
+      <div class="header-top">
+        <ion-icon name="person-add-outline" class="header-icon"></ion-icon>
+        <h1 class="page-title">Register</h1>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="input-group">
+        <ion-label class="input-label">Full Name</ion-label>
+        <ion-input type="text" placeholder="Enter your full name" class="custom-input"></ion-input>
+      </div>
+
+      <div class="input-group">
+        <ion-label class="input-label">Email</ion-label>
+        <ion-input type="email" placeholder="Enter your email" class="custom-input"></ion-input>
+      </div>
+
+      <div class="input-group">
+        <ion-label class="input-label">Username</ion-label>
+        <ion-input type="text" placeholder="Choose a username" class="custom-input"></ion-input>
+      </div>
+
+      <div class="input-group">
+        <ion-label class="input-label">Password</ion-label>
+        <ion-input type="password" placeholder="Create a password" class="custom-input"></ion-input>
+      </div>
+
+      <div class="input-group">
+        <ion-label class="input-label">Confirm Password</ion-label>
+        <ion-input type="password" placeholder="Confirm your password" class="custom-input"></ion-input>
+      </div>
+    </div>
+
+    <div class="footer-section">
+      <ion-button expand="block" class="action-btn" routerLink="/berechtigungen">
+        Create Account
+        <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+      </ion-button>
+      
+      <div class="link-text">
+        <a routerLink="/login">already have an account? sign in.</a>
+      </div>
+    </div>
   </div>
 </ion-content>

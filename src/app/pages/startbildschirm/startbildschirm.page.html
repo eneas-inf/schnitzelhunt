@@ -1,14 +1,25 @@
-<ion-content [fullscreen]="true" class="ion-padding ion-text-center">
-  <div class="welcome-container">
-    <div class="logo-placeholder">
-      <!-- Logo would go here -->
-      <h1>Schnitzel Hunt</h1>
-      <p>Explore, discover, and compete!</p>
+<ion-content [fullscreen]="true" class="ion-no-padding">
+  <div class="background-container">
+    <div class="layer layer-1"></div>
+    <div class="layer layer-2"></div>
+    <div class="layer layer-3"></div>
+    <div class="layer layer-4"></div>
+  </div>
+
+  <div class="content-container ion-padding">
+    <div class="header-section">
+      <h1 class="app-title">Schnitzl Hunt</h1>
+      <p class="app-subtitle">Explore, discover, and compete!</p>
     </div>
 
-    <div class="button-container">
-      <ion-button expand="block" routerLink="/register">Get Started</ion-button>
-      <ion-button expand="block" fill="clear" routerLink="/login">I already have an account</ion-button>
+    <div class="logo-section">
+      <div class="logo-circle">
+        <img src="assets/logo.png" alt="Schnitzel Hunt Logo" />
+      </div>
+    </div>
+
+    <div class="footer-section">
+      <ion-button expand="block" class="get-started-btn" routerLink="/register">Get Started</ion-button>
     </div>
   </div>
 </ion-content>
