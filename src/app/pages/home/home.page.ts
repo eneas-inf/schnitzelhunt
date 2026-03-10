@@ -1,6 +1,18 @@
 import { Component } from '@angular/core';
-import { IonButton, IonContent, IonHeader, IonItem, IonLabel, IonList, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import {
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonTitle,
+  IonToolbar
+} from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
+import {addIcons} from "ionicons";
+import { homeOutline } from "ionicons/icons";
 
 @Component({
   selector: 'app-home',
@@ -17,6 +29,7 @@ import { RouterLink } from '@angular/router';
     IonItem,
     IonLabel,
     IonButton,
+    IonIcon,
   ],
 })
 export class HomePage {
@@ -25,4 +38,8 @@ export class HomePage {
     { name: 'Schnitzel Hunt: Subway Adventure', completed: '3 days ago', score: 1800 },
     { name: 'Schnitzel Hunt: City Explorer', completed: '2 hours ago', score: 1500 },
   ];
+
+  constructor() {
+    addIcons({ homeOutline });
+  }
 }

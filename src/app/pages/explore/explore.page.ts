@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonChip, IonContent, IonHeader, IonList, IonSearchbar, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import {
+  IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonChip, IonContent, IonHeader,
+  IonIcon, IonList, IonSearchbar, IonTitle, IonToolbar
+} from '@ionic/angular/standalone';
 import { RouterLink } from '@angular/router';
+import {addIcons} from "ionicons";
+import { compass } from "ionicons/icons";
 
 @Component({
   selector: 'app-explore',
@@ -22,6 +27,7 @@ import { RouterLink } from '@angular/router';
     IonCardSubtitle,
     IonCardContent,
     IonButton,
+    IonIcon,
   ],
 })
 export class ExplorePage {
@@ -35,4 +41,7 @@ export class ExplorePage {
     },
     { title: 'Historical Quest', description: 'Uncover secrets from the past.', difficulty: 'Hard', type: 'hard' },
   ];
+  constructor() {
+    addIcons({ compass });
+  }
 }
