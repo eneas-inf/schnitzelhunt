@@ -1,18 +1,7 @@
 import { Component } from '@angular/core';
-import {
-  IonButton,
-  IonContent, IonFooter,
-  IonHeader,
-  IonIcon,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonTitle,
-  IonToolbar
-} from '@ionic/angular/standalone';
-import { RouterLink } from '@angular/router';
-import {addIcons} from "ionicons";
-import { homeOutline } from "ionicons/icons";
+import { IonButton, IonContent, IonFooter, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { homeOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +9,6 @@ import { homeOutline } from "ionicons/icons";
   styleUrls: ['./home.page.scss'],
   standalone: true,
   imports: [
-    RouterLink,
     IonContent,
     IonHeader,
     IonToolbar,
