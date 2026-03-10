@@ -1,0 +1,241 @@
+.task-content {
+  --background: #f8f9fa;
+  font-family: 'Varela Round', sans-serif; /* Assuming a rounded font based on screenshots */
+}
+
+.task-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  text-align: center;
+}
+
+.task-header {
+  margin-bottom: 20px;
+}
+
+.task-header h2 {
+  font-size: 18px;
+  color: #333;
+  margin: 0;
+  font-weight: 600;
+}
+
+.task-title {
+  font-size: 28px;
+  color: #3b82f6; /* Blue color from screenshot */
+  margin: 5px 0;
+  font-weight: 800;
+}
+
+.task-visual {
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.distance-text {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.progress-bar-container {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+ion-progress-bar {
+  height: 12px;
+  border-radius: 6px;
+  --background: #e0e0e0;
+  --progress-background: #3b82f6;
+}
+
+.progress-text {
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.map-placeholder {
+  width: 100%;
+  height: 200px;
+  background-color: #222; /* Dark map bg */
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.map-icon {
+  font-size: 48px;
+  color: white;
+  position: absolute;
+}
+
+/* Circular Progress */
+.circular-progress {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 20px;
+  /* Simplified circular progress visual */
+  border: 10px solid #e0e0e0;
+  border-top: 10px solid #3dc2ff;
+  border-right: 10px solid #3dc2ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle .percentage {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+/* Scan Visual */
+.scan-container {
+  margin-bottom: 20px;
+}
+
+.scan-frame {
+  width: 200px;
+  height: 200px;
+  border: 4px solid #333;
+  position: relative;
+  margin: 0 auto 10px;
+  border-radius: 4px;
+  /* Add corner brackets visual via CSS or image ideally */
+}
+
+.camera-preview {
+  width: 100%;
+  height: 100%;
+  background-color: #ddd; /* Camera placeholder */
+}
+
+.scan-button {
+  background: white;
+  border: 2px solid #333;
+  border-radius: 20px;
+  padding: 8px 24px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.instruction-text {
+  font-size: 16px;
+  color: #555;
+  max-width: 80%;
+}
+
+.icon-visual {
+  margin-bottom: 20px;
+}
+
+.large-icon {
+  font-size: 100px;
+  color: #333;
+}
+
+.rotate-animation {
+  font-size: 100px;
+  color: #333;
+  /* Add rotation animation if possible */
+  transform: rotate(-15deg);
+}
+
+.action-buttons {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.next-btn {
+  --background: #bdbdbd;
+  --background-activated: #a0a0a0;
+  --color: #333;
+  font-weight: bold;
+  margin-bottom: 10px;
+  height: 50px;
+  --border-radius: 8px;
+}
+
+.surrender-btn {
+  --background: #eb445a;
+  --color: white;
+  font-weight: bold;
+  height: 50px;
+  --border-radius: 8px;
+}
+
+/* Success Popup */
+.success-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.success-card {
+  background-color: #4ade80; /* Green success color */
+  width: 85%;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  color: #000;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.success-header {
+  font-weight: bold;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.success-icon {
+  font-size: 80px;
+  margin-bottom: 10px;
+  color: black;
+}
+
+.success-message {
+  font-size: 16px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.popup-next-btn {
+  --background: #3b82f6; /* Blue button */
+  --color: white;
+  font-weight: bold;
+  margin-bottom: 10px;
+  height: 50px;
+  --border-radius: 8px;
+}
+
+.popup-surrender-btn {
+  --background: #bdbdbd;
+  --color: #333;
+  font-weight: bold;
+  height: 50px;
+  --border-radius: 8px;
+}

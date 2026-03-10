@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>ResultsPage</ion-title>
+    <ion-title>Results</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -16,26 +16,40 @@
           <ion-icon name="restaurant" slot="start" color="warning"></ion-icon>
           <ion-label>
             <h3>Collected Schnitzel</h3>
-            <h1>6</h1>
+            <h1>{{ status === 'success' ? 6 : 0 }}</h1>
           </ion-label>
         </ion-item>
         <ion-item>
           <ion-icon name="egg" slot="start" color="medium"></ion-icon>
           <ion-label>
             <h3>Collected Potatoes</h3>
-            <h1>2</h1>
+            <h1>{{ status === 'success' ? 2 : 1 }}</h1>
           </ion-label>
         </ion-item>
         <ion-item>
           <ion-icon name="time" slot="start" color="primary"></ion-icon>
           <ion-label>
             <h3>Time</h3>
-            <h1>00:25:30</h1>
+            <h1>{{ status === 'success' ? '00:25:30' : '00:09:59' }}</h1>
           </ion-label>
         </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
+
+  @if (status === 'success') {
+    <div class="status-visual success">
+      <img src="assets/stamp-complete.png" alt="Complete Stamp" class="stamp-image" onerror="this.style.display='none'">
+      <h1 class="status-text success-text">COMPLETE</h1>
+    </div>
+  }
+
+  @if (status === 'failed') {
+    <div class="status-visual failed">
+      <img src="assets/stamp-failed.png" alt="Failed Stamp" class="stamp-image" onerror="this.style.display='none'">
+      <h1 class="status-text failed-text">FAILED</h1>
+    </div>
+  }
 
   <div class="ion-padding">
     <ion-button expand="block" routerLink="/leaderboard">Go to leaderboard</ion-button>
