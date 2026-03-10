@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { IonButton, IonContent } from '@ionic/angular/standalone';
 import { Router, RouterLink } from '@angular/router';
 import { Dialog } from '@capacitor/dialog';
-import { Userservice } from '../../userservice';
+import { UserService } from '../../services/user.service';
 import { PermissionService } from '../../services/permission.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { PermissionService } from '../../services/permission.service';
 })
 export class StartbildschirmPage {
   private router: Router = inject(Router);
-  private userService: Userservice = inject(Userservice);
+  private userService: UserService = inject(UserService);
   private permissionService: PermissionService = inject(PermissionService);
 
   async usernameAlert() {
