@@ -8,19 +8,19 @@ export const routes: Routes = [
   },
   {
     path: 'start-screen',
-    loadComponent: () => import('./pages/start-screen/start-screen-page').then(m => m.StartScreenPage)
+    loadComponent: () => import('./pages/start-screen/start-screen-page').then(m => m.StartScreenPage),
   },
   {
-    path: 'berechtigungen',
+    path: 'permissions',
     children: [
       {
         path: 'camera',
-        loadComponent: () => import('./pages/berechtigungen/camera-permissions/camera-permissions-page')
+        loadComponent: () => import('./pages/permissions/camera-permissions/camera-permissions-page')
           .then(m => m.CameraBerechtigungenPage),
       },
       {
         path: 'location',
-        loadComponent: () => import('./pages/berechtigungen/location-permissions/location-permissions-page')
+        loadComponent: () => import('./pages/permissions/location-permissions/location-permissions-page')
           .then(m => m.LocationBerechtigungenPage),
       },
     ],

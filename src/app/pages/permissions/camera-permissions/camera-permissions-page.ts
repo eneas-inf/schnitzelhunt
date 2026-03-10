@@ -17,7 +17,7 @@ export class CameraBerechtigungenPage {
 
   protected async toNextPage() {
     if (!await this.permService.hasLocationPermission(true)) {
-      await this.router.navigateByUrl('/berechtigungen/location');
+      await this.router.navigateByUrl('/permissions/location');
     } else {
       await this.router.navigateByUrl('/home');
     }

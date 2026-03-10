@@ -29,10 +29,10 @@ export class StartScreenPage {
       this.userService.setUsername(value);
 
       if (!await this.permissionService.hasCameraPermission(true)) {
-        await this.router.navigate(['/berechtigungen/camera']);
+        await this.router.navigate(['/permissions/camera']);
       } else {
         if (!await this.permissionService.hasLocationPermission(true)) {
-          await this.router.navigate(['/berechtigungen/location']);
+          await this.router.navigate(['/permissions/location']);
         } else {
           await this.router.navigate(['/home']);
         }

@@ -6,7 +6,7 @@ import { camera, location, shieldCheckmarkOutline } from 'ionicons/icons';
 import { AppService } from '../../services/app.service';
 
 @Component({
-  selector: 'app-berechtigungen',
+  selector: 'app-permissions',
   templateUrl: './permissions.component.html',
   styleUrls: ['./permissions.component.scss'],
   standalone: true,
