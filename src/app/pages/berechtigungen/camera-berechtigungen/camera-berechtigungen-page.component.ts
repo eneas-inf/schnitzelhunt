@@ -15,7 +15,11 @@ export class CameraBerechtigungenPage {
   protected readonly permService = inject(PermissionService);
   protected readonly router = inject(Router);
 
-  protected continueToLocation() {
-    this.router.navigateByUrl('berechtigungen/location');
+  protected async toNextPage() {
+    if (!await this.permService.hasLocationPermission(true)) {
+      await this.router.navigateByUrl('/berechtigungen/location');
+    } else {
+      await this.router.navigateByUrl('/home');
+    }
   }
 }

@@ -8,7 +8,6 @@ export const routes: Routes = [
   },
   {
     path: 'tabs',
-    loadComponent: () => import('./pages/tabs/tabs.page').then((m) => m.TabsPage),
     children: [
       {
         path: '',
@@ -35,7 +34,7 @@ export const routes: Routes = [
   },
   {
     path: 'startbildschirm',
-    loadComponent: () => import('./pages/startbildschirm/startbildschirm.page').then( m => m.StartbildschirmPage)
+    loadComponent: () => import('./pages/startbildschirm/startbildschirm.page').then(m => m.StartbildschirmPage),
   },
   {
     path: 'home',

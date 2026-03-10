@@ -15,7 +15,7 @@ export class LocationBerechtigungenPage {
   protected readonly permService = inject(PermissionService);
   protected readonly router = inject(Router);
 
-  protected continueToHome() {
-    this.router.navigateByUrl('home');
+  protected toHomePage() {
+    this.router.navigateByUrl('/home');
   }
 }

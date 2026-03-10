@@ -27,10 +27,15 @@ export class StartbildschirmPage {
       return;
     } else {
       this.userService.setUsername(value);
-      if (!await this.permissionService.hasCameraPermission()) {
+
+      if (!await this.permissionService.hasCameraPermission(true)) {
         await this.router.navigate(['/berechtigungen/camera']);
-      } else if (await this.permissionService.hasLocationPermission()) {
-        await this.router.navigate(['/berechtigungen/location']);
+      } else {
+        if (!await this.permissionService.hasLocationPermission(true)) {
+          await this.router.navigate(['/berechtigungen/location']);
+        } else {
+          await this.router.navigate(['/home']);
+        }
       }
     }
   }
