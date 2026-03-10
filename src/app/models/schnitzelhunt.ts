@@ -1,3 +1,5 @@
+import { Task } from './task';
+
 export interface SchnitzelhuntInfo {
   id: number;
   name: string;
@@ -5,11 +7,12 @@ export interface SchnitzelhuntInfo {
   difficulty: 'Easy' | 'Medium' | 'Hard';
   category: string;
   location: string;
+  tasks: Task[];
 }
 
 export interface ActiveSchnitzelhunt {
   id: number;
-  hunt: SchnitzelhuntInfo;
+  info: SchnitzelhuntInfo;
   startTime: Date,
   schnitzels: number;
   potatoes: number;
@@ -18,7 +21,7 @@ export interface ActiveSchnitzelhunt {
 
 export interface CompletedSchnitzelhunt {
   id: number;
-  hunt: SchnitzelhuntInfo;
+  info: SchnitzelhuntInfo;
   schnitzels: number;
   potatoes: number;
   completionDate: Date;
