@@ -9,13 +9,13 @@
     <ion-list-header>
       <ion-label>Account</ion-label>
     </ion-list-header>
-    <ion-item button detail="true">
+    <ion-item [button]="true" [detail]="true">
       <ion-label>Change Username</ion-label>
     </ion-item>
-    <ion-item button detail="true">
+    <ion-item [button]="true" [detail]="true">
       <ion-label>Change Password</ion-label>
     </ion-item>
-    <ion-item button detail="true" routerLink="/startbildschirm">
+    <ion-item [button]="true" [detail]="true" routerLink="/startbildschirm">
       <ion-label color="danger">Logout</ion-label>
     </ion-item>
   </ion-list>
@@ -26,9 +26,9 @@
     </ion-list-header>
     <ion-item>
       <ion-label>Notifications</ion-label>
-      <ion-toggle slot="end" checked></ion-toggle>
+      <ion-toggle slot="end" [checked]="true"></ion-toggle>
     </ion-item>
-    <ion-item button detail="true">
+    <ion-item [button]="true" [detail]="true">
       <ion-label>Appearance</ion-label>
     </ion-item>
     <ion-item>
@@ -53,7 +53,7 @@
         <ion-icon name="trophy"></ion-icon>
         <ion-label>Leaderboard</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="settings" href="/settings" selected>
+      <ion-tab-button tab="settings" href="/settings" [selected]="true">
         <ion-icon name="settings"></ion-icon>
         <ion-label>Settings</ion-label>
       </ion-tab-button>

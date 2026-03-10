@@ -1,25 +1,8 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { 
-  IonContent, 
-  IonHeader, 
-  IonToolbar, 
-  IonTitle, 
-  IonList, 
-  IonListHeader,
-  IonItem, 
-  IonLabel, 
-  IonButton, 
-  IonIcon, 
-  IonToggle,
-  IonFooter, 
-  IonTabBar, 
-  IonTabButton 
-} from '@ionic/angular/standalone';
-import { RouterModule } from '@angular/router';
+import { IonContent, IonFooter, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonTabBar, IonTabButton, IonTitle, IonToggle, IonToolbar } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { home, compass, trophy, settings } from 'ionicons/icons';
+import { compass, home, settings, trophy } from 'ionicons/icons';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -27,24 +10,21 @@ import { home, compass, trophy, settings } from 'ionicons/icons';
   styleUrls: ['./settings.page.scss'],
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
-    RouterModule,
-    IonContent, 
-    IonHeader, 
-    IonToolbar, 
-    IonTitle, 
-    IonList, 
+    RouterLink,
+    IonContent,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonList,
     IonListHeader,
-    IonItem, 
-    IonLabel, 
-    IonButton, 
-    IonIcon, 
+    IonItem,
+    IonLabel,
+    IonIcon,
     IonToggle,
-    IonFooter, 
-    IonTabBar, 
-    IonTabButton
-  ]
+    IonFooter,
+    IonTabBar,
+    IonTabButton,
+  ],
 })
 export class SettingsPage {
   constructor() {

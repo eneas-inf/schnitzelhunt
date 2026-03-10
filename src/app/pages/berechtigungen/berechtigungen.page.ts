@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { 
   IonContent, 
@@ -19,15 +19,14 @@ import { camera, location, shieldCheckmarkOutline } from 'ionicons/icons';
   styleUrls: ['./berechtigungen.page.scss'],
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
-    IonContent, 
-    IonHeader, 
-    IonToolbar, 
-    IonTitle, 
-    IonButton, 
+    FormsModule,
+    IonContent,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButton,
     IonIcon
-  ],
+],
 })
 export class BerechtigungenPage {
   currentStep = 1; // 1: Camera, 2: Location

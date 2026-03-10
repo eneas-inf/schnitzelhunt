@@ -10,41 +10,41 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  
-  <!-- Step 1: Camera -->
-  <div class="permission-step" *ngIf="currentStep === 1">
-    <div class="icon-container">
-      <ion-icon name="camera" class="large-icon"></ion-icon>
-    </div>
 
-    <div class="info-card">
-      <h2>Grant access to Camera</h2>
-      <p>
-        To complete certain challenges, you'll need to grant the Schnitzelhunt app access to your camera in your mobile device's system settings.
-      </p>
-      
-      <ion-button expand="block" class="continue-btn" (click)="requestCamera()">
-        Continue
-      </ion-button>
+  <!-- Step 1: Camera -->
+  @if (currentStep === 1) {
+    <div class="permission-step">
+      <div class="icon-container">
+        <ion-icon name="camera" class="large-icon"></ion-icon>
+      </div>
+      <div class="info-card">
+        <h2>Grant access to Camera</h2>
+        <p>
+          To complete certain challenges, you'll need to grant the Schnitzelhunt app access to your camera in your mobile device's system settings.
+        </p>
+        <ion-button expand="block" class="continue-btn" (click)="requestCamera()">
+          Continue
+        </ion-button>
+      </div>
     </div>
-  </div>
+  }
 
   <!-- Step 2: Location -->
-  <div class="permission-step" *ngIf="currentStep === 2">
-    <div class="icon-container">
-      <ion-icon name="location" class="large-icon"></ion-icon>
+  @if (currentStep === 2) {
+    <div class="permission-step">
+      <div class="icon-container">
+        <ion-icon name="location" class="large-icon"></ion-icon>
+      </div>
+      <div class="info-card">
+        <h2>Grant access to Location</h2>
+        <p>
+          To complete location-based challenges, please allow the Schnitzelhunt app to access your device's location in your system settings.
+        </p>
+        <ion-button expand="block" class="continue-btn" (click)="requestLocation()">
+          Continue
+        </ion-button>
+      </div>
     </div>
-
-    <div class="info-card">
-      <h2>Grant access to Location</h2>
-      <p>
-        To complete location-based challenges, please allow the Schnitzelhunt app to access your device's location in your system settings.
-      </p>
-      
-      <ion-button expand="block" class="continue-btn" (click)="requestLocation()">
-        Continue
-      </ion-button>
-    </div>
-  </div>
+  }
 
 </ion-content>

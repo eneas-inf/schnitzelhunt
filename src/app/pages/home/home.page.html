@@ -6,16 +6,18 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <h2>Your Recent Activities</h2>
-  
+
   <ion-list>
-    <ion-item *ngFor="let activity of recentActivities" lines="none" class="activity-item">
-      <ion-label>
-        <h3>{{ activity.name }}</h3>
-        <p>Completed: {{ activity.completed }}</p>
-        <p>Score: {{ activity.score }} points</p>
-      </ion-label>
-      <ion-button slot="end" fill="outline" size="small">Hunt again</ion-button>
-    </ion-item>
+    @for (activity of recentActivities; track activity) {
+      <ion-item lines="none" class="activity-item">
+        <ion-label>
+          <h3>{{ activity.name }}</h3>
+          <p>Completed: {{ activity.completed }}</p>
+          <p>Score: {{ activity.score }} points</p>
+        </ion-label>
+        <ion-button slot="end" fill="outline" size="small">Hunt again</ion-button>
+      </ion-item>
+    }
   </ion-list>
 
   <ion-button expand="block" class="ion-margin-top" routerLink="/explore">Start a new Schnitzelhunt</ion-button>
@@ -24,7 +26,7 @@
 <ion-footer>
   <ion-toolbar>
     <ion-tab-bar slot="bottom">
-      <ion-tab-button tab="home" href="/home" selected>
+      <ion-tab-button tab="home" href="/home" [selected]="true">
         <ion-icon name="home"></ion-icon>
         <ion-label>Home</ion-label>
       </ion-tab-button>

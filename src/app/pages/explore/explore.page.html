@@ -15,16 +15,18 @@
   </div>
 
   <ion-list>
-    <ion-card *ngFor="let hunt of hunts">
-      <ion-card-header>
-        <ion-card-title>{{ hunt.title }}</ion-card-title>
-        <ion-card-subtitle>Difficulty: {{ hunt.difficulty }}</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <p>{{ hunt.description }}</p>
-        <ion-button expand="block" class="ion-margin-top" routerLink="/aufgabe-anzeigen">Start</ion-button>
-      </ion-card-content>
-    </ion-card>
+    @for (hunt of hunts; track hunt) {
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ hunt.title }}</ion-card-title>
+          <ion-card-subtitle>Difficulty: {{ hunt.difficulty }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p>{{ hunt.description }}</p>
+          <ion-button expand="block" class="ion-margin-top" routerLink="/aufgabe-anzeigen">Start</ion-button>
+        </ion-card-content>
+      </ion-card>
+    }
   </ion-list>
 </ion-content>
 
@@ -35,7 +37,7 @@
         <ion-icon name="home"></ion-icon>
         <ion-label>Home</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="explore" href="/explore" selected>
+      <ion-tab-button tab="explore" href="/explore" [selected]="true">
         <ion-icon name="compass"></ion-icon>
         <ion-label>Explore</ion-label>
       </ion-tab-button>

@@ -1,18 +1,8 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { 
-  IonContent, 
-  IonHeader, 
-  IonToolbar, 
-  IonTitle, 
-  IonIcon, 
-  IonProgressBar, 
-  IonButton
-} from '@ionic/angular/standalone';
-import { RouterModule } from '@angular/router';
+import { IonButton, IonContent, IonHeader, IonIcon, IonProgressBar, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { checkmarkCircle } from 'ionicons/icons';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-aufgabe-abgeschlossen',
@@ -20,16 +10,14 @@ import { checkmarkCircle } from 'ionicons/icons';
   styleUrls: ['./aufgabe-abgeschlossen.page.scss'],
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
-    RouterModule,
-    IonContent, 
-    IonHeader, 
-    IonToolbar, 
-    IonTitle, 
-    IonIcon, 
-    IonProgressBar, 
-    IonButton
+    RouterLink,
+    IonContent,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonIcon,
+    IonProgressBar,
+    IonButton,
   ],
 })
 export class AufgabeAbgeschlossenPage {

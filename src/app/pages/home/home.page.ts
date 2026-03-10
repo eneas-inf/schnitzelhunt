@@ -1,23 +1,8 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { 
-  IonContent, 
-  IonHeader, 
-  IonToolbar, 
-  IonTitle, 
-  IonList, 
-  IonItem, 
-  IonLabel, 
-  IonButton, 
-  IonIcon, 
-  IonFooter, 
-  IonTabBar, 
-  IonTabButton 
-} from '@ionic/angular/standalone';
-import { RouterModule } from '@angular/router';
+import { IonButton, IonContent, IonFooter, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonTabBar, IonTabButton, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { home, compass, trophy, settings } from 'ionicons/icons';
+import { compass, home, settings, trophy } from 'ionicons/icons';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -25,28 +10,26 @@ import { home, compass, trophy, settings } from 'ionicons/icons';
   styleUrls: ['./home.page.scss'],
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
-    RouterModule,
-    IonContent, 
-    IonHeader, 
-    IonToolbar, 
-    IonTitle, 
-    IonList, 
-    IonItem, 
-    IonLabel, 
-    IonButton, 
-    IonIcon, 
-    IonFooter, 
-    IonTabBar, 
-    IonTabButton
-  ]
+    RouterLink,
+    IonContent,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonList,
+    IonItem,
+    IonLabel,
+    IonButton,
+    IonIcon,
+    IonFooter,
+    IonTabBar,
+    IonTabButton,
+  ],
 })
 export class HomePage {
   recentActivities = [
     { name: 'Schnitzel Hunt: Migros Adventure', completed: 'Yesterday', score: 1200 },
     { name: 'Schnitzel Hunt: Subway Adventure', completed: '3 days ago', score: 1800 },
-    { name: 'Schnitzel Hunt: City Explorer', completed: '2 hours ago', score: 1500 }
+    { name: 'Schnitzel Hunt: City Explorer', completed: '2 hours ago', score: 1500 },
   ];
 
   constructor() {
