@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {IonButton, IonContent} from '@ionic/angular/standalone';
 import {Router, RouterLink} from '@angular/router';
 import {Dialog} from "@capacitor/dialog";
@@ -12,8 +12,8 @@ import {Userservice} from "../../userservice";
   imports: [IonContent, IonButton, RouterLink],
 })
 export class StartbildschirmPage {
-  constructor(private router: Router, private userService: Userservice) {
-  }
+  private router: Router = inject(Router);
+  private userService: Userservice = inject(Userservice);
 
   async usernameAlert() {
     const {value, cancelled} = await Dialog.prompt({
