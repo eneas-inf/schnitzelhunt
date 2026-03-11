@@ -1,7 +1,30 @@
 import { Injectable } from '@angular/core';
 import { ActiveSchnitzelhunt, CompletedSchnitzelhunt, SchnitzelhuntInfo } from '../models/schnitzelhunt';
-import { Observable, of, throwError } from 'rxjs';
+import { from, Observable, of, switchMap, throwError } from 'rxjs';
 import { FlipTask, LocationTask, PowerTask, QrTask, TravelTask, WifiTask } from '../models/task';
+import { Preferences } from '@capacitor/preferences';
+
+const ACTIVE_HUNT_STORAGE_KEY = 'active_hunt_progress';
+const COMPLETED_HUNTS_STORAGE_KEY = 'completed_hunts';
+
+interface PersistedActiveHuntProgress {
+  activeHuntId: number;
+  infoId: number;
+  currentTask: number;
+  startTimeIso: string;
+  schnitzels: number;
+  potatoes: number;
+}
+
+interface PersistedCompletedHunt {
+  id: number;
+  infoId: number;
+  schnitzels: number;
+  potatoes: number;
+  completionDateIso: string;
+  durationMs: number;
+  points: number;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +34,11 @@ export class SchnitzelhuntService {
   private completedHuntsId = 1;
   private activeHunts: Map<number, ActiveSchnitzelhunt> = new Map();
   private completedHunts: Map<number, CompletedSchnitzelhunt> = new Map();
+  private readonly restorePromise: Promise<void>;
+
+  constructor() {
+    this.restorePromise = this.restoreStoredProgress();
+  }
 
   public getSchnitzelhunts(): Observable<SchnitzelhuntInfo[]> {
     return of(SCHNITZELHUNTS);
@@ -30,11 +58,14 @@ export class SchnitzelhuntService {
       currentTask: 0,
     };
     this.activeHunts.set(newHunt.id, newHunt);
+    void this.saveActiveHuntProgress(newHunt);
     return newHunt;
   }
 
   public getActiveHunt(id: number): Observable<ActiveSchnitzelhunt> {
-    return this.throwIfNotFound(this.activeHunts.get(id), 'Active schnitzelhunt not found!');
+    return from(this.restorePromise).pipe(
+      switchMap(() => this.throwIfNotFound(this.activeHunts.get(id), 'Active schnitzelhunt not found!'))
+    );
   }
 
   public completeSchnitzelhunt(activeHunt: ActiveSchnitzelhunt): CompletedSchnitzelhunt {
@@ -49,15 +80,135 @@ export class SchnitzelhuntService {
     };
     this.activeHunts.delete(activeHunt.id);
     this.completedHunts.set(completed.id, completed);
+    void this.clearActiveHuntProgress(activeHunt.id);
+    void this.saveCompletedHunts();
     return completed;
   }
 
   public getCompletedHunts(): Observable<CompletedSchnitzelhunt[]> {
-    return of(Array.from(this.completedHunts.values()));
+    return from(this.restorePromise).pipe(
+      switchMap(() => of(Array.from(this.completedHunts.values())))
+    );
+  }
+
+  public persistActiveHuntProgress(activeHunt: ActiveSchnitzelhunt): void {
+    void this.saveActiveHuntProgress(activeHunt);
+  }
+
+  public clearPersistedActiveHuntProgress(activeHuntId: number): void {
+    void this.clearActiveHuntProgress(activeHuntId);
   }
 
   private throwIfNotFound<T>(item: T | null | undefined, msg: string): Observable<T> {
     return item ? of(item) : throwError(() => new Error(msg));
+  }
+
+  private async saveActiveHuntProgress(activeHunt: ActiveSchnitzelhunt): Promise<void> {
+    const payload: PersistedActiveHuntProgress = {
+      activeHuntId: activeHunt.id,
+      infoId: activeHunt.info.id,
+      currentTask: activeHunt.currentTask,
+      startTimeIso: activeHunt.startTime.toISOString(),
+      schnitzels: activeHunt.schnitzels,
+      potatoes: activeHunt.potatoes,
+    };
+    await Preferences.set({
+      key: ACTIVE_HUNT_STORAGE_KEY,
+      value: JSON.stringify(payload),
+    });
+  }
+
+  private async clearActiveHuntProgress(activeHuntId: number): Promise<void> {
+    const { value } = await Preferences.get({ key: ACTIVE_HUNT_STORAGE_KEY });
+    if (!value) {
+      return;
+    }
+    try {
+      const parsed = JSON.parse(value) as PersistedActiveHuntProgress;
+      if (parsed.activeHuntId === activeHuntId) {
+        await Preferences.remove({ key: ACTIVE_HUNT_STORAGE_KEY });
+      }
+    } catch {
+      await Preferences.remove({ key: ACTIVE_HUNT_STORAGE_KEY });
+    }
+  }
+
+  private async restoreActiveHuntProgress(): Promise<void> {
+    const { value } = await Preferences.get({ key: ACTIVE_HUNT_STORAGE_KEY });
+    if (!value) {
+      return;
+    }
+    try {
+      const parsed = JSON.parse(value) as PersistedActiveHuntProgress;
+      const huntInfo = SCHNITZELHUNTS.find((hunt) => hunt.id === parsed.infoId);
+      if (!huntInfo) {
+        await Preferences.remove({ key: ACTIVE_HUNT_STORAGE_KEY });
+        return;
+      }
+      const clampedTaskIndex = Math.min(Math.max(parsed.currentTask, 0), huntInfo.tasks.length - 1);
+      const restoredHunt: ActiveSchnitzelhunt = {
+        id: parsed.activeHuntId,
+        info: huntInfo,
+        startTime: new Date(parsed.startTimeIso),
+        schnitzels: parsed.schnitzels,
+        potatoes: parsed.potatoes,
+        currentTask: clampedTaskIndex,
+      };
+      this.activeHunts.set(restoredHunt.id, restoredHunt);
+      this.activeHuntsId = Math.max(this.activeHuntsId, restoredHunt.id + 1);
+    } catch {
+      await Preferences.remove({ key: ACTIVE_HUNT_STORAGE_KEY });
+    }
+  }
+
+  private async saveCompletedHunts(): Promise<void> {
+    const payload: PersistedCompletedHunt[] = Array.from(this.completedHunts.values()).map((hunt) => ({
+      id: hunt.id,
+      infoId: hunt.info.id,
+      schnitzels: hunt.schnitzels,
+      potatoes: hunt.potatoes,
+      completionDateIso: hunt.completionDate.toISOString(),
+      durationMs: hunt.durationMs,
+      points: hunt.points,
+    }));
+    await Preferences.set({
+      key: COMPLETED_HUNTS_STORAGE_KEY,
+      value: JSON.stringify(payload),
+    });
+  }
+
+  private async restoreCompletedHunts(): Promise<void> {
+    const { value } = await Preferences.get({ key: COMPLETED_HUNTS_STORAGE_KEY });
+    if (!value) {
+      return;
+    }
+    try {
+      const parsed = JSON.parse(value) as PersistedCompletedHunt[];
+      for (const item of parsed) {
+        const huntInfo = SCHNITZELHUNTS.find((hunt) => hunt.id === item.infoId);
+        if (!huntInfo) {
+          continue;
+        }
+        const restored: CompletedSchnitzelhunt = {
+          id: item.id,
+          info: huntInfo,
+          schnitzels: item.schnitzels,
+          potatoes: item.potatoes,
+          completionDate: new Date(item.completionDateIso),
+          durationMs: item.durationMs,
+          points: item.points,
+        };
+        this.completedHunts.set(restored.id, restored);
+        this.completedHuntsId = Math.max(this.completedHuntsId, restored.id + 1);
+      }
+    } catch {
+      await Preferences.remove({ key: COMPLETED_HUNTS_STORAGE_KEY });
+    }
+  }
+
+  private async restoreStoredProgress(): Promise<void> {
+    await this.restoreActiveHuntProgress();
+    await this.restoreCompletedHunts();
   }
 }
 

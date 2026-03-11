@@ -73,6 +73,7 @@ export class TasksPage implements OnInit {
     const huntId = parseInt(params.get('huntid')!, 10);
     this.hunt = await firstValueFrom(this.huntService.getActiveHunt(huntId));
     this.currentTask = this.hunt.info.tasks[this.hunt.currentTask]!;
+    this.huntService.persistActiveHuntProgress(this.hunt);
     this.createTaskComponent();
   }
 
@@ -123,6 +124,7 @@ export class TasksPage implements OnInit {
     if (this.hunt.currentTask < this.hunt.info.tasks.length - 1) {
       this.hunt.currentTask++;
       this.currentTask = this.hunt.info.tasks[this.hunt.currentTask] ?? null;
+      this.huntService.persistActiveHuntProgress(this.hunt);
       this.createTaskComponent();
     } else {
       const completed = this.huntService.completeSchnitzelhunt(this.hunt);
@@ -131,6 +133,9 @@ export class TasksPage implements OnInit {
   }
 
   surrender() {
+    if (this.hunt) {
+      this.huntService.clearPersistedActiveHuntProgress(this.hunt.id);
+    }
     this.router.navigate(['/results'], { queryParams: { status: 'failed' } });
   }
 }
