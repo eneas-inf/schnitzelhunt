@@ -26,7 +26,6 @@ export class SmoothMapComponent implements OnInit, OnDestroy {
 
   protected readonly osmStyle = '/assets/openstreetmap/style.json';
   protected mapView?: MapLibreMap;
-  protected routeConfigs: RouteConfig[] = [];
 
   private markerAnimationFrame?: number;
   private readonly markerAnimationDurationMs = 350;
@@ -78,7 +77,6 @@ export class SmoothMapComponent implements OnInit, OnDestroy {
       return;
     }
     this.syncMarkers(this.mapView);
-    this.syncRoutes();
     this.syncInitialViewport(this.mapView);
   }
 
@@ -90,10 +88,6 @@ export class SmoothMapComponent implements OnInit, OnDestroy {
         this.markerService.addMarker(this.mapId(), marker, map);
       }
     }
-  }
-
-  private syncRoutes() {
-    this.routeConfigs = [...this.routes()];
   }
 
   private syncInitialViewport(map: MapLibreMap) {

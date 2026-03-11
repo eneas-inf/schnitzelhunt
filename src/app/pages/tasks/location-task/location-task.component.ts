@@ -1,4 +1,4 @@
-import { Component, computed, input, OnInit, output, signal, viewChild } from '@angular/core';
+import { Component, computed, input, OnDestroy, OnInit, output, signal, viewChild } from '@angular/core';
 import { TaskComponent } from '../tasks.page';
 import { LocationTask } from '../../../models/task';
 import { IonProgressBar } from '@ionic/angular/standalone';
@@ -18,17 +18,17 @@ import { MarkerConfig, RouteConfig } from 'ng-mapcn';
     SmoothMapComponent,
   ],
 })
-export class LocationTaskComponent implements TaskComponent<LocationTask>, OnInit {
+export class LocationTaskComponent implements TaskComponent<LocationTask>, OnInit, OnDestroy {
   private readonly targetMarkerId = 'target';
   private readonly currentPosMarkerId = 'currentPos';
   private readonly closeEnough = 5;
+  private readonly instanceId = `${ Date.now() }-${ Math.random().toString(36).slice(2, 8) }`;
 
   private readonly map = viewChild.required(SmoothMapComponent);
   readonly task = input.required<LocationTask>();
   readonly taskSolved = output();
 
   protected mapMarkers: RequiredId<MarkerConfig>[] = [];
-  protected mapRoute: RequiredId<RouteConfig> | null = null;
   protected initialPos!: LatLng;
 
   protected currentPos = signal<LatLng | null>(null);
@@ -51,8 +51,22 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
       : Math.max(0, Math.min(1, (farthest - distance) / farthest));
   });
 
+  protected readonly mapRoute = computed<RequiredId<RouteConfig> | null>(() => {
+    const pos = this.currentPos();
+    if (!pos) {
+      return null;
+    }
+    return {
+      id: 'current-to-target-route',
+      coordinates: [pos, this.targetPos],
+      color: '#f63b3b',
+      width: 3,
+      dashed: true,
+    };
+  });
+
   get mapId(): string {
-    return `map-to-${ this.task().targetName.replace(/\W/, '_') }`;
+    return `map-to-${ this.task().targetName.replace(/\W/g, '_') }-${ this.instanceId }`;
   }
 
   get targetPos(): LatLng {
@@ -64,7 +78,6 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
     this.initialPos = this.currentPos()!;
     this.farthestDistance.set(this.metersLeft());
     this.initMarkers();
-    this.refreshRoute();
     this.posWatchId = await Geolocation.watchPosition({
       enableHighAccuracy: true,
       timeout: 10000,
@@ -77,19 +90,24 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
         const newPos = { lat: pos.coords.latitude, lng: pos.coords.longitude };
         this.currentPos.set(newPos);
         this.checkIfClose();
-        this.refreshRoute();
         const distance = this.metersLeft();
         if (distance > (this.farthestDistance() ?? 0)) {
           this.farthestDistance.set(distance);
         }
         if (this.map().hasLoaded()) {
-          console.log('syncing map artifacts');
           this.map().moveTo(newPos);
           this.map().moveMarkerTo(this.currentPosMarkerId, newPos);
           this.map().syncMapArtifacts();
         }
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.posWatchId) {
+      Geolocation.clearWatch({ id: this.posWatchId });
+      this.posWatchId = undefined;
+    }
   }
 
   private async getCurrentPosition(): Promise<LatLng> {
@@ -132,21 +150,6 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
   private checkIfClose(): void {
     if (this.currentPos() && this.metersLeft() < this.closeEnough) {
       this.taskSolved.emit();
-    }
-  }
-
-  private refreshRoute(): void {
-    const pos = this.currentPos();
-    if (!pos) {
-      this.mapRoute = null;
-    } else {
-      this.mapRoute = {
-        id: 'current-to-target-route',
-        coordinates: [pos, this.targetPos],
-        color: '#f63b3b',
-        width: 3,
-        dashed: true,
-      };
     }
   }
 

@@ -6,7 +6,7 @@
 <app-smooth-map
   [mapId]="mapId"
   [markers]="mapMarkers"
-  [routes]="mapRoute ? [mapRoute] : []"
+  [routes]="mapRoute() ? [mapRoute()!] : []"
   [initialPosition]="initialPos"
   [initialZoom]="18"
 />
