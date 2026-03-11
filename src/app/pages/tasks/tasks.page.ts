@@ -1,12 +1,9 @@
 import {
   Component,
   inject,
-  inputBinding,
   InputSignal,
   OnInit,
-  outputBinding,
   OutputRef,
-  signal,
   Type,
   viewChild,
   ViewContainerRef
@@ -104,15 +101,14 @@ export class TasksPage implements OnInit {
   }
 
   private createTaskComponent() {
+    if (!this.currentTask) {
+      throw new Error('Current task is not set.');
+    }
     this.taskCompRef().clear();
     this.taskComponent = null;
-    const cRef = this.taskCompRef().createComponent(
-      this.getTaskComponentType(), {
-        bindings: [
-          inputBinding('task', signal(this.currentTask)),
-          outputBinding('taskSolved', () => this.onTaskSolved()),
-        ],
-      });
+    const cRef = this.taskCompRef().createComponent(this.getTaskComponentType());
+    cRef.setInput('task', this.currentTask);
+    cRef.instance.taskSolved.subscribe(() => this.onTaskSolved());
     cRef.changeDetectorRef.detectChanges();
     this.taskComponent = cRef.instance;
   }
