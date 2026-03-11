@@ -18,25 +18,34 @@ export class StartScreenPage {
   private permissionService: PermissionService = inject(PermissionService);
 
   async usernameAlert() {
+    await this.userService.ensureLoaded();
+    if (this.userService.getUsername()) {
+      await this.navigateAfterUsername();
+      return;
+    }
+
     const { value, cancelled } = await Dialog.prompt({
       title: 'Username',
       message: 'Please enter your username',
     });
 
-    if (cancelled || value === "") {
+    if (cancelled || value.trim() === '') {
       return;
-    } else {
-      this.userService.setUsername(value);
-
-      if (!await this.permissionService.hasCameraPermission(true)) {
-        await this.router.navigate(['/permissions/camera']);
-      } else {
-        if (!await this.permissionService.hasLocationPermission(true)) {
-          await this.router.navigate(['/permissions/location']);
-        } else {
-          await this.router.navigate(['/home']);
-        }
-      }
     }
+
+    this.userService.setUsername(value);
+    await this.navigateAfterUsername();
+  }
+
+  private async navigateAfterUsername(): Promise<void> {
+    if (!await this.permissionService.hasCameraPermission(true)) {
+      await this.router.navigate(['/permissions/camera']);
+      return;
+    }
+    if (!await this.permissionService.hasLocationPermission(true)) {
+      await this.router.navigate(['/permissions/location']);
+      return;
+    }
+    await this.router.navigate(['/home']);
   }
 }

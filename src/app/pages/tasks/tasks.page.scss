@@ -73,15 +73,6 @@
   font-weight: bold;
   height: 50px;
   --border-radius: 8px;
-}
-
-.next-btn.next-btn-default {
-  --background: #bdbdbd;
-  --background-activated: #a0a0a0;
-  --color: #333;
-}
-
-.next-btn.next-btn-completed {
   --background: #3b82f6 !important;
   --background-activated: #2563eb !important;
   --color: #fff !important;

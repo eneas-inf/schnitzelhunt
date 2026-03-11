@@ -45,11 +45,9 @@
           expand="block"
           color="light"
           class="next-btn"
-          [class.next-btn-default]="!showSuccessPopup"
-          [class.next-btn-completed]="showSuccessPopup"
           (click)="onNextTaskClick()"
         >
-          Next Task
+          {{ getNextButtonLabel() }}
           <ion-icon slot="end" name="chevron-forward"></ion-icon>
         </ion-button>
       </div>

@@ -76,6 +76,7 @@ export class TasksPage implements OnInit {
   protected taskComponent: TaskComponent<any> | null = null;
   private currentTaskStartedAt = 0;
   private currentTaskSolved = false;
+  private currentTaskForcedSuccess = false;
 
   constructor() {
     addIcons({
@@ -96,6 +97,7 @@ export class TasksPage implements OnInit {
     this.currentTask = this.hunt.info.tasks[this.hunt.currentTask]!;
     this.currentTaskStartedAt = Date.now();
     this.currentTaskSolved = false;
+    this.currentTaskForcedSuccess = false;
     this.huntService.persistActiveHuntProgress(this.hunt);
     this.createTaskComponent();
   }
@@ -138,7 +140,11 @@ export class TasksPage implements OnInit {
       this.nextTask();
       return;
     }
-    this.completeTask();
+    if (this.currentTaskSolved) {
+      this.completeTask();
+      return;
+    }
+    this.skipTask();
   }
 
   completeTask() {
@@ -149,6 +155,19 @@ export class TasksPage implements OnInit {
   }
 
   private onTaskSolved() {
+    this.currentTaskSolved = true;
+    this.completeTask();
+  }
+
+  getNextButtonLabel(): string {
+    return this.showSuccessPopup || this.currentTaskSolved ? 'Next Task' : 'Skip Task';
+  }
+
+  skipTask() {
+    if (this.showSuccessPopup) {
+      return;
+    }
+    this.currentTaskForcedSuccess = true;
     this.currentTaskSolved = true;
     this.completeTask();
   }
@@ -165,6 +184,7 @@ export class TasksPage implements OnInit {
       this.currentTask = this.hunt.info.tasks[this.hunt.currentTask] ?? null;
       this.currentTaskStartedAt = Date.now();
       this.currentTaskSolved = false;
+      this.currentTaskForcedSuccess = false;
       this.huntService.persistActiveHuntProgress(this.hunt);
       this.createTaskComponent();
     } else {
@@ -195,6 +215,10 @@ export class TasksPage implements OnInit {
   }
 
   private applyCurrentTaskReward(hunt: ActiveSchnitzelhunt): void {
+    if (this.currentTaskForcedSuccess) {
+      hunt.schnitzels += 1;
+      return;
+    }
     const elapsedMs = Date.now() - this.currentTaskStartedAt;
     const exceededLimit = elapsedMs > TasksPage.TASK_TIME_LIMIT_MS;
     if (this.currentTaskSolved && !exceededLimit) {
