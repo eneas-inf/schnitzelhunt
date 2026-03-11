@@ -17,12 +17,12 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
   private walkedMeters = signal(0);
   private solved: boolean = false;
 
-  ngOnInit(): void {
-    this.startTracking();
+  async ngOnInit(): Promise<void> {
+    await this.startTracking();
   }
 
-  ngOnDestroy(): void {
-    this.stopTracking();
+  async ngOnDestroy(): Promise<void> {
+    await this.stopTracking();
   }
 
   getTitle(): string {
