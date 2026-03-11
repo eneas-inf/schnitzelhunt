@@ -43,6 +43,14 @@ export class HomePage implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    await this.loadRecentActivities();
+  }
+
+  async ionViewWillEnter(): Promise<void> {
+    await this.loadRecentActivities();
+  }
+
+  private async loadRecentActivities(): Promise<void> {
     try {
       const completedHunts = await firstValueFrom(this.huntService.getCompletedHunts());
       this.recentActivities = completedHunts
