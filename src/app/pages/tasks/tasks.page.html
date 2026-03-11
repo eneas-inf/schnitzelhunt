@@ -5,79 +5,36 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding task-content">
-  
   <div class="task-container">
     <div class="task-header">
-      <h2>Task {{ currentTaskIndex + 1 }}/{{ tasks.length }}:</h2>
-      <h1 class="task-title">{{ currentTask.title }}</h1>
+      <h2>Task {{ (hunt?.currentTask ?? 0) + 1 }}/{{ hunt?.info?.tasks?.length || 1 }}:</h2>
+      <h1 class="task-title">{{ taskComponent?.getTitle() }}</h1>
     </div>
 
-    <!-- Dynamic Content Based on Task Type -->
     <div class="task-visual">
-      @if (currentTask.type === 'location') {
-        <p class="distance-text">{{ currentTask.description }}</p>
-        <div class="progress-bar-container">
-          <ion-progress-bar [value]="currentTask.progress" color="primary"></ion-progress-bar>
-          <p class="progress-text">Progress: {{ currentTask.progress * 100 }}% to destination</p>
-        </div>
-        <div class="map-placeholder">
-          <!-- Placeholder for Map -->
-          <img src="assets/shapes.svg" alt="Map View" style="opacity: 0.1; width: 100%; height: 100%; object-fit: cover;">
-          <ion-icon name="navigate-circle-outline" class="map-icon"></ion-icon>
-        </div>
-      }
-
-      @if (currentTask.type === 'distance') {
-        <div class="circular-progress">
-          <div class="circle">
-            <span class="percentage">{{ currentTask.progress * 100 }}%</span>
-          </div>
-        </div>
-        <p class="distance-text">{{ currentTask.description }}</p>
-      }
-
-      @if (currentTask.type === 'scan') {
-        <div class="scan-container">
-          <div class="scan-frame">
-            <div class="camera-preview"></div>
-            <div class="scan-overlay"></div>
-          </div>
-          <div class="scan-button">SCAN ME</div>
-        </div>
-        <p class="instruction-text">{{ currentTask.description }}</p>
-      }
-
-      @if (currentTask.type === 'flip') {
+      @if (taskComponent?.icon) {
         <div class="icon-visual">
-          <ion-icon name="phone-portrait-outline" class="rotate-animation"></ion-icon>
+          <ion-icon [name]="taskComponent!.icon" [ngClass]="{
+          'large-icon': taskComponent!.iconType === 'large',
+          'rotate-animation': taskComponent!.iconType === 'rotate',
+          }"/>
         </div>
-        <p class="instruction-text">{{ currentTask.description }}</p>
       }
 
-      @if (currentTask.type === 'power') {
-        <div class="icon-visual">
-          <ion-icon name="battery-charging-outline" class="large-icon"></ion-icon>
-        </div>
-        <p class="instruction-text">{{ currentTask.description }}</p>
-      }
+      <ng-template #taskCompContainer/>
 
-      @if (currentTask.type === 'wifi') {
-        <div class="icon-visual">
-          <ion-icon name="wifi-outline" class="large-icon"></ion-icon>
-        </div>
-        <p class="instruction-text">{{ currentTask.description }}</p>
-        <p class="status-text">Status: <span class="status-red">Disconnected</span></p>
+      @let instructions = taskComponent?.getInstructions();
+      @if (instructions) {
+        <p class="instruction-text">{{ instructions }}</p>
       }
     </div>
 
-    <!-- Action Buttons -->
     <div class="action-buttons">
-      <!-- Dev helper to trigger success -->
       <ion-button expand="block" color="light" class="next-btn" (click)="completeTask()">
         Next Task
         <ion-icon slot="end" name="chevron-forward"></ion-icon>
       </ion-button>
-      
+
       <ion-button expand="block" color="danger" class="surrender-btn" (click)="surrender()">
         Surrender
         <ion-icon slot="end" name="chevron-forward"></ion-icon>
