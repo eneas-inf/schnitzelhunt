@@ -64,7 +64,7 @@ export class SchnitzelhuntService {
 
   public getActiveHunt(id: number): Observable<ActiveSchnitzelhunt> {
     return from(this.restorePromise).pipe(
-      switchMap(() => this.throwIfNotFound(this.activeHunts.get(id), 'Active schnitzelhunt not found!'))
+      switchMap(() => this.throwIfNotFound(this.activeHunts.get(id), 'Active schnitzelhunt not found!')),
     );
   }
 
@@ -87,13 +87,13 @@ export class SchnitzelhuntService {
 
   public getCompletedHunts(): Observable<CompletedSchnitzelhunt[]> {
     return from(this.restorePromise).pipe(
-      switchMap(() => of(Array.from(this.completedHunts.values())))
+      switchMap(() => of(Array.from(this.completedHunts.values()))),
     );
   }
 
   public getCompletedHunt(id: number): Observable<CompletedSchnitzelhunt> {
     return from(this.restorePromise).pipe(
-      switchMap(() => this.throwIfNotFound(this.completedHunts.get(id), 'Completed schnitzelhunt not found!'))
+      switchMap(() => this.throwIfNotFound(this.completedHunts.get(id), 'Completed schnitzelhunt not found!')),
     );
   }
 
@@ -103,7 +103,7 @@ export class SchnitzelhuntService {
         const latest = Array.from(this.completedHunts.values())
           .sort((a, b) => b.id - a.id)[0];
         return this.throwIfNotFound(latest, 'No completed schnitzelhunt found!');
-      })
+      }),
     );
   }
 
@@ -200,7 +200,8 @@ export class SchnitzelhuntService {
     }
     try {
       const parsed = JSON.parse(value) as PersistedCompletedHunt[];
-      for (const item of parsed) {
+      for (const item of
+        parsed) {
         const huntInfo = SCHNITZELHUNTS.find((hunt) => hunt.id === item.infoId);
         if (!huntInfo) {
           continue;
@@ -233,8 +234,8 @@ const TASKS = [
     type: 'location',
     targetName: 'Migros Kriens',
     targetPos: {
-      lng: 47.02760523058052,
-      lat: 8.300857384173224,
+      lat: 47.02760523058052,
+      lng: 8.300857384173224,
     },
   } satisfies LocationTask,
   {
