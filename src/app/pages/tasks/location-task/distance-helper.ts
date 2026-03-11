@@ -7,7 +7,7 @@ const EARTH_RADIUS = 6371000; // meters
 
 const toRad = (deg: number) => deg * Math.PI / 180;
 
-export function fastDistanceMeters(a: LatLng, b: LatLng): number {
+export function fastDistanceMeters(a: LatLng, b: LatLng): number { // TODO LngLat#distanceTo
   const lat1 = toRad(a.lat);
   const lat2 = toRad(b.lat);
   const lon1 = toRad(a.lng);

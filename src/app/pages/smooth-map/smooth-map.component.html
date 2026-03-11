@@ -1,0 +1,14 @@
+<div class="map-placeholder">
+  <ng-map
+    [mapId]="mapId()"
+    [style]="osmStyle"
+    (mapReady)="initMap($event)"
+  />
+  <ng-zoom-control [mapId]="mapId()" position="top-right"></ng-zoom-control>
+  @for (route of routeConfigs; track route.id) {
+    <ng-route
+      [mapId]="mapId()"
+      [config]="route"
+    />
+  }
+</div>

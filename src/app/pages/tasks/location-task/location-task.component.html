@@ -3,17 +3,10 @@
   <ion-progress-bar [value]="getProgress()" color="primary"></ion-progress-bar>
   <p class="progress-text">Progress: {{ getProgress() * 100 | number:'1.0-0' }}% to destination</p>
 </div>
-<div class="map-placeholder">
-  <ng-map
-    [mapId]="mapId"
-    [style]="osmStyle"
-    (mapReady)="initMap($event)"
-  />
-  <ng-zoom-control [mapId]="mapId" position="top-right"></ng-zoom-control>
-  @if (routeConfig) {
-    <ng-route
-      [mapId]="mapId"
-      [config]="routeConfig"
-    />
-  }
-</div>
+<app-smooth-map
+  [mapId]="mapId"
+  [markers]="mapMarkers"
+  [routes]="mapRoute ? [mapRoute] : []"
+  [initialPosition]="initialPos"
+  [initialZoom]="18"
+/>
