@@ -188,10 +188,11 @@ export class TasksPage implements OnInit {
       this.huntService.persistActiveHuntProgress(this.hunt);
       this.createTaskComponent();
     } else {
-      this.huntService.completeSchnitzelhunt(this.hunt);
+      const completed = this.huntService.completeSchnitzelhunt(this.hunt);
       this.router.navigate(['/results'], {
         queryParams: {
           status: 'success',
+          completedHuntId: completed.id,
         },
       });
     }

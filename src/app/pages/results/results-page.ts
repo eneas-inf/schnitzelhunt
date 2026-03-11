@@ -83,8 +83,11 @@ export class ResultsPage implements OnDestroy {
 
   private async loadStatsFromStorage(params: Record<string, unknown>): Promise<void> {
     if (this.status === 'success') {
+      const completedHuntId = this.parseNumber(params['completedHuntId']);
       try {
-        const completed = await firstValueFrom(this.huntService.getLatestCompletedHunt());
+        const completed = completedHuntId > 0
+          ? await firstValueFrom(this.huntService.getCompletedHunt(completedHuntId))
+          : await firstValueFrom(this.huntService.getLatestCompletedHunt());
         this.schnitzels = completed.schnitzels;
         this.potatoes = completed.potatoes;
         this.durationMs = completed.durationMs;

@@ -10,54 +10,24 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  <ion-list>
-    <ion-item>
-      <ion-label>
-        <h2>1. User A</h2>
-      </ion-label>
-      <ion-badge color="gold" slot="end">1250 pts</ion-badge>
-    </ion-item>
-    <ion-item>
-      <ion-label>
-        <h2>2. User B</h2>
-      </ion-label>
-      <ion-badge color="silver" slot="end">1100 pts</ion-badge>
-    </ion-item>
-    <ion-item>
-      <ion-label>
-        <h2>3. User C</h2>
-      </ion-label>
-      <ion-badge color="bronze" slot="end">980 pts</ion-badge>
-    </ion-item>
-    <ion-item>
-      <ion-label>
-        <h2>4. User D</h2>
-      </ion-label>
-      <ion-badge color="medium" slot="end">950 pts</ion-badge>
-    </ion-item>
-    <ion-item>
-      <ion-label>
-        <h2>5. User E</h2>
-      </ion-label>
-      <ion-badge color="medium" slot="end">900 pts</ion-badge>
-    </ion-item>
-    <ion-item>
-      <ion-label>
-        <h2>6. User F</h2>
-      </ion-label>
-      <ion-badge color="medium" slot="end">800 pts</ion-badge>
-    </ion-item>
-    <ion-item>
-      <ion-label>
-        <h2>7. User G</h2>
-      </ion-label>
-      <ion-badge color="medium" slot="end">350 pts</ion-badge>
-    </ion-item>
-    <ion-item>
-      <ion-label>
-        <h2>8. User H</h2>
-      </ion-label>
-      <ion-badge color="medium" slot="end">200 pts</ion-badge>
-    </ion-item>
-  </ion-list>
+  @if (entries.length === 0) {
+    <p>No leaderboard entries yet.</p>
+  } @else {
+    <ion-list>
+      @for (entry of entries; track entry.name; let i = $index) {
+        <ion-item [class.current-user-item]="isCurrentUser(entry)">
+          <ion-label>
+            <h2>
+              {{ i + 1 }}. {{ entry.name }}
+              @if (isCurrentUser(entry)) {
+                <ion-badge color="success" class="you-badge">You</ion-badge>
+              }
+            </h2>
+            <p>{{ entry.hunts }} hunts played</p>
+          </ion-label>
+          <ion-badge [color]="getBadgeColor(i)" slot="end">{{ entry.points }} pts</ion-badge>
+        </ion-item>
+      }
+    </ion-list>
+  }
 </ion-content>
