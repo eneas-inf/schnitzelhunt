@@ -2,11 +2,15 @@ import { Component, input, OnDestroy, OnInit, output, signal } from '@angular/co
 import { TaskComponent } from '../tasks.page';
 import { TravelTask } from '../../../models/task';
 import { Geolocation, Position, WatchPositionCallback } from '@capacitor/geolocation';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-travel-task',
   templateUrl: './travel-task.component.html',
   styleUrls: ['./travel-task.component.scss'],
+  imports: [
+    DecimalPipe,
+  ],
 })
 export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, OnDestroy {
   readonly task = input.required<TravelTask>();
