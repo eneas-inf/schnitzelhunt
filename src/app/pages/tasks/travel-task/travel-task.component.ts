@@ -1,7 +1,7 @@
-import {Component, input, OnDestroy, OnInit, output, signal} from '@angular/core';
-import {TaskComponent} from '../tasks.page';
-import {TravelTask} from '../../../models/task';
-import {Geolocation, Position, WatchPositionCallback} from '@capacitor/geolocation';
+import { Component, input, OnDestroy, OnInit, output, signal } from '@angular/core';
+import { TaskComponent } from '../tasks.page';
+import { TravelTask } from '../../../models/task';
+import { Geolocation, Position, WatchPositionCallback } from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-travel-task',
@@ -26,11 +26,11 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
   }
 
   getTitle(): string {
-    return `Walk ${this.task().targetDistanceMeters} Meters`;
+    return `Walk ${ this.task().targetDistanceMeters } Meters`;
   }
 
   getInstructions(): string | null {
-    return `${this.getMetersLeft()} Meters left..`;
+    return `${ this.getMetersLeft() } Meters left..`;
   }
 
   getMetersLeft(): number {
@@ -38,18 +38,21 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
   }
 
   getProgress(): number {
-    return Math.round((Math.min(this.walkedMeters() / this.task().targetDistanceMeters, 1)) * 100) / 100;
+    return Math.min(this.walkedMeters() / this.task().targetDistanceMeters, 1);
   }
 
   private async startTracking(): Promise<void> {
     try {
-      const startPosition = await Geolocation.getCurrentPosition({
-        enableHighAccuracy: true,
-        timeout: 1000,
-        maximumAge: 0,
-      });
-
-      this.lastPosition = startPosition;
+      try {
+        this.lastPosition = await Geolocation.getCurrentPosition({
+          enableHighAccuracy: true,
+          timeout: 15000,
+          enableLocationFallback: true,
+          maximumAge: 5000,
+        });
+      } catch (positionError) {
+        console.warn('Initial position not available yet, start watching anyway', positionError);
+      }
 
       const callback: WatchPositionCallback = (position, err) => {
         if (err) {
@@ -88,8 +91,9 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
       this.watchId = await Geolocation.watchPosition(
         {
           enableHighAccuracy: true,
-          timeout: 1000,
-          maximumAge: 0,
+          timeout: 10000,
+          enableLocationFallback: true,
+          maximumAge: 5000,
         },
         callback,
       );
@@ -100,7 +104,7 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
 
   private async stopTracking(): Promise<void> {
     if (this.watchId) {
-      await Geolocation.clearWatch({id: this.watchId});
+      await Geolocation.clearWatch({ id: this.watchId });
       this.watchId = null;
     }
   }

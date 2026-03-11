@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package ch.timjeromeeneas.schnitzelhunt;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
