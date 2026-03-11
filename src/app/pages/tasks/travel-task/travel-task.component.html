@@ -1,18 +1,11 @@
-<!--<div class="circular-progress">-->
-<!--  <div class="circle">-->
-<!--    <span class="percentage">{{ getProgress() * 100 | number: '1.0-2' }}%</span>-->
-<!--  </div>-->
-<!--</div>-->
-
-<div
-  class="progress-ring simple"
-  [style.--progress]="getProgress()"
->
-  <div class="progress-ring-inner">
-    <span class="percentage">
-      {{ getProgress() * 100 | number:'1.0-0' }}%
-    </span>
+<div class="travel-task-container">
+  <div class="progress-ring" [style.--progress]="getProgress()">
+    <div class="progress-ring-inner">
+      <span class="percentage">
+        {{ getProgress() * 100 | number:'1.0-0' }}%
+      </span>
+    </div>
   </div>
-</div>
 
-<!--<ion-button (click)="add10percent()">Add 10%</ion-button>-->
+  <p class="instructions">{{ getInstructions() }}</p>
+</div>

@@ -1,55 +1,44 @@
-//.circular-progress {
-//  position: relative;
-//  width: 150px;
-//  height: 150px;
-//  margin-bottom: 20px;
-//  border: 10px solid #e0e0e0;
-//  border-top: 10px solid #3dc2ff;
-//  border-right: 10px solid #3dc2ff;
-//  border-radius: 50%;
-//  display: flex;
-//  align-items: center;
-//  justify-content: center;
-//}
-//
-//.circle .percentage {
-//  font-size: 32px;
-//  font-weight: bold;
-//}
-//
-
-.progress-ring.simple {
-  --size: 150px;
-  --thickness: 10px;
+.progress-ring {
+  --size: 160px;
+  --thickness: 14px;
   --progress-deg: calc(var(--progress) * 360deg);
 
   width: var(--size);
   height: var(--size);
-  border-radius: 50%;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
 
-  background: conic-gradient(
-      //from -90deg,
-      #3dc2ff 0deg var(--progress-deg),
-      #d9d9d9 var(--progress-deg) 360deg
+.progress-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+      #d9eef8 0deg 28deg,
+      white 28deg 36deg
   );
 }
 
-.progress-ring.simple::after {
+.progress-ring::after {
   content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+      #2fb5f4 0deg 28deg,
+      transparent 28deg 36deg
+  );
+  -webkit-mask: conic-gradient(
+      #000 0deg var(--progress-deg),
+      transparent var(--progress-deg) 360deg
+  );
+}
+
+.progress-ring-inner {
   position: absolute;
   inset: var(--thickness);
   border-radius: 50%;
   background: #f5f5f5;
-}
-
-.progress-ring.simple .progress-ring-inner {
-  position: absolute;
-  inset: var(--thickness);
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,6 +46,6 @@
 }
 
 .percentage {
-  font-size: 32px;
-  font-weight: bold;
+  font-size: 40px;
+  font-weight: 500;
 }

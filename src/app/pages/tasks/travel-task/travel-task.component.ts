@@ -3,7 +3,6 @@ import {TaskComponent} from '../tasks.page';
 import {TravelTask} from '../../../models/task';
 import {Geolocation, Position, WatchPositionCallback} from '@capacitor/geolocation';
 import {DecimalPipe} from '@angular/common';
-// import {IonButton} from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-travel-task',
@@ -11,7 +10,6 @@ import {DecimalPipe} from '@angular/common';
   styleUrls: ['./travel-task.component.scss'],
   imports: [
     DecimalPipe,
-    // IonButton
   ],
 })
 export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, OnDestroy {
@@ -22,10 +20,6 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
   private lastPosition: Position | null = null;
   private walkedMeters = signal(0);
   private solved: boolean = false;
-
-  // add10percent() {
-  //   this.walkedMeters.update(current => current + 5);
-  // }
 
   async ngOnInit(): Promise<void> {
     await this.startTracking();
