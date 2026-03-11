@@ -66,6 +66,8 @@ export interface TaskComponent<T extends Task> {
   ],
 })
 export class TasksPage implements OnInit {
+  private static readonly TASK_TIME_LIMIT_MS = 5 * 60 * 1000;
+
   private readonly router = inject(Router);
   private readonly activeRoute = inject(ActivatedRoute);
   private readonly huntService = inject(SchnitzelhuntService);
@@ -75,6 +77,8 @@ export class TasksPage implements OnInit {
   protected currentTask: Task | null = null;
   protected showSuccessPopup = false;
   protected taskComponent: TaskComponent<any> | null = null;
+  private currentTaskStartedAt = 0;
+  private currentTaskSolved = false;
 
   constructor() {
     addIcons({
@@ -93,6 +97,8 @@ export class TasksPage implements OnInit {
     const huntId = parseInt(params.get('huntid')!, 10);
     this.hunt = await firstValueFrom(this.huntService.getActiveHunt(huntId));
     this.currentTask = this.hunt.info.tasks[this.hunt.currentTask]!;
+    this.currentTaskStartedAt = Date.now();
+    this.currentTaskSolved = false;
     this.huntService.persistActiveHuntProgress(this.hunt);
     this.createTaskComponent();
   }
@@ -104,7 +110,7 @@ export class TasksPage implements OnInit {
       this.getTaskComponentType(), {
         bindings: [
           inputBinding('task', signal(this.currentTask)),
-          outputBinding('taskSolved', () => this.completeTask()),
+          outputBinding('taskSolved', () => this.onTaskSolved()),
         ],
       });
     cRef.changeDetectorRef.detectChanges();
@@ -135,27 +141,59 @@ export class TasksPage implements OnInit {
     this.showSuccessPopup = true;
   }
 
+  private onTaskSolved() {
+    this.currentTaskSolved = true;
+    this.completeTask();
+  }
+
   nextTask() {
     if (!this.hunt) {
       return;
     }
 
+    this.applyCurrentTaskReward(this.hunt);
     this.showSuccessPopup = false;
     if (this.hunt.currentTask < this.hunt.info.tasks.length - 1) {
       this.hunt.currentTask++;
       this.currentTask = this.hunt.info.tasks[this.hunt.currentTask] ?? null;
+      this.currentTaskStartedAt = Date.now();
+      this.currentTaskSolved = false;
       this.huntService.persistActiveHuntProgress(this.hunt);
       this.createTaskComponent();
     } else {
-      const completed = this.huntService.completeSchnitzelhunt(this.hunt);
-      this.router.navigate(['/results'], {queryParams: {status: 'success', completedId: completed.id}});
+      this.huntService.completeSchnitzelhunt(this.hunt);
+      this.router.navigate(['/results'], {
+        queryParams: {
+          status: 'success',
+        },
+      });
     }
   }
 
   surrender() {
-    if (this.hunt) {
-      this.huntService.clearPersistedActiveHuntProgress(this.hunt.id);
+    if (!this.hunt) {
+      this.router.navigate(['/results'], {queryParams: {status: 'failed'}});
+      return;
     }
-    this.router.navigate(['/results'], {queryParams: {status: 'failed'}});
+
+    const remainingTasks = this.hunt.info.tasks.length - this.hunt.currentTask;
+    this.hunt.potatoes += Math.max(remainingTasks, 0);
+    this.huntService.persistActiveHuntProgress(this.hunt);
+    this.router.navigate(['/results'], {
+      queryParams: {
+        status: 'failed',
+        huntId: this.hunt.id,
+      },
+    });
+  }
+
+  private applyCurrentTaskReward(hunt: ActiveSchnitzelhunt): void {
+    const elapsedMs = Date.now() - this.currentTaskStartedAt;
+    const exceededLimit = elapsedMs > TasksPage.TASK_TIME_LIMIT_MS;
+    if (this.currentTaskSolved && !exceededLimit) {
+      hunt.schnitzels += 1;
+      return;
+    }
+    hunt.potatoes += 1;
   }
 }

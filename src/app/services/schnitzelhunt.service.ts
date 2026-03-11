@@ -76,7 +76,7 @@ export class SchnitzelhuntService {
       potatoes: activeHunt.potatoes,
       completionDate: new Date(),
       durationMs: new Date().getTime() - activeHunt.startTime.getTime(),
-      points: (activeHunt.schnitzels * 10) - (activeHunt.potatoes * 5),
+      points: Math.max(0, (activeHunt.schnitzels * 10) - (activeHunt.potatoes * 5)),
     };
     this.activeHunts.delete(activeHunt.id);
     this.completedHunts.set(completed.id, completed);
@@ -88,6 +88,22 @@ export class SchnitzelhuntService {
   public getCompletedHunts(): Observable<CompletedSchnitzelhunt[]> {
     return from(this.restorePromise).pipe(
       switchMap(() => of(Array.from(this.completedHunts.values())))
+    );
+  }
+
+  public getCompletedHunt(id: number): Observable<CompletedSchnitzelhunt> {
+    return from(this.restorePromise).pipe(
+      switchMap(() => this.throwIfNotFound(this.completedHunts.get(id), 'Completed schnitzelhunt not found!'))
+    );
+  }
+
+  public getLatestCompletedHunt(): Observable<CompletedSchnitzelhunt> {
+    return from(this.restorePromise).pipe(
+      switchMap(() => {
+        const latest = Array.from(this.completedHunts.values())
+          .sort((a, b) => b.id - a.id)[0];
+        return this.throwIfNotFound(latest, 'No completed schnitzelhunt found!');
+      })
     );
   }
 
