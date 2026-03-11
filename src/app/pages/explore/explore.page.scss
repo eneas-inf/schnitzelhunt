@@ -1,0 +1,46 @@
+.filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.hunt-card {
+  margin: 0 0 12px;
+  border-radius: 6px;
+  border: 1px solid #c7cdd3;
+  box-shadow: none;
+  background: #efefef;
+}
+
+.hunt-card ion-card-title {
+  color: #2b2f33;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.hunt-description {
+  margin: 6px 0 14px;
+  color: #4d5560;
+  font-size: 18px;
+}
+
+.hunt-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hunt-meta {
+  color: #5e6670;
+  font-size: 14px;
+}
+
+.start-btn {
+  --background: #3b82f6;
+  --background-activated: #2563eb;
+  --color: #fff;
+  --border-radius: 8px;
+  font-weight: 600;
+  min-width: 72px;
+}

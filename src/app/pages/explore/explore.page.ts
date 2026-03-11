@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonChip, IonContent, IonHeader, IonIcon, IonList, IonSearchbar, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonChip, IonContent, IonHeader, IonIcon, IonList, IonSearchbar, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { addIcons } from 'ionicons';
 import { compass } from 'ionicons/icons';
@@ -22,7 +22,6 @@ import { SchnitzelhuntService } from '../../services/schnitzelhunt.service';
     IonCard,
     IonCardHeader,
     IonCardTitle,
-    IonCardSubtitle,
     IonCardContent,
     IonButton,
     IonIcon,
@@ -71,16 +70,7 @@ export class ExplorePage implements OnInit {
       if (!normalizedSearch) {
         return true;
       }
-      return [
-        hunt.name,
-        hunt.description,
-        hunt.category,
-        hunt.location,
-        hunt.difficulty,
-      ]
-        .join(' ')
-        .toLowerCase()
-        .includes(normalizedSearch);
+      return hunt.name.toLowerCase().includes(normalizedSearch);
     });
 
     if (this.sortKey === 'difficulty') {
