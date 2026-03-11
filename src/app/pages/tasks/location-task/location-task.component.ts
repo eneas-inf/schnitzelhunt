@@ -5,6 +5,7 @@ import { IonProgressBar } from '@ionic/angular/standalone';
 import { GoogleMap } from '@capacitor/google-maps';
 import { Geolocation } from '@capacitor/geolocation';
 import { LatLng } from '@capacitor/google-maps/dist/typings/definitions';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-location-task',
@@ -28,10 +29,11 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
     try {
       const currentPos: LatLng = await Geolocation.getCurrentPosition()
         .then(pos => ({ lat: pos.coords.latitude, lng: pos.coords.longitude }));
+      console.log('gmap api key:', environment.googleMapsApiKey);
       this.gMap = await GoogleMap.create({
         id: `map-to-${ this.task().targetName.replace(/[^\w]/, '_') }`,
         element: this.mapRef().nativeElement,
-        apiKey: 'apikey', // TODO
+        apiKey: environment.googleMapsApiKey,
         config: {
           center: this.task().targetPos,
           zoom: 15,
