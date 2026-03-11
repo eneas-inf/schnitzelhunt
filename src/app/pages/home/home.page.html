@@ -12,18 +12,22 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <h2>Your Recent Activities</h2>
 
-  <ion-list>
-    @for (activity of recentActivities; track activity) {
-      <ion-item lines="none" class="activity-item">
-        <ion-label>
-          <h3>{{ activity.name }}</h3>
-          <p>Completed: {{ activity.completed }}</p>
-          <p>Score: {{ activity.score }} points</p>
-        </ion-label>
-        <ion-button slot="end" fill="outline" size="small">Hunt again</ion-button>
-      </ion-item>
-    }
-  </ion-list>
+  @if (recentActivities.length === 0) {
+    <p>No completed hunts yet.</p>
+  } @else {
+    <ion-list>
+      @for (activity of recentActivities; track activity.name + activity.completed + activity.score) {
+        <ion-item lines="none" class="activity-item">
+          <ion-label>
+            <h3>{{ activity.name }}</h3>
+            <p>Completed: {{ activity.completed }}</p>
+            <p>Score: {{ activity.score }} points</p>
+          </ion-label>
+          <ion-button slot="end" fill="outline" size="small" (click)="huntAgain(activity)">Hunt again</ion-button>
+        </ion-item>
+      }
+    </ion-list>
+  }
 </ion-content>
 
 <div class="footer-section">
