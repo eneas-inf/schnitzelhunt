@@ -133,7 +133,18 @@ export class TasksPage implements OnInit {
     }
   }
 
+  onNextTaskClick() {
+    if (this.showSuccessPopup) {
+      this.nextTask();
+      return;
+    }
+    this.completeTask();
+  }
+
   completeTask() {
+    if (this.showSuccessPopup) {
+      return;
+    }
     this.showSuccessPopup = true;
   }
 

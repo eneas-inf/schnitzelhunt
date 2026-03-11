@@ -64,14 +64,27 @@
   margin-top: 20px;
 }
 
+.next-task-slot {
+  position: relative;
+  margin-bottom: 10px;
+}
+
 .next-btn {
+  font-weight: bold;
+  height: 50px;
+  --border-radius: 8px;
+}
+
+.next-btn.next-btn-default {
   --background: #bdbdbd;
   --background-activated: #a0a0a0;
   --color: #333;
-  font-weight: bold;
-  margin-bottom: 10px;
-  height: 50px;
-  --border-radius: 8px;
+}
+
+.next-btn.next-btn-completed {
+  --background: #3b82f6 !important;
+  --background-activated: #2563eb !important;
+  --color: #fff !important;
 }
 
 .surrender-btn {
@@ -82,64 +95,48 @@
   --border-radius: 8px;
 }
 
-.success-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  backdrop-filter: blur(2px);
-}
-
-.success-card {
+.success-slide-card {
+  position: relative;
   background-color: #4ade80;
-  width: 85%;
-  border-radius: 16px;
-  padding: 20px;
+  border-radius: 12px;
+  padding: 14px 16px;
   text-align: center;
   color: #000;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  margin-bottom: 10px;
+  transform-origin: top center;
+  animation: slide-from-next-btn 280ms ease-out forwards;
 }
 
-.success-header {
+.success-slide-header {
   font-weight: bold;
-  margin-bottom: 20px;
+  font-size: 16px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
 }
 
-.success-icon {
-  font-size: 80px;
-  margin-bottom: 10px;
+.success-slide-icon {
+  font-size: 56px;
+  line-height: 1;
+  margin-bottom: 8px;
   color: black;
 }
 
-.success-message {
-  font-size: 16px;
-  margin-bottom: 20px;
+.success-slide-message {
+  font-size: 15px;
   font-weight: 500;
 }
 
-.popup-next-btn {
-  --background: #3b82f6;
-  --color: white;
-  font-weight: bold;
-  margin-bottom: 10px;
-  height: 50px;
-  --border-radius: 8px;
-}
-
-.popup-surrender-btn {
-  --background: #bdbdbd;
-  --color: #333;
-  font-weight: bold;
-  height: 50px;
-  --border-radius: 8px;
+@keyframes slide-from-next-btn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }

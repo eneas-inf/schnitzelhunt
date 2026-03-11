@@ -30,41 +30,35 @@
     </div>
 
     <div class="action-buttons">
-      <ion-button expand="block" color="light" class="next-btn" (click)="completeTask()">
-        Next Task
-        <ion-icon slot="end" name="chevron-forward"></ion-icon>
-      </ion-button>
+      <div class="next-task-slot">
+        @if (showSuccessPopup) {
+          <div class="success-slide-card">
+            <div class="success-slide-header">Task completed successfully! 🎉</div>
+            <div class="success-slide-icon">
+              <ion-icon name="checkmark-circle"></ion-icon>
+            </div>
+            <div class="success-slide-message">Congrats! You earned a schnitzel.</div>
+          </div>
+        }
 
-      <ion-button expand="block" color="danger" class="surrender-btn" (click)="surrender()">
+        <ion-button
+          expand="block"
+          color="light"
+          class="next-btn"
+          [class.next-btn-default]="!showSuccessPopup"
+          [class.next-btn-completed]="showSuccessPopup"
+          (click)="onNextTaskClick()"
+        >
+          Next Task
+          <ion-icon slot="end" name="chevron-forward"></ion-icon>
+        </ion-button>
+      </div>
+
+      <ion-button expand="block" color="danger" class="surrender-btn" [disabled]="showSuccessPopup" (click)="surrender()">
         Surrender
         <ion-icon slot="end" name="chevron-forward"></ion-icon>
       </ion-button>
     </div>
   </div>
-
-  <!-- Success Popup Overlay -->
-  @if (showSuccessPopup) {
-    <div class="success-overlay">
-      <div class="success-card">
-        <div class="success-header">
-          Task completed successfully! 🎉
-        </div>
-        <div class="success-icon">
-          <ion-icon name="checkmark-circle"></ion-icon>
-        </div>
-        <div class="success-message">
-          Congrats! You earned a schnitzel.
-        </div>
-        <ion-button expand="block" color="primary" class="popup-next-btn" (click)="nextTask()">
-          Next Task
-          <ion-icon slot="end" name="chevron-forward"></ion-icon>
-        </ion-button>
-        <ion-button expand="block" color="light" class="popup-surrender-btn" (click)="surrender()">
-          Surrender
-          <ion-icon slot="end" name="chevron-forward"></ion-icon>
-        </ion-button>
-      </div>
-    </div>
-  }
 
 </ion-content>
