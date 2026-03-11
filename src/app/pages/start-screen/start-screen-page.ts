@@ -23,7 +23,7 @@ export class StartScreenPage {
       message: 'Please enter your username',
     });
 
-    if (cancelled || !value) {
+    if (cancelled || value === "") {
       return;
     } else {
       this.userService.setUsername(value);
