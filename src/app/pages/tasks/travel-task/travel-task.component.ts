@@ -1,7 +1,7 @@
-import {Component, input, output, OnInit, OnDestroy, signal} from '@angular/core';
-import {TaskComponent} from '../tasks.page';
-import {TravelTask} from '../../../models/task';
-import {Geolocation, Position, WatchPositionCallback} from "@capacitor/geolocation";
+import { Component, input, OnDestroy, OnInit, output, signal } from '@angular/core';
+import { TaskComponent } from '../tasks.page';
+import { TravelTask } from '../../../models/task';
+import { Geolocation, Position, WatchPositionCallback } from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-travel-task',
@@ -26,11 +26,11 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
   }
 
   getTitle(): string {
-    return `Walk ${this.task().targetDistanceMeters} Meters`;
+    return `Walk ${ this.task().targetDistanceMeters } Meters`;
   }
 
   getInstructions(): string | null {
-    return `${this.getMetersLeft()} Meters left..`;
+    return `${ this.getMetersLeft() } Meters left..`;
   }
 
   getMetersLeft(): number {
@@ -45,8 +45,9 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
     try {
       const startPosition = await Geolocation.getCurrentPosition({
         enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0,
+        timeout: 1000,
+        enableLocationFallback: true,
+        maximumAge: 100,
       });
 
       this.lastPosition = startPosition;
@@ -70,12 +71,12 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
           this.lastPosition.coords.latitude,
           this.lastPosition.coords.longitude,
           position.coords.latitude,
-          position.coords.longitude
+          position.coords.longitude,
         );
 
         // if (segmentDistance >= 1) {
-          this.walkedMeters.update(current => current + segmentDistance);
-          this.lastPosition = position;
+        this.walkedMeters.update(current => current + segmentDistance);
+        this.lastPosition = position;
         // }
 
         if (!this.solved && this.walkedMeters() >= this.task().targetDistanceMeters) {
@@ -88,10 +89,12 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
       this.watchId = await Geolocation.watchPosition(
         {
           enableHighAccuracy: true,
-          timeout: 10000,
+          timeout: 1000,
+          interval: 1000,
+          enableLocationFallback: true,
           maximumAge: 0,
         },
-        callback
+        callback,
       );
     } catch (error) {
       console.error('Could not start travel task tracking', error);
@@ -100,7 +103,7 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
 
   private async stopTracking(): Promise<void> {
     if (this.watchId) {
-      await Geolocation.clearWatch({id: this.watchId});
+      await Geolocation.clearWatch({ id: this.watchId });
       this.watchId = null;
     }
   }
@@ -109,7 +112,7 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
     lat1: number,
     lon1: number,
     lat2: number,
-    lon2: number
+    lon2: number,
   ): number {
     const toRad = (value: number) => (value * Math.PI) / 180;
     const earthRadius = 6371000;
