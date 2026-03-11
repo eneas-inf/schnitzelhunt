@@ -24,7 +24,7 @@
       <ng-template #taskCompContainer/>
 
       @let instructions = taskComponent?.getInstructions();
-      @if (instructions) {
+      @if (instructions && !showSuccessPopup) {
         <p class="instruction-text">{{ instructions }}</p>
       }
     </div>

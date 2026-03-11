@@ -16,6 +16,7 @@ export class QrTaskComponent implements TaskComponent<QrTask>, AfterViewInit, On
 
   protected cameraState: 'starting' | 'active' | 'noCamera' = 'starting';
   protected previewErrorFlash = false;
+  protected hasSolved = false;
 
   private stream: MediaStream | null = null;
   private scanFrameId: number | null = null;
@@ -32,6 +33,9 @@ export class QrTaskComponent implements TaskComponent<QrTask>, AfterViewInit, On
   }
 
   getInstructions(): string | null {
+    if (this.hasSolved) {
+      return null;
+    }
     return 'Point your camera at the QR code to complete the task.';
   }
 
@@ -96,6 +100,7 @@ export class QrTaskComponent implements TaskComponent<QrTask>, AfterViewInit, On
 
   private async handleDetectedCode(scannedValue: string): Promise<void> {
     if (scannedValue === this.task().targetValue) {
+      this.hasSolved = true;
       this.stopScan();
       this.taskSolved.emit();
       return;
