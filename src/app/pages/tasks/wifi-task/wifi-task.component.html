@@ -1,8 +1,8 @@
 <p class="instruction-text">{{ getCustomInstructions() }}</p>
 <p class="status-text">Status:
-  @let isGoalStatus = getStatus() === getTargetStatus();
+  @let currentStatus = getStatus();
   <span [ngClass]="{
-  'status-red': !isGoalStatus,
-  'status-green': isGoalStatus,
-  }">{{ getStatus() }}</span>
+  'status-red': currentStatus === 'Disconnected',
+  'status-green': currentStatus === 'Connected',
+  }">{{ currentStatus }}</span>
 </p>
