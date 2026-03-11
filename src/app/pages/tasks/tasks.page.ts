@@ -76,7 +76,7 @@ export class TasksPage implements OnInit {
   protected taskComponent: TaskComponent<any> | null = null;
   private currentTaskStartedAt = 0;
   private currentTaskSolved = false;
-  private currentTaskForcedSuccess = false;
+  private currentTaskSkipped = false;
 
   constructor() {
     addIcons({
@@ -97,7 +97,7 @@ export class TasksPage implements OnInit {
     this.currentTask = this.hunt.info.tasks[this.hunt.currentTask]!;
     this.currentTaskStartedAt = Date.now();
     this.currentTaskSolved = false;
-    this.currentTaskForcedSuccess = false;
+    this.currentTaskSkipped = false;
     this.huntService.persistActiveHuntProgress(this.hunt);
     this.createTaskComponent();
   }
@@ -167,7 +167,7 @@ export class TasksPage implements OnInit {
     if (this.showSuccessPopup) {
       return;
     }
-    this.currentTaskForcedSuccess = true;
+    this.currentTaskSkipped = true;
     this.currentTaskSolved = true;
     this.completeTask();
   }
@@ -184,7 +184,7 @@ export class TasksPage implements OnInit {
       this.currentTask = this.hunt.info.tasks[this.hunt.currentTask] ?? null;
       this.currentTaskStartedAt = Date.now();
       this.currentTaskSolved = false;
-      this.currentTaskForcedSuccess = false;
+      this.currentTaskSkipped = false;
       this.huntService.persistActiveHuntProgress(this.hunt);
       this.createTaskComponent();
     } else {
@@ -203,8 +203,7 @@ export class TasksPage implements OnInit {
       return;
     }
 
-    const remainingTasks = this.hunt.info.tasks.length - this.hunt.currentTask;
-    this.hunt.potatoes += Math.max(remainingTasks, 0);
+    this.hunt.potatoes += 1;
     this.huntService.persistActiveHuntProgress(this.hunt);
     this.router.navigate(['/results'], {
       queryParams: {
@@ -215,16 +214,20 @@ export class TasksPage implements OnInit {
   }
 
   private applyCurrentTaskReward(hunt: ActiveSchnitzelhunt): void {
-    if (this.currentTaskForcedSuccess) {
-      hunt.schnitzels += 1;
+    if (this.currentTaskSkipped) {
       return;
     }
+
     const elapsedMs = Date.now() - this.currentTaskStartedAt;
     const exceededLimit = elapsedMs > TasksPage.TASK_TIME_LIMIT_MS;
-    if (this.currentTaskSolved && !exceededLimit) {
+    if (this.currentTaskSolved && exceededLimit) {
       hunt.schnitzels += 1;
+      hunt.potatoes += 1;
       return;
     }
-    hunt.potatoes += 1;
+
+    if (this.currentTaskSolved) {
+      hunt.schnitzels += 1;
+    }
   }
 }
