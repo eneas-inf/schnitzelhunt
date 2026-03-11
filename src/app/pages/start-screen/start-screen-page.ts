@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { IonButton, IonContent } from '@ionic/angular/standalone';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { Dialog } from '@capacitor/dialog';
 import { UserService } from '../../services/user.service';
 import { PermissionService } from '../../services/permission.service';
@@ -10,7 +10,7 @@ import { PermissionService } from '../../services/permission.service';
   templateUrl: './start-screen-page.html',
   styleUrls: ['./start-screen-page.scss'],
   standalone: true,
-  imports: [IonContent, IonButton, RouterLink],
+  imports: [IonContent, IonButton],
 })
 export class StartScreenPage {
   private router: Router = inject(Router);
