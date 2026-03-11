@@ -233,8 +233,8 @@ const TASKS = [
     type: 'location',
     targetName: 'Migros Kriens',
     targetPos: {
-      lng: 8.300857384173224,
-      lat: 47.02760523058052,
+      lng: 47.02760523058052,
+      lat: 8.300857384173224,
     },
   } satisfies LocationTask,
   {
@@ -266,7 +266,7 @@ const SCHNITZELHUNTS: SchnitzelhuntInfo[] = [
     description: 'Explore the city\'s hidden gems.',
     difficulty: 'Easy',
     category: 'Exploration',
-    location: 'Kriens Mattenhof',
+    location: 'Kriens',
     tasks: TASKS,
   },
 ];
