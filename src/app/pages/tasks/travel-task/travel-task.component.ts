@@ -1,7 +1,7 @@
-import { Component, input, OnDestroy, OnInit, output, signal } from '@angular/core';
-import { TaskComponent } from '../tasks.page';
-import { TravelTask } from '../../../models/task';
-import { Geolocation, Position, WatchPositionCallback } from '@capacitor/geolocation';
+import {Component, input, OnDestroy, OnInit, output, signal} from '@angular/core';
+import {TaskComponent} from '../tasks.page';
+import {TravelTask} from '../../../models/task';
+import {Geolocation, Position, WatchPositionCallback} from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-travel-task',
@@ -26,11 +26,11 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
   }
 
   getTitle(): string {
-    return `Walk ${ this.task().targetDistanceMeters } Meters`;
+    return `Walk ${this.task().targetDistanceMeters} Meters`;
   }
 
   getInstructions(): string | null {
-    return `${ this.getMetersLeft() } Meters left..`;
+    return `${this.getMetersLeft()} Meters left..`;
   }
 
   getMetersLeft(): number {
@@ -47,7 +47,7 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
         enableHighAccuracy: true,
         timeout: 1000,
         enableLocationFallback: true,
-        maximumAge: 100,
+        maximumAge: 0,
       });
 
       this.lastPosition = startPosition;
@@ -90,7 +90,6 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
         {
           enableHighAccuracy: true,
           timeout: 1000,
-          interval: 1000,
           enableLocationFallback: true,
           maximumAge: 0,
         },
@@ -103,7 +102,7 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
 
   private async stopTracking(): Promise<void> {
     if (this.watchId) {
-      await Geolocation.clearWatch({ id: this.watchId });
+      await Geolocation.clearWatch({id: this.watchId});
       this.watchId = null;
     }
   }
