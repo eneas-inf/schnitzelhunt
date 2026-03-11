@@ -7,11 +7,13 @@
   <ng-map
     [mapId]="mapId"
     [style]="osmStyle"
-    (mapReady)="initMap()"
+    (mapReady)="initMap($event)"
   />
   <ng-zoom-control [mapId]="mapId" position="top-right"></ng-zoom-control>
-  <ng-route
-    [mapId]="mapId"
-    [config]="getRouteConfig()"
-  />
+  @if (routeConfig) {
+    <ng-route
+      [mapId]="mapId"
+      [config]="routeConfig"
+    />
+  }
 </div>

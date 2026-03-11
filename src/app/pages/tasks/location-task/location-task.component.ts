@@ -2,11 +2,11 @@ import { Component, inject, input, OnDestroy, OnInit, output } from '@angular/co
 import { TaskComponent } from '../tasks.page';
 import { LocationTask } from '../../../models/task';
 import { IonProgressBar } from '@ionic/angular/standalone';
-import { MapComponent, MapService, MarkerConfig, MarkerService, RouteComponent, RouteConfig, ZoomControlComponent } from 'ng-mapcn';
+import { MapComponent, MarkerConfig, MarkerService, RouteComponent, RouteConfig, ZoomControlComponent } from 'ng-mapcn';
 import { CallbackID, Geolocation } from '@capacitor/geolocation';
 import { fastDistanceMeters, LatLng } from './distance-helper';
 import { DecimalPipe } from '@angular/common';
-import { Map as MapLibreMap } from 'maplibre-gl';
+import { Map as MapLibreMap, Marker } from 'maplibre-gl';
 
 @Component({
   selector: 'app-location-task',
@@ -22,7 +22,6 @@ import { Map as MapLibreMap } from 'maplibre-gl';
 })
 export class LocationTaskComponent implements TaskComponent<LocationTask>, OnInit, OnDestroy {
   private readonly markerService = inject(MarkerService);
-  private readonly mapService = inject(MapService);
   readonly task = input.required<LocationTask>();
   readonly taskSolved = output();
 
@@ -32,6 +31,7 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
   protected farthestDistance!: number;
   protected posWatchId?: CallbackID;
   protected mapView?: MapLibreMap;
+  protected routeConfig: RouteConfig | null = null;
 
   private markerAnimationFrame?: number;
   private readonly markerAnimationDurationMs = 350;
@@ -40,6 +40,8 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
   private readonly markerMinMoveMeters = 1;
   private lastMapFollowAt = 0;
   private readonly handledMissingImages = new Set<string>();
+  private missingImageFallbackInstalled = false;
+  private initialViewportApplied = false;
 
   async ngOnInit(): Promise<void> {
     this.mapId = `map-to-${ this.task().targetName.replace(/\W/, '_') }`;
@@ -50,6 +52,8 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
       maximumAge: 5000,
     }).then(pos => ({ lat: pos.coords.latitude, lng: pos.coords.longitude }));
     this.farthestDistance = this.getMetersLeft();
+    this.refreshRouteConfig();
+    this.syncMapArtifacts();
     this.posWatchId = await Geolocation.watchPosition({
       enableHighAccuracy: true,
       timeout: 10000,
@@ -62,14 +66,18 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
         const previousPos = this.currentPos;
         const nextPos = { lat: pos.coords.latitude, lng: pos.coords.longitude };
         this.currentPos = nextPos;
+        this.refreshRouteConfig();
         const distance = this.getMetersLeft();
         if (distance > this.farthestDistance) {
           this.farthestDistance = distance;
         }
         if (this.mapView) {
-          const posMarker = this.markerService.getMarker(this.mapId, 'currentPos');
-          if (posMarker) {
+          this.ensureTargetMarker();
+          const posMarker = this.ensureCurrentPosMarker();
+          if (posMarker && previousPos) {
             this.updateMarkerSmooth(posMarker, previousPos, nextPos);
+          } else {
+            posMarker?.setLngLat(nextPos);
           }
           this.followPositionSmooth(nextPos);
         }
@@ -77,30 +85,76 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
     });
   }
 
-  initMap(): void {
-    this.mapView = this.mapService.getMap(this.mapId)!;
+  initMap(map: MapLibreMap): void {
+    this.mapView = map;
     this.installMissingImageFallback();
-    setTimeout(() => {
-      this.mapView?.easeTo({
-        center: this.currentPos,
-        zoom: 18,
-        duration: 800,
-        essential: true,
-        easing: (t: number) => t * (2 - t),
-      });
-    }, 0);
     this.mapView.touchZoomRotate.enable();
     this.mapView.doubleClickZoom.enable();
-    this.markerService.addMarker(this.mapId, this.createTargetMarker(), this.mapView);
-    this.markerService.addMarker(this.mapId, this.createCurrentPosMarker(), this.mapView);
+    this.syncMapArtifacts();
     document.querySelector('.maplibregl-ctrl-bottom-right')?.remove();
   }
 
-  private installMissingImageFallback(): void {
-    if (!this.mapView) {
+  private syncMapArtifacts(): void {
+    if (!this.mapView || !this.currentPos) {
       return;
     }
 
+    this.ensureTargetMarker();
+    this.ensureCurrentPosMarker();
+
+    if (!this.initialViewportApplied) {
+      this.initialViewportApplied = true;
+      requestAnimationFrame(() => {
+        this.mapView?.easeTo({
+          center: this.currentPos,
+          zoom: 18,
+          duration: 800,
+          essential: true,
+          easing: (t: number) => t * (2 - t),
+        });
+      });
+    }
+  }
+
+  private ensureTargetMarker(): void {
+    if (!this.mapView || this.markerService.getMarker(this.mapId, 'target')) {
+      return;
+    }
+    this.markerService.addMarker(this.mapId, this.createTargetMarker(), this.mapView);
+  }
+
+  private ensureCurrentPosMarker(): Marker | null {
+    if (!this.mapView || !this.currentPos) {
+      return null;
+    }
+    const existingMarker = this.markerService.getMarker(this.mapId, 'currentPos');
+    if (existingMarker) {
+      return existingMarker;
+    }
+    return this.markerService.addMarker(this.mapId, this.createCurrentPosMarker(), this.mapView);
+  }
+
+  private refreshRouteConfig(): void {
+    if (!this.currentPos) {
+      this.routeConfig = null;
+      return;
+    }
+
+    this.routeConfig = {
+      id: 'current-to-target-route',
+      coordinates: [this.currentPos, this.getTargetPos()],
+      color: '#f63b3b',
+      width: 3,
+      dashed: true,
+    };
+  }
+
+  private installMissingImageFallback(): void {
+    if (!this.mapView || this.missingImageFallbackInstalled) {
+      return;
+    }
+
+    this.missingImageFallbackInstalled = true;
     this.mapView.on('styleimagemissing', (event: { id: string }) => {
       const missingId = event?.id;
       if (!missingId || this.handledMissingImages.has(missingId) || this.mapView?.hasImage(missingId)) {
@@ -151,6 +205,9 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
     if (this.markerAnimationFrame) {
       cancelAnimationFrame(this.markerAnimationFrame);
       this.markerAnimationFrame = undefined;
+    }
+    if (this.mapId) {
+      this.markerService.removeAllMarkers(this.mapId);
     }
   }
 
@@ -207,15 +264,6 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
 
   private getTargetPos(): LatLng {
     return this.task().targetPos;
-  }
-
-  getRouteConfig(): RouteConfig {
-    return {
-      coordinates: [this.currentPos, this.getTargetPos()],
-      color: '#f63b3b',
-      width: 3,
-      dashed: true,
-    };
   }
 
   getTitle(): string {
