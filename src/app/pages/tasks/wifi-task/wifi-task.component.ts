@@ -96,10 +96,7 @@ export class WifiTaskComponent implements TaskComponent<WifiTask>, OnInit, OnDes
   }
 
   private updateStatus(networkStatus: ConnectionStatus): void {
-    const isConnectedByPlugin = networkStatus.connected
-      && (networkStatus.connectionType === 'wifi' || networkStatus.connectionType === 'unknown');
-    const isConnectedFallback = navigator.onLine;
-    const isWifiConnected = isConnectedByPlugin || isConnectedFallback;
+    const isWifiConnected = networkStatus.connected && networkStatus.connectionType === 'wifi';
     const wasConnected = this.status === 'Connected';
     this.status = isWifiConnected ? 'Connected' : 'Disconnected';
 
