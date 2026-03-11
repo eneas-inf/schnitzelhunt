@@ -15,10 +15,6 @@ buildscript {
     }
 }
 
-plugins {
-    id "co.uzzu.dotenv.gradle" version "4.0.0"
-}
-
 apply from: "variables.gradle"
 
 allprojects {

@@ -5,7 +5,6 @@ import { IonProgressBar } from '@ionic/angular/standalone';
 import { GoogleMap } from '@capacitor/google-maps';
 import { Geolocation } from '@capacitor/geolocation';
 import { LatLng } from '@capacitor/google-maps/dist/typings/definitions';
-import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-location-task',
@@ -27,13 +26,11 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
   async ngOnInit() {
     this.mapLoading = true;
     try {
-      const currentPos: LatLng = await Geolocation.getCurrentPosition()
-        .then(pos => ({ lat: pos.coords.latitude, lng: pos.coords.longitude }));
-      console.log('gmap api key:', environment.googleMapsApiKey);
+      const currentPos = await this.getCurrentPositionOrFallback();
       this.gMap = await GoogleMap.create({
         id: `map-to-${ this.task().targetName.replace(/[^\w]/, '_') }`,
         element: this.mapRef().nativeElement,
-        apiKey: environment.googleMapsApiKey,
+        apiKey: 'environment.googleMapsApiKey',
         config: {
           center: this.task().targetPos,
           zoom: 15,
@@ -50,8 +47,25 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
         strokeColor: 'red',
         strokeOpacity: 0.5,
       }] as any);
+    } catch (error) {
+      console.error('Could not initialize map task', error);
     } finally {
       this.mapLoading = false;
+    }
+  }
+
+  private async getCurrentPositionOrFallback(): Promise<LatLng> {
+    try {
+      const pos = await Geolocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 15000,
+        enableLocationFallback: true,
+        maximumAge: 5000,
+      });
+      return { lat: pos.coords.latitude, lng: pos.coords.longitude };
+    } catch (error) {
+      console.warn('Location timeout/unavailable, using task target as fallback', error);
+      return this.task().targetPos;
     }
   }
 
