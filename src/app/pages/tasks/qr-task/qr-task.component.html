@@ -1,7 +1,18 @@
 <div class="scan-container">
-  <div class="scan-frame">
-    <div class="camera-preview"></div>
-    <div class="scan-overlay"></div>
+  <div class="preview-frame" [class.error-flash]="previewErrorFlash">
+    <video #previewVideo class="preview-video" muted></video>
+    <img src="assets/overlays/qr-overlay.png" class="qr-overlay-image" alt="QR-Code overlay"/>
+    <span class="corner top-left"></span>
+    <span class="corner top-right"></span>
+    <span class="corner bottom-left"></span>
+    <span class="corner bottom-right"></span>
   </div>
-  <div class="scan-button">SCAN ME</div>
+
+  @if (cameraState !== 'active') {
+    <p class="scan-status">{{ getStatusMessage() }}</p>
+  }
+
+  <button type="button" class="scan-button">
+    SCAN ME
+  </button>
 </div>
