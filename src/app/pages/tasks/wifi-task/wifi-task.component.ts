@@ -4,6 +4,7 @@ import { WifiTask } from '../../../models/task';
 import { NgClass } from '@angular/common';
 import { ConnectionStatus, Network } from '@capacitor/network';
 import { PluginListenerHandle } from '@capacitor/core';
+import { App, AppState } from '@capacitor/app';
 
 @Component({
   selector: 'app-wifi-task',
@@ -21,21 +22,42 @@ export class WifiTaskComponent implements TaskComponent<WifiTask>, OnInit, OnDes
   protected status: 'Connected' | 'Disconnected' = 'Disconnected';
 
   private listenerHandle: PluginListenerHandle | null = null;
+  private appStateListener: PluginListenerHandle | null = null;
   private sawConnect = false;
   private sawDisconnect = false;
+  private pollTimer: ReturnType<typeof setInterval> | null = null;
 
   async ngOnInit(): Promise<void> {
-    const status = await Network.getStatus();
-    this.updateStatus(status);
+    await this.refreshStatus();
+
     this.listenerHandle = await Network.addListener('networkStatusChange', (newStatus) => {
       this.updateStatus(newStatus);
     });
+
+    this.appStateListener = await App.addListener('appStateChange', (state: AppState) => {
+      if (state.isActive) {
+        void this.refreshStatus();
+      }
+    });
+
+    // Android does not always emit reliable network change events immediately.
+    this.pollTimer = setInterval(() => {
+      void this.refreshStatus();
+    }, 1500);
   }
 
   async ngOnDestroy(): Promise<void> {
     if (this.listenerHandle) {
       await this.listenerHandle.remove();
       this.listenerHandle = null;
+    }
+    if (this.appStateListener) {
+      await this.appStateListener.remove();
+      this.appStateListener = null;
+    }
+    if (this.pollTimer) {
+      clearInterval(this.pollTimer);
+      this.pollTimer = null;
     }
   }
 
@@ -68,8 +90,16 @@ export class WifiTaskComponent implements TaskComponent<WifiTask>, OnInit, OnDes
     return this.status;
   }
 
+  private async refreshStatus(): Promise<void> {
+    const status = await Network.getStatus();
+    this.updateStatus(status);
+  }
+
   private updateStatus(networkStatus: ConnectionStatus): void {
-    const isWifiConnected = networkStatus.connected && networkStatus.connectionType === 'wifi';
+    const isConnectedByPlugin = networkStatus.connected
+      && (networkStatus.connectionType === 'wifi' || networkStatus.connectionType === 'unknown');
+    const isConnectedFallback = navigator.onLine;
+    const isWifiConnected = isConnectedByPlugin || isConnectedFallback;
     const wasConnected = this.status === 'Connected';
     this.status = isWifiConnected ? 'Connected' : 'Disconnected';
 
