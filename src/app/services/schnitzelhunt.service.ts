@@ -232,7 +232,7 @@ export class SchnitzelhuntService {
 const TASKS = [
   {
     type: 'location',
-    targetName: 'Migros Kriens',
+    targetName: 'Migros Kriens Mattenhof',
     targetPos: {
       lat: 46.96301778280854,
       lng: 8.355001935060953,

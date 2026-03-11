@@ -1,7 +1,7 @@
-<p class="distance-text">Distance: {{ getMetersLeft() | number:'1.0-2' }} Meters</p>
+<p class="distance-text">Distance: {{ metersLeft() | number:'1.0-2' }} Meters</p>
 <div class="progress-bar-container">
-  <ion-progress-bar [value]="getProgress()" color="primary"></ion-progress-bar>
-  <p class="progress-text">Progress: {{ getProgress() * 100 | number:'1.0-0' }}% to destination</p>
+  <ion-progress-bar [value]="progress()" color="primary"></ion-progress-bar>
+  <p class="progress-text">Progress: {{ progress() * 100 | number:'1.0-0' }}% to destination</p>
 </div>
 <app-smooth-map
   [mapId]="mapId"
