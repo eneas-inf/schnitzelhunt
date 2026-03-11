@@ -23,21 +23,47 @@ ion-progress-bar {
 }
 
 .map-placeholder {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.map {
   width: 100%;
   height: 200px;
   background-color: #222;
   border-radius: 12px;
   overflow: hidden;
   position: relative;
+  display: block;
+}
+
+.map-loading-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  background: rgba(0, 0, 0, 0.45);
+  pointer-events: all;
 }
 
-.map-icon {
-  font-size: 48px;
-  color: white;
-  position: absolute;
+.map-loader {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 4px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  animation: map-loader-spin 0.9s linear infinite;
 }
 
+@keyframes map-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hidden {
+  display: none;
+}

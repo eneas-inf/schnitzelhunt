@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">schnitzelhunt</string>
-    <string name="title_activity_main">schnitzelhunt</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="app_name">Schnitzelhunt</string>
+    <string name="title_activity_main">Schnitzelhunt</string>
+    <string name="package_name">ch.timjeromeeneas.schnitzelhunt</string>
+    <string name="custom_url_scheme">ch.timjeromeeneas.schnitzelhunt</string>
 </resources>
