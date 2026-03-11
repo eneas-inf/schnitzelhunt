@@ -73,10 +73,10 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
           position.coords.longitude
         );
 
-        if (segmentDistance >= 1) {
+        // if (segmentDistance >= 1) {
           this.walkedMeters.update(current => current + segmentDistance);
           this.lastPosition = position;
-        }
+        // }
 
         if (!this.solved && this.walkedMeters() >= this.task().targetDistanceMeters) {
           this.solved = true;
