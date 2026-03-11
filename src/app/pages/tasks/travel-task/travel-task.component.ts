@@ -1,7 +1,7 @@
-import {Component, input, output, OnInit, OnDestroy} from '@angular/core';
+import {Component, input, output, OnInit, OnDestroy, signal} from '@angular/core';
 import {TaskComponent} from '../tasks.page';
 import {TravelTask} from '../../../models/task';
-import {Position} from "@capacitor/geolocation";
+import {Geolocation, Position, WatchPositionCallback} from "@capacitor/geolocation";
 
 @Component({
   selector: 'app-travel-task',
@@ -12,9 +12,9 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
   readonly task = input.required<TravelTask>();
   readonly taskSolved = output();
 
-  private watchId: number | null = null;
+  private watchId: string | null = null;
   private lastPosition: Position | null = null;
-  private walkedMeters: number = 0;
+  private walkedMeters = signal(0);
   private solved: boolean = false;
 
   ngOnInit(): void {
@@ -34,16 +34,33 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
   }
 
   getMetersLeft(): number {
-    return Math.max(0, Math.ceil(this.task().targetDistanceMeters - this.walkedMeters));
+    return Math.max(0, Math.ceil(this.task().targetDistanceMeters - this.walkedMeters()));
   }
 
   getProgress(): number {
-    return Math.min(this.walkedMeters / this.task().targetDistanceMeters, 1);
+    return Math.min(this.walkedMeters() / this.task().targetDistanceMeters, 1);
   }
 
-  private startTracking(): void {
-    this.watchId = navigator.geolocation.watchPosition(
-      (position) => {
+  private async startTracking(): Promise<void> {
+    try {
+      const startPosition = await Geolocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0,
+      });
+
+      this.lastPosition = startPosition;
+
+      const callback: WatchPositionCallback = (position, err) => {
+        if (err) {
+          console.error('watchPosition error', err);
+          return;
+        }
+
+        if (!position) {
+          return;
+        }
+
         if (!this.lastPosition) {
           this.lastPosition = position;
           return;
@@ -57,30 +74,33 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
         );
 
         if (segmentDistance >= 1) {
-          this.walkedMeters += segmentDistance;
+          this.walkedMeters.update(current => current + segmentDistance);
           this.lastPosition = position;
         }
 
-        if (!this.solved && this.walkedMeters >= this.task().targetDistanceMeters) {
+        if (!this.solved && this.walkedMeters() >= this.task().targetDistanceMeters) {
           this.solved = true;
           this.taskSolved.emit();
-          this.stopTracking();
+          void this.stopTracking();
         }
-      },
-      (error) => {
-        console.error('Geolocation error:', error);
-      },
-      {
-        enableHighAccuracy: true,
-        maximumAge: 0,
-        timeout: 10000,
-      }
-    );
+      };
+
+      this.watchId = await Geolocation.watchPosition(
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0,
+        },
+        callback
+      );
+    } catch (error) {
+      console.error('Could not start travel task tracking', error);
+    }
   }
 
-  private stopTracking(): void {
-    if (this.watchId !== null) {
-      navigator.geolocation.clearWatch(this.watchId);
+  private async stopTracking(): Promise<void> {
+    if (this.watchId) {
+      await Geolocation.clearWatch({id: this.watchId});
       this.watchId = null;
     }
   }
@@ -98,14 +118,12 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
     const dLon = toRad(lon2 - lon1);
 
     const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.sin(dLat / 2) ** 2 +
       Math.cos(toRad(lat1)) *
       Math.cos(toRad(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+      Math.sin(dLon / 2) ** 2;
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
     return earthRadius * c;
   }
 }
