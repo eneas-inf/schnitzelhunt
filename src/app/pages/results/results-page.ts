@@ -14,6 +14,8 @@ import { addIcons } from 'ionicons';
 import { restaurant, egg, time, trophy } from 'ionicons/icons';
 import { SchnitzelhuntService } from '../../services/schnitzelhunt.service';
 import { firstValueFrom } from 'rxjs';
+import { UserService } from '../../services/user.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-results',
@@ -35,6 +37,8 @@ import { firstValueFrom } from 'rxjs';
 export class ResultsPage implements OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly huntService = inject(SchnitzelhuntService);
+  private readonly userService = inject(UserService);
+  private readonly http = inject(HttpClient);
   status: 'success' | 'failed' = 'success';
   schnitzels = 0;
   potatoes = 0;
@@ -55,6 +59,7 @@ export class ResultsPage implements OnDestroy {
     this.route.queryParams.subscribe(async params => {
       this.status = params['status'] || 'success';
       await this.loadStatsFromStorage(params);
+      await this.sendToLeaderboard();
       this.startCountUpAnimation();
     });
   }
@@ -86,7 +91,6 @@ export class ResultsPage implements OnDestroy {
         this.points = Math.max(0, completed.points);
         return;
       } catch {
-        // Fall through to reset values.
       }
     }
 
@@ -102,7 +106,6 @@ export class ResultsPage implements OnDestroy {
           this.huntService.clearPersistedActiveHuntProgress(active.id);
           return;
         } catch {
-          // Fall through to reset values.
         }
       }
     }
@@ -148,5 +151,31 @@ export class ResultsPage implements OnDestroy {
       cancelAnimationFrame(this.animationFrameId);
       this.animationFrameId = null;
     }
+  }
+
+  private async sendToLeaderboard(): Promise<void> {
+    await this.userService.ensureLoaded();
+    const name = this.userService.getUsername().trim() || 'unknown';
+    const totalSeconds = Math.max(0, Math.floor(this.durationMs / 1000));
+    const hours = this.pad(Math.floor(totalSeconds / 3600));
+    const minutes = this.pad(Math.floor((totalSeconds % 3600) / 60));
+    const seconds = this.pad(totalSeconds % 60);
+    const duration = `${hours}:${minutes}:${seconds}`;
+    const url = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSc9v68rbCckYwcIekRLOaVZ0Qdm3eeh1xCEkgpn3d7pParfLQ/formResponse';
+
+    const body = new URLSearchParams();
+    body.set('entry.1860183935', name);
+    body.set('entry.985590604', duration);
+    body.set('entry.564282981', this.schnitzels.toString());
+    body.set('entry.1079317865', this.potatoes.toString());
+
+    this.http.post(url, body.toString(), {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    }).subscribe({
+      next: () => console.log('Data successfully sent!'),
+      error: (err) => {
+        console.warn('CORS warning (usually successful anyway)', err);
+      },
+    });
   }
 }
