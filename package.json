@@ -11,7 +11,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "install:compat": "npm install --legacy-peer-deps",
-    "ci:compat": "npm ci --legacy-peer-deps"
+    "ci:compat": "npm ci --legacy-peer-deps",
+    "download-fonts": "node scripts/download-fonts.js"
   },
   "private": true,
   "dependencies": {

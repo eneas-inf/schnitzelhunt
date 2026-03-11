@@ -26,6 +26,7 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
   readonly task = input.required<LocationTask>();
   readonly taskSolved = output();
 
+  protected readonly osmStyle = '/assets/openstreetmap/style.json';
   protected mapId!: string;
   protected currentPos!: LatLng;
   protected farthestDistance!: number;
@@ -38,6 +39,7 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
   private readonly mapFollowMinIntervalMs = 250;
   private readonly markerMinMoveMeters = 1;
   private lastMapFollowAt = 0;
+  private readonly handledMissingImages = new Set<string>();
 
   async ngOnInit(): Promise<void> {
     this.mapId = `map-to-${ this.task().targetName.replace(/\W/, '_') }`;
@@ -77,6 +79,7 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
 
   initMap(): void {
     this.mapView = this.mapService.getMap(this.mapId)!;
+    this.installMissingImageFallback();
     setTimeout(() => {
       this.mapView?.easeTo({
         center: this.currentPos,
@@ -88,10 +91,29 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
     }, 0);
     this.mapView.touchZoomRotate.enable();
     this.mapView.doubleClickZoom.enable();
-    // this.mapView.style.loadURL('assets/openstreetmap/style.json');
     this.markerService.addMarker(this.mapId, this.createTargetMarker(), this.mapView);
     this.markerService.addMarker(this.mapId, this.createCurrentPosMarker(), this.mapView);
     document.querySelector('.maplibregl-ctrl-bottom-right')?.remove();
+  }
+
+  private installMissingImageFallback(): void {
+    if (!this.mapView) {
+      return;
+    }
+
+    this.mapView.on('styleimagemissing', (event: { id: string }) => {
+      const missingId = event?.id;
+      if (!missingId || this.handledMissingImages.has(missingId) || this.mapView?.hasImage(missingId)) {
+        return;
+      }
+
+      this.handledMissingImages.add(missingId);
+      this.mapView?.addImage(missingId, {
+        width: 1,
+        height: 1,
+        data: new Uint8Array([0, 0, 0, 0]),
+      });
+    });
   }
 
   private createTargetMarker(): MarkerConfig {

@@ -12,15 +12,15 @@
   "sources": {
     "openmaptiles": {
       "type": "vector",
-      "url": "mbtiles:///data/tiles.mbtiles"
+      "url": "https://tiles.openfreemap.org/planet"
     },
     "attribution": {
       "attribution": "<a href=\"https://www.openmaptiles.org/\" target=\"_blank\">&copy; OpenMapTiles</a> <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">&copy; OpenStreetMap contributors</a>",
       "type": "vector"
     }
   },
-  "glyphs": "{fontstack}/{range}.pbf",
-  "sprite": "sprite",
+  "glyphs": "/assets/openstreetmap/fonts/{fontstack}/{range}.pbf",
+  "sprite": "/assets/openstreetmap/sprite",
   "layers": [
     {
       "id": "Background",
@@ -10859,8 +10859,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Italic",
-          "Noto Sans Italic"
+          "Noto Sans Regular"
         ],
         "text-max-width": 5,
         "text-size": {
@@ -10912,7 +10911,6 @@
           ]
         ],
         "text-font": [
-          "Open Sans Regular",
           "Noto Sans Regular"
         ],
         "text-max-width": 5,
@@ -10958,8 +10956,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Regular",
-          "Open Sans Light"
+          "Noto Sans Regular"
         ],
         "text-max-width": 5,
         "text-size": 11,
@@ -11080,8 +11077,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold",
-          "Noto Sans Bold"
+          "Noto Sans Regular"
         ],
         "text-max-width": 9,
         "text-offset": [
@@ -11225,8 +11221,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold",
-          "Noto Sans Bold"
+          "Noto Sans Regular"
         ],
         "text-max-width": 9,
         "text-offset": [
@@ -11302,7 +11297,6 @@
           ]
         ],
         "text-font": [
-          "Open Sans Bold Italic",
           "Noto Sans Regular"
         ],
         "text-max-width": 14,
@@ -11376,7 +11370,6 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold Italic",
           "Noto Sans Regular"
         ],
         "text-max-width": 9,
@@ -11442,8 +11435,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold",
-          "Noto Sans Bold"
+          "Noto Sans Regular"
         ],
         "text-max-width": 9,
         "text-offset": [
@@ -11515,8 +11507,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold Italic",
-          "Noto Sans Bold"
+          "Noto Sans Regular"
         ],
         "text-max-width": 9,
         "text-offset": [
@@ -11590,7 +11581,6 @@
           ]
         ],
         "text-font": [
-          "Open Sans Regular",
           "Noto Sans Regular"
         ],
         "text-max-width": 9,
@@ -11667,8 +11657,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold",
-          "Noto Sans Bold"
+          "Noto Sans Regular"
         ],
         "text-max-width": 9,
         "text-offset": [
@@ -11752,8 +11741,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold",
-          "Noto Sans Bold"
+          "Noto Sans Regular"
         ],
         "text-max-width": 9,
         "text-offset": [
@@ -11838,8 +11826,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold",
-          "Noto Sans Bold"
+          "Noto Sans Regular"
         ],
         "text-max-width": 9,
         "text-offset": [
@@ -11906,8 +11893,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold",
-          "Noto Sans Bold"
+          "Noto Sans Regular"
         ],
         "text-max-width": 9,
         "text-offset": [
@@ -11989,8 +11975,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold",
-          "Noto Sans Bold"
+          "Noto Sans Regular"
         ],
         "text-max-width": 9,
         "text-offset": [
@@ -12098,7 +12083,6 @@
           ]
         ],
         "text-font": [
-          "Open Sans Regular",
           "Noto Sans Regular"
         ],
         "text-max-width": 9,
@@ -12244,8 +12228,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold",
-          "Noto Sans Bold"
+          "Noto Sans Regular"
         ],
         "text-max-width": 9,
         "text-offset": [
@@ -12316,8 +12299,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold",
-          "Noto Sans Bold"
+          "Noto Sans Regular"
         ],
         "text-max-width": 9,
         "text-offset": [
@@ -12391,8 +12373,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold",
-          "Noto Sans Bold"
+          "Noto Sans Regular"
         ],
         "text-max-width": 9,
         "text-offset": [
@@ -12469,7 +12450,6 @@
           ]
         ],
         "text-font": [
-          "Open Sans Regular",
           "Noto Sans Regular"
         ],
         "text-max-width": 14,
@@ -12552,8 +12532,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Bold",
-          "Noto Sans Bold"
+          "Noto Sans Regular"
         ],
         "text-max-width": 14,
         "text-padding": 2,
@@ -12613,8 +12592,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold Italic",
-          "Noto Sans Italic"
+          "Noto Sans Regular"
         ],
         "text-max-width": 6,
         "text-padding": 2,
@@ -12685,8 +12663,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold Italic",
-          "Noto Sans Italic"
+          "Noto Sans Regular"
         ],
         "text-max-width": 9,
         "text-offset": [
@@ -12766,8 +12743,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Bold",
-          "Noto Sans Bold"
+          "Noto Sans Regular"
         ],
         "text-max-width": 14,
         "text-offset": [
@@ -13013,7 +12989,6 @@
           ]
         ],
         "text-font": [
-          "Open Sans Regular",
           "Noto Sans Regular"
         ],
         "text-offset": [
@@ -13085,7 +13060,6 @@
           ]
         ],
         "text-font": [
-          "Open Sans Regular",
           "Noto Sans Regular"
         ],
         "text-offset": [
@@ -13546,8 +13520,7 @@
           ]
         },
         "text-font": [
-          "Open Sans Italic",
-          "Noto Sans Italic"
+          "Noto Sans Regular"
         ],
         "text-max-width": 9,
         "text-offset": [
@@ -13613,8 +13586,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Italic",
-          "Noto Sans Italic"
+          "Noto Sans Regular"
         ],
         "text-size": {
           "stops": [
@@ -13653,7 +13625,6 @@
       "layout": {
         "text-field": "{ref}",
         "text-font": [
-          "Open Sans Semibold",
           "Noto Sans Regular"
         ],
         "text-size": {
@@ -13716,7 +13687,6 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold",
           "Noto Sans Regular"
         ],
         "text-max-width": 10,
@@ -13821,8 +13791,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold Italic",
-          "Noto Sans Italic"
+          "Noto Sans Regular"
         ],
         "text-max-width": {
           "stops": [
@@ -13894,8 +13863,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold Italic",
-          "Noto Sans Italic"
+          "Noto Sans Regular"
         ],
         "text-size": 12,
         "visibility": "visible"
@@ -13972,8 +13940,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Bold",
-          "Noto Sans Bold"
+          "Noto Sans Regular"
         ],
         "text-max-width": 6,
         "text-offset": [
@@ -14047,7 +14014,6 @@
           ]
         },
         "text-font": [
-          "Open Sans Regular",
           "Noto Sans Regular"
         ],
         "text-line-height": 1.1,
@@ -14106,7 +14072,6 @@
           ]
         },
         "text-font": [
-          "Open Sans Regular",
           "Noto Sans Regular"
         ],
         "text-line-height": 1.1,
@@ -14159,7 +14124,6 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold",
           "Noto Sans Regular"
         ],
         "text-max-width": 8,
@@ -14220,7 +14184,6 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold",
           "Noto Sans Regular"
         ],
         "text-max-width": 8,
@@ -14290,8 +14253,7 @@
           ]
         ],
         "text-font": [
-          "Open Sans Regular",
-          "Noto Sans Bold"
+          "Noto Sans Regular"
         ],
         "text-letter-spacing": 0,
         "text-padding": 2,
@@ -14377,7 +14339,6 @@
           ]
         ],
         "text-font": [
-          "Open Sans Semibold",
           "Noto Sans Regular"
         ],
         "text-max-width": 8,
@@ -14469,7 +14430,6 @@
         "text-anchor": "bottom",
         "text-field": "{name:en}",
         "text-font": [
-          "Open Sans Semibold",
           "Noto Sans Regular"
         ],
         "text-max-width": 8,
@@ -14540,8 +14500,7 @@
         ],
         "text-field": "{name:en}",
         "text-font": [
-          "Open Sans Semibold",
-          "Noto Sans Bold"
+          "Noto Sans Regular"
         ],
         "text-max-width": 6.25,
         "text-size": [

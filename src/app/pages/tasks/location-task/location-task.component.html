@@ -6,7 +6,7 @@
 <div class="map-placeholder">
   <ng-map
     [mapId]="mapId"
-    [theme]="'light'"
+    [style]="osmStyle"
     (mapReady)="initMap()"
   />
   <ng-zoom-control [mapId]="mapId" position="top-right"></ng-zoom-control>
