@@ -1,4 +1,4 @@
-import { Component, inject, input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
 import { MapComponent, MarkerConfig, MarkerService, RouteComponent, RouteConfig, ZoomControlComponent } from 'ng-mapcn';
 import { LngLat, MapLibreMap } from 'maplibre-gl';
 import { fastDistanceMeters, LatLng } from '../tasks/location-task/distance-helper';
@@ -26,6 +26,7 @@ export class SmoothMapComponent implements OnInit, OnDestroy {
 
   protected readonly osmStyle = '/assets/openstreetmap/style.json';
   protected mapView?: MapLibreMap;
+  protected routeConfigs = signal<RouteConfig[]>([]);
 
   private markerAnimationFrame?: number;
   private readonly markerAnimationDurationMs = 350;
@@ -77,10 +78,11 @@ export class SmoothMapComponent implements OnInit, OnDestroy {
       return;
     }
     this.syncMarkers(this.mapView);
+    this.syncRoutes();
     this.syncInitialViewport(this.mapView);
   }
 
-  private syncMarkers(map: MapLibreMap) {
+  private syncMarkers(map: MapLibreMap): void {
     // @formatter:off
     for (const marker of this.markers()) {
       // @formatter:on
@@ -90,7 +92,14 @@ export class SmoothMapComponent implements OnInit, OnDestroy {
     }
   }
 
-  private syncInitialViewport(map: MapLibreMap) {
+  private syncRoutes(): void {
+    this.routeConfigs.set([]);
+    setTimeout(() => {
+      this.routeConfigs.set(this.routes());
+    });
+  }
+
+  private syncInitialViewport(map: MapLibreMap): void {
     if (!this.initialViewportApplied) {
       this.initialViewportApplied = true;
       requestAnimationFrame(() => {
@@ -128,7 +137,7 @@ export class SmoothMapComponent implements OnInit, OnDestroy {
     });
   }
 
-  public moveMarkerTo(markerId: string, nextPos: LatLng) {
+  public moveMarkerTo(markerId: string, nextPos: LatLng): void {
     const markerDef = this.markers().find(m => m.id === markerId);
     const marker = !markerDef ? null : this.markerService.getMarker(this.mapId(), markerId);
     if (!this.mapView || !markerDef || !marker) {
