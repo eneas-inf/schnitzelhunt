@@ -1,8 +1,8 @@
-import {Component, input, OnDestroy, OnInit, output, signal} from '@angular/core';
-import {TaskComponent} from '../tasks.page';
-import {TravelTask} from '../../../models/task';
-import {Geolocation, Position, WatchPositionCallback} from '@capacitor/geolocation';
-import {DecimalPipe} from '@angular/common';
+import { Component, input, OnDestroy, OnInit, output, signal } from '@angular/core';
+import { TaskComponent } from '../tasks.page';
+import { TravelTask } from '../../../models/task';
+import { Geolocation, Position, WatchPositionCallback } from '@capacitor/geolocation';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-travel-task',
@@ -30,11 +30,11 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
   }
 
   getTitle(): string {
-    return `Walk ${this.task().targetDistanceMeters} Meters`;
+    return `Walk ${ this.task().targetDistanceMeters } Meters`;
   }
 
-  getInstructions(): string | null {
-    return `${this.getMetersLeft()} Meters left..`;
+  getInstructions(): string {
+    return `${ this.getMetersLeft() } Meters left..`;
   }
 
   getMetersLeft(): number {
@@ -108,7 +108,7 @@ export class TravelTaskComponent implements TaskComponent<TravelTask>, OnInit, O
 
   private async stopTracking(): Promise<void> {
     if (this.watchId) {
-      await Geolocation.clearWatch({id: this.watchId});
+      await Geolocation.clearWatch({ id: this.watchId });
       this.watchId = null;
     }
   }

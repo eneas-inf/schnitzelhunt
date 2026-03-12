@@ -1,8 +1,8 @@
-import {Component, input, OnDestroy, OnInit, output} from '@angular/core';
-import {TaskComponent} from '../tasks.page';
-import {FlipTask} from '../../../models/task';
-import {PluginListenerHandle} from "@capacitor/core";
-import {Motion} from "@capacitor/motion";
+import { Component, input, OnDestroy, OnInit, output } from '@angular/core';
+import { TaskComponent } from '../tasks.page';
+import { FlipTask } from '../../../models/task';
+import { PluginListenerHandle } from '@capacitor/core';
+import { Motion } from '@capacitor/motion';
 
 @Component({
   selector: 'app-flip-task',
@@ -32,7 +32,7 @@ export class FlipTaskComponent implements TaskComponent<FlipTask>, OnInit, OnDes
     return 'Flip the phone';
   }
 
-  getInstructions(): string | null {
+  getInstructions(): string {
     return 'Flip the phone to complete the task.';
   }
 

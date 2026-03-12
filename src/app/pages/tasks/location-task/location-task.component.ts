@@ -34,6 +34,7 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
   protected currentPos = signal<LatLng | null>(null);
   protected farthestDistance = signal<number | null>(null);
   protected posWatchId?: CallbackID;
+  private solved: boolean = false;
 
   protected readonly metersLeft = computed<number>(() => {
     return !this.currentPos() ? 0 : fastDistanceMeters(this.currentPos()!, this.targetPos);
@@ -148,16 +149,13 @@ export class LocationTaskComponent implements TaskComponent<LocationTask>, OnIni
   }
 
   private checkIfClose(): void {
-    if (this.currentPos() && this.metersLeft() < this.closeEnough) {
+    if (!this.solved && this.currentPos() && this.metersLeft() < this.closeEnough) {
+      this.solved = true;
       this.taskSolved.emit();
     }
   }
 
   getTitle(): string {
     return `Go to ${ this.task().targetName }`;
-  }
-
-  getInstructions(): string | null {
-    return null;
   }
 }

@@ -23,8 +23,8 @@
 
       <ng-template #taskCompContainer/>
 
-      @let instructions = taskComponent?.getInstructions();
-      @if (instructions && !showSuccessPopup) {
+      @let instructions = taskComponent?.getInstructions?.();
+      @if (instructions) {
         <p class="instruction-text">{{ instructions }}</p>
       }
     </div>
@@ -52,7 +52,8 @@
         </ion-button>
       </div>
 
-      <ion-button expand="block" color="danger" class="surrender-btn" [disabled]="showSuccessPopup" (click)="surrender()">
+      <ion-button expand="block" color="danger" class="surrender-btn" [disabled]="showSuccessPopup"
+                  (click)="surrender()">
         Surrender
         <ion-icon slot="end" name="chevron-forward"></ion-icon>
       </ion-button>

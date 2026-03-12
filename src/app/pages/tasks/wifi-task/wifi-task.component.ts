@@ -40,7 +40,6 @@ export class WifiTaskComponent implements TaskComponent<WifiTask>, OnInit, OnDes
       }
     });
 
-    // Android does not always emit reliable network change events immediately.
     this.pollTimer = setInterval(() => {
       void this.refreshStatus();
     }, 1500);
@@ -68,7 +67,7 @@ export class WifiTaskComponent implements TaskComponent<WifiTask>, OnInit, OnDes
     return this.task().requireDisconnect ? 'Disconnect from WIFI' : 'Connect to WIFI';
   }
 
-  getInstructions(): string | null {
+  getConnectInstructions(): string {
     if (this.task().requireConnect && this.task().requireDisconnect) {
       return 'Disconnect and reconnect WIFI.';
     }
@@ -76,10 +75,6 @@ export class WifiTaskComponent implements TaskComponent<WifiTask>, OnInit, OnDes
       return 'Disconnect the device from WIFI.';
     }
     return 'Connect the device to WIFI.';
-  }
-
-  getCustomInstructions(): string {
-    return this.getInstructions() ?? '';
   }
 
   getTargetStatus(): 'Connected' | 'Disconnected' {

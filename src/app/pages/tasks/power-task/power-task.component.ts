@@ -4,7 +4,9 @@ import { PowerTask } from '../../../models/task';
 
 interface BatteryManagerLike extends EventTarget {
   charging: boolean;
+
   addEventListener(type: 'chargingchange', listener: EventListenerOrEventListenerObject): void;
+
   removeEventListener(type: 'chargingchange', listener: EventListenerOrEventListenerObject): void;
 }
 
@@ -42,7 +44,7 @@ export class PowerTaskComponent implements TaskComponent<PowerTask>, OnInit, OnD
     return 'Connect to power';
   }
 
-  getInstructions(): string | null {
+  getInstructions(): string {
     if (this.task().requireConnect && this.task().requireDisconnect) {
       return 'Disconnect and reconnect the charger.';
     }
@@ -52,7 +54,7 @@ export class PowerTaskComponent implements TaskComponent<PowerTask>, OnInit, OnD
     if (this.task().requireDisconnect) {
       return 'Disconnect the charger.';
     }
-    return null;
+    return '';
   }
 
   private async setupBatteryListener(): Promise<void> {
