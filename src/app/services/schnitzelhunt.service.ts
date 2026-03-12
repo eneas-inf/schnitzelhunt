@@ -232,10 +232,10 @@ export class SchnitzelhuntService {
 const TASKS = [
   {
     type: 'location',
-    targetName: 'Aldi Sursee',
+    targetName: 'Migros Kriens Mattenhof',
     targetPos: {
-      lat: 47.17059962188902,
-      lng: 8.095100796218317,
+      lat: 47.02760523058052,
+      lng: 8.300857384173224,
     },
   } satisfies LocationTask,
   {
@@ -263,11 +263,11 @@ const TASKS = [
 const SCHNITZELHUNTS: SchnitzelhuntInfo[] = [
   {
     id: 1,
-    name: 'Sursee Explorer Hunt',
+    name: 'Kriens Explorer Hunt',
     description: 'Explore the city\'s hidden gems.',
     difficulty: 'Easy',
     category: 'Exploration',
-    location: 'Sursee',
+    location: 'Kriens',
     tasks: TASKS,
   },
 ];
