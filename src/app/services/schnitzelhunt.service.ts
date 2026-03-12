@@ -234,8 +234,8 @@ const TASKS = [
     type: 'location',
     targetName: 'Migros Kriens Mattenhof',
     targetPos: {
-      lat: 46.96301778280854,
-      lng: 8.355001935060953,
+      lat: 47.02760523058052,
+      lng: 8.300857384173224,
     },
   } satisfies LocationTask,
   {
