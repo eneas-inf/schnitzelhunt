@@ -11,6 +11,12 @@
       </div>
     </div>
 
+    @if (username) {
+      <div class="username">
+        <h1>Hello, {{ username }}!</h1>
+      </div>
+    }
+
     <div class="footer-section">
       <ion-button expand="block" class="get-started-btn" (click)="usernameAlert()">
         Get Started

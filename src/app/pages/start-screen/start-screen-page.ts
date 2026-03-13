@@ -1,9 +1,9 @@
-import { Component, inject } from '@angular/core';
-import { IonButton, IonContent } from '@ionic/angular/standalone';
-import { Router } from '@angular/router';
-import { Dialog } from '@capacitor/dialog';
-import { UserService } from '../../services/user.service';
-import { PermissionService } from '../../services/permission.service';
+import {Component, inject, OnInit} from '@angular/core';
+import {IonButton, IonContent} from '@ionic/angular/standalone';
+import {Router} from '@angular/router';
+import {Dialog} from '@capacitor/dialog';
+import {UserService} from '../../services/user.service';
+import {PermissionService} from '../../services/permission.service';
 
 @Component({
   selector: 'app-start-screen',
@@ -12,10 +12,16 @@ import { PermissionService } from '../../services/permission.service';
   standalone: true,
   imports: [IonContent, IonButton],
 })
-export class StartScreenPage {
+export class StartScreenPage implements OnInit {
   private router: Router = inject(Router);
   private userService: UserService = inject(UserService);
   private permissionService: PermissionService = inject(PermissionService);
+
+  username: string = "";
+
+  async ngOnInit(): Promise<void> {
+    this.username = await this.userService.getUsername();
+  }
 
   async usernameAlert() {
     if (await this.userService.getUsername()) {
@@ -23,7 +29,7 @@ export class StartScreenPage {
       return;
     }
 
-    const { value, cancelled } = await Dialog.prompt({
+    const {value, cancelled} = await Dialog.prompt({
       title: 'Username',
       message: 'Please enter your username',
     });
