@@ -164,7 +164,7 @@ export class ResultsPage implements OnDestroy {
     const minutes = this.pad(Math.floor((totalSeconds % 3600) / 60));
     const seconds = this.pad(totalSeconds % 60);
     const duration = `${hours}:${minutes}:${seconds}`;
-    const url = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSc9v68rbCckYwcIekRLOaVZ0Qdm3eeh1xCEkgpn3d7pParfLQ/formResponse';
+    const url = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSe_rr4dfM11mWhSKwbjwoIzEDPi9ahrEsAsHhESicJ9zS9lTw/formResponse';
 
     const body = new URLSearchParams();
     body.set('entry.1860183935', name);
