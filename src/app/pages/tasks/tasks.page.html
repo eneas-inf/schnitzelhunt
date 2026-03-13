@@ -35,8 +35,8 @@
       }
     </div>
 
-    <div class="task-timer">{{ getRemainingTimeLabel() }}</div>
-    <ion-progress-bar [value]="getRemainingTimeProgress()"></ion-progress-bar>
+    <div class="task-timer" [style.color]="getTimerTextColor()">{{ getRemainingTimeLabel() }}</div>
+    <ion-progress-bar [value]="getRemainingTimeProgress()" [color]="getTimerColor()"></ion-progress-bar>
 
     <div class="action-buttons">
       <div class="next-task-slot">
