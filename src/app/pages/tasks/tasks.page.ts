@@ -74,7 +74,7 @@ export interface TaskComponent<T extends Task> {
   ],
 })
 export class TasksPage implements OnInit, OnDestroy {
-  private static readonly TASK_TIME_LIMIT_MS = 20 * 1000;
+  private static readonly TASK_TIME_LIMIT_MS = 5 * 60 * 1000;
 
   private readonly router = inject(Router);
   private readonly activeRoute = inject(ActivatedRoute);
