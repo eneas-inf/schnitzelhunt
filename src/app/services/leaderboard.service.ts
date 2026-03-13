@@ -1,7 +1,8 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Preferences } from '@capacitor/preferences';
 import { firstValueFrom, from, Observable } from 'rxjs';
+import Parser from '@gregoranders/csv';
 
 const LEADERBOARD_CACHE_STORAGE_KEY = 'leaderboard_cache';
 const LEADERBOARD_CSV_URL =
@@ -20,13 +21,6 @@ export interface LeaderboardRunPayload {
   schnitzelCount: number;
   potatoCount: number;
   duration: string;
-}
-
-interface AggregatedProfile {
-  name: string;
-  schnitzels: number;
-  potatoes: number;
-  hunts: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -83,86 +77,40 @@ export class LeaderboardService {
   }
 
   private parseLeaderboardCsv(csv: string): LeaderboardEntry[] {
-    const lines = csv
-      .split(/\r?\n/)
-      .map((line) => line.trim())
-      .filter((line) => line.length > 0);
-    if (lines.length <= 1) {
-      return [];
-    }
-
-    const aggregate = new Map<string, AggregatedProfile>();
-    for (const row of lines.slice(1)) {
-      const cols = this.parseCsvLine(row);
-      if (cols.length < 5) {
-        continue;
-      }
-
-      const name = (cols[1] ?? '').trim() || 'unknown';
-      const schnitzels = this.parseNumber(cols[3]);
-      const potatoes = this.parseNumber(cols[4]);
-
-      const current = aggregate.get(name);
-      if (current) {
-        current.schnitzels += schnitzels;
-        current.potatoes += potatoes;
-        current.hunts += 1;
+    const csvParser = new Parser();
+    csvParser.parse(csv);
+    const csvRows = csvParser.json as {
+      Zeitstempel: string,
+      Name: string,
+      Dauer: string,
+      Schnitzel: string,
+      Kartoffeln: string,
+    }[];
+    const people = new Map<string, LeaderboardEntry>();
+    for (const row of csvRows) {
+      const points = this.calculatePoints(parseInt(row.Schnitzel, 10) || 0, parseInt(row.Kartoffeln, 10) || 0);
+      let person = people.get(row.Name);
+      if (person) {
+        person.hunts++;
+        person.points += points;
       } else {
-        aggregate.set(name, {
-          name,
-          schnitzels,
-          potatoes,
+        person = {
+          name: row.Name,
+          points,
           hunts: 1,
-        });
+        };
+        people.set(row.Name, person);
       }
     }
-
-    return Array.from(aggregate.values())
-      .map((entry) => ({
-        name: entry.name,
-        hunts: entry.hunts,
-        points: this.calculatePoints(entry.schnitzels, entry.potatoes),
-      }))
-      .sort((a, b) => {
-        if (b.points !== a.points) {
-          return b.points - a.points;
-        }
-        if (b.hunts !== a.hunts) {
-          return b.hunts - a.hunts;
-        }
-        return a.name.localeCompare(b.name);
-      });
-  }
-
-  private parseCsvLine(line: string): string[] {
-    const values: string[] = [];
-    let current = '';
-    let inQuotes = false;
-
-    for (let i = 0; i < line.length; i++) {
-      const ch = line[i]!;
-      if (ch === '"') {
-        const next = line[i + 1];
-        if (inQuotes && next === '"') {
-          current += '"';
-          i++;
-        } else {
-          inQuotes = !inQuotes;
-        }
-      } else if (ch === ',' && !inQuotes) {
-        values.push(current);
-        current = '';
-      } else {
-        current += ch;
+    return Array.from(people.values()).sort((e1, e2) => {
+      if (e2.points !== e1.points) {
+        return e2.points - e1.points;
       }
-    }
-    values.push(current);
-    return values;
-  }
-
-  private parseNumber(value: string | undefined): number {
-    const parsed = Number((value ?? '').trim().replace(',', '.'));
-    return Number.isFinite(parsed) ? parsed : 0;
+      if (e2.hunts !== e1.hunts) {
+        return e2.hunts - e1.hunts;
+      }
+      return e1.name.localeCompare(e2.name);
+    });
   }
 
   public calculatePoints(schnitzels: number, potatoes: number): number {

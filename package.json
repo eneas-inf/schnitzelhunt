@@ -36,6 +36,7 @@
     "@capacitor/network": "^8.0.1",
     "@capacitor/preferences": "^8.0.1",
     "@capacitor/status-bar": "8.0.1",
+    "@gregoranders/csv": "^0.0.13",
     "@ionic/angular": "^8.0.0",
     "ionicons": "^7.0.0",
     "jsqr": "^1.4.0",

@@ -41,11 +41,7 @@
               "node_modules/maplibre-gl/dist/maplibre-gl.css"
             ],
             "scripts": [],
-            "browser": "src/main.ts",
-            "externalDependencies": [
-              "jsqr",
-              "maplibre-gl"
-            ]
+            "browser": "src/main.ts"
           },
           "configurations": {
             "production": {
