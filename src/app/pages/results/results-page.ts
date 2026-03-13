@@ -48,6 +48,14 @@ export class ResultsPage implements OnDestroy {
   displayPotatoes = 0;
   displayDurationMs = 0;
   displayPoints = 0;
+  confettiPieces: Array<{
+    left: number;
+    delay: number;
+    duration: number;
+    color: string;
+    rotate: number;
+    size: number;
+  }> = [];
 
   private animationFrameId: number | null = null;
   private animationStartedAt = 0;
@@ -58,6 +66,7 @@ export class ResultsPage implements OnDestroy {
 
     this.route.queryParams.subscribe(async params => {
       this.status = params['status'] || 'success';
+      this.confettiPieces = this.status === 'success' ? this.createConfettiPieces() : [];
       await this.loadStatsFromStorage(params);
       await this.sendToLeaderboard();
       this.startCountUpAnimation();
@@ -180,5 +189,24 @@ export class ResultsPage implements OnDestroy {
         console.warn('CORS warning (usually successful anyway)', err);
       },
     });
+  }
+
+  private createConfettiPieces(): Array<{
+    left: number;
+    delay: number;
+    duration: number;
+    color: string;
+    rotate: number;
+    size: number;
+  }> {
+    const colors = ['#22c55e', '#3b82f6', '#f59e0b', '#ef4444', '#a855f7'];
+    return Array.from({ length: 52 }, (_, index) => ({
+      left: Math.round(Math.random() * 100),
+      delay: Math.random() * 0.9,
+      duration: 2.2 + Math.random() * 1.6,
+      color: colors[index % colors.length]!,
+      rotate: Math.round(Math.random() * 360),
+      size: 6 + Math.round(Math.random() * 6),
+    }));
   }
 }

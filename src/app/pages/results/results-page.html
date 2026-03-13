@@ -5,6 +5,23 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="results-content">
+  @if (status === 'success') {
+    <div class="confetti-layer" aria-hidden="true">
+      @for (piece of confettiPieces; track piece.left + ':' + piece.delay + ':' + piece.rotate) {
+        <span
+          class="confetti-piece"
+          [style.left.%]="piece.left"
+          [style.animation-delay.s]="piece.delay"
+          [style.animation-duration.s]="piece.duration"
+          [style.background]="piece.color"
+          [style.transform]="'rotate(' + piece.rotate + 'deg)'"
+          [style.width.px]="piece.size"
+          [style.height.px]="piece.size + 6"
+        ></span>
+      }
+    </div>
+  }
+
   <div class="results-wrapper">
     <h1 class="result-title">Schnitzelhunt overview:</h1>
 
