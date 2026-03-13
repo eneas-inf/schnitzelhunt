@@ -165,7 +165,7 @@ export class LeaderboardService {
     return Number.isFinite(parsed) ? parsed : 0;
   }
 
-  private calculatePoints(schnitzels: number, potatoes: number): number {
+  public calculatePoints(schnitzels: number, potatoes: number): number {
     return Math.max(0, (schnitzels * 10) - (potatoes * 5));
   }
 }

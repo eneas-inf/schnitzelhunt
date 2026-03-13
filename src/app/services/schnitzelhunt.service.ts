@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { ActiveSchnitzelhunt, CompletedSchnitzelhunt, SchnitzelhuntInfo } from '../models/schnitzelhunt';
 import { from, Observable, of, switchMap, throwError } from 'rxjs';
 import { FlipTask, LocationTask, PowerTask, QrTask, TravelTask, WifiTask } from '../models/task';
 import { Preferences } from '@capacitor/preferences';
+import {LeaderboardService} from "./leaderboard.service";
 
 const ACTIVE_HUNT_STORAGE_KEY = 'active_hunt_progress';
 const COMPLETED_HUNTS_STORAGE_KEY = 'completed_hunts';
@@ -30,6 +31,7 @@ interface PersistedCompletedHunt {
   providedIn: 'root',
 })
 export class SchnitzelhuntService {
+  private readonly leaderboardService=inject(LeaderboardService);
   private activeHuntsId = 1;
   private completedHuntsId = 1;
   private activeHunts: Map<number, ActiveSchnitzelhunt> = new Map();
@@ -76,7 +78,7 @@ export class SchnitzelhuntService {
       potatoes: activeHunt.potatoes,
       completionDate: new Date(),
       durationMs: new Date().getTime() - activeHunt.startTime.getTime(),
-      points: Math.max(0, (activeHunt.schnitzels * 10) - (activeHunt.potatoes * 5)),
+      points: this.leaderboardService.calculatePoints(activeHunt.schnitzels, activeHunt.potatoes),
     };
     this.activeHunts.delete(activeHunt.id);
     this.completedHunts.set(completed.id, completed);
