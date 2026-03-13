@@ -47,12 +47,20 @@
     <div class="action-buttons">
       <div class="next-task-slot">
         @if (showSuccessPopup) {
-          <div class="success-slide-card">
-            <div class="success-slide-header">Task completed successfully! 🎉</div>
-            <div class="success-slide-icon">
-              <ion-icon name="checkmark-circle"></ion-icon>
+          <div class="success-slide-card" [class.success-slide-card--skipped]="currentTaskSkipped">
+            <div class="success-slide-header">
+              {{ currentTaskSkipped ? 'Task skipped 🫢' : 'Task completed successfully! 🎉' }}
             </div>
-            <div class="success-slide-message">Congrats! You earned a schnitzel.</div>
+            <div class="success-slide-icon">
+              <ion-icon [name]="currentTaskSkipped ? 'warning-outline' : 'checkmark-circle'"></ion-icon>
+            </div>
+            <div class="success-slide-message">
+              {{
+                this.currentTaskSkipped
+                  ? 'No schnitzel for this one, let’s move on to the next task.'
+                  : 'Congrats! You earned a schnitzel.'
+              }}
+            </div>
           </div>
         }
 

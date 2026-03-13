@@ -1,50 +1,21 @@
-import {
-  Component,
-  inject,
-  inputBinding,
-  InputSignal,
-  OnDestroy,
-  OnInit,
-  outputBinding,
-  OutputRef,
-  signal,
-  Type,
-  viewChild,
-  ViewContainerRef
-} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {
-  IonButton,
-  IonContent,
-  IonHeader,
-  IonIcon,
-  IonProgressBar,
-  IonTitle,
-  IonToolbar
-} from '@ionic/angular/standalone';
-import {ActivatedRoute, Router, RouterModule} from '@angular/router';
-import {
-  batteryChargingOutline,
-  checkmarkCircle,
-  chevronForward,
-  navigateCircleOutline,
-  phonePortraitOutline,
-  qrCodeOutline,
-  wifiOutline
-} from 'ionicons/icons';
-import {SchnitzelhuntService} from '../../services/schnitzelhunt.service';
-import {ActiveSchnitzelhunt} from '../../models/schnitzelhunt';
-import {firstValueFrom} from 'rxjs';
-import {Task} from '../../models/task';
-import {addIcons} from 'ionicons';
-import {LocationTaskComponent} from './location-task/location-task.component';
-import {TravelTaskComponent} from './travel-task/travel-task.component';
-import {QrTaskComponent} from './qr-task/qr-task.component';
-import {FlipTaskComponent} from './flip-task/flip-task.component';
-import {PowerTaskComponent} from './power-task/power-task.component';
-import {WifiTaskComponent} from './wifi-task/wifi-task.component';
-import {vibratePattern} from '../../services/vibration';
+import { Component, inject, inputBinding, InputSignal, OnDestroy, OnInit, outputBinding, OutputRef, signal, Type, viewChild, ViewContainerRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonButton, IonContent, IonHeader, IonIcon, IonProgressBar, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { batteryChargingOutline, checkmarkCircle, chevronForward, navigateCircleOutline, phonePortraitOutline, qrCodeOutline, warningOutline, wifiOutline } from 'ionicons/icons';
+import { SchnitzelhuntService } from '../../services/schnitzelhunt.service';
+import { ActiveSchnitzelhunt } from '../../models/schnitzelhunt';
+import { firstValueFrom } from 'rxjs';
+import { Task } from '../../models/task';
+import { addIcons } from 'ionicons';
+import { LocationTaskComponent } from './location-task/location-task.component';
+import { TravelTaskComponent } from './travel-task/travel-task.component';
+import { QrTaskComponent } from './qr-task/qr-task.component';
+import { FlipTaskComponent } from './flip-task/flip-task.component';
+import { PowerTaskComponent } from './power-task/power-task.component';
+import { WifiTaskComponent } from './wifi-task/wifi-task.component';
+import { vibratePattern } from '../../services/vibration';
 
 export interface TaskComponent<T extends Task> {
   task: InputSignal<T>;
@@ -83,7 +54,7 @@ export class TasksPage implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly activeRoute = inject(ActivatedRoute);
   private readonly huntService = inject(SchnitzelhuntService);
-  private readonly taskCompRef = viewChild.required('taskCompContainer', {read: ViewContainerRef});
+  private readonly taskCompRef = viewChild.required('taskCompContainer', { read: ViewContainerRef });
 
   protected hunt: ActiveSchnitzelhunt | null = null;
   protected currentTask: Task | null = null;
@@ -91,7 +62,7 @@ export class TasksPage implements OnInit, OnDestroy {
   protected taskComponent: TaskComponent<any> | null = null;
   private currentTaskStartedAt = 0;
   private currentTaskSolved = false;
-  private currentTaskSkipped = false;
+  protected currentTaskSkipped = false;
 
   protected remainingTimeMs = TasksPage.TASK_TIME_LIMIT_MS;
   private taskTimerId: ReturnType<typeof setInterval> | null = null;
@@ -106,6 +77,7 @@ export class TasksPage implements OnInit, OnDestroy {
       batteryChargingOutline,
       wifiOutline,
       chevronForward,
+      warningOutline,
     });
   }
 
@@ -236,7 +208,7 @@ export class TasksPage implements OnInit, OnDestroy {
     this.stopTaskTimer();
 
     if (!this.hunt) {
-      this.router.navigate(['/results'], {queryParams: {status: 'failed'}});
+      this.router.navigate(['/results'], { queryParams: { status: 'failed' } });
       return;
     }
 
@@ -298,7 +270,7 @@ export class TasksPage implements OnInit, OnDestroy {
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
 
-    return `Time left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+    return `Time left: ${ minutes }:${ seconds.toString().padStart(2, '0') }`;
   }
 
   protected getRemainingTimeProgress(): number {
