@@ -12,7 +12,13 @@
     </div>
 
     <div class="task-visual">
-      @if (taskComponent?.icon) {
+      @if (taskComponent?.imageSrc) {
+        <div class="icon-visual">
+          <img [src]="taskComponent!.imageSrc"
+               [class]="taskComponent!.iconType === 'rotate' ? 'rotate-animation' : undefined"
+               alt="Task visual"/>
+        </div>
+      } @else if (taskComponent?.icon) {
         <div class="icon-visual">
           <ion-icon [name]="taskComponent!.icon" [ngClass]="{
           'large-icon': taskComponent!.iconType === 'large',

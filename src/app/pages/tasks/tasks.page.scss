@@ -53,12 +53,6 @@
   color: #333;
 }
 
-.rotate-animation {
-  font-size: 100px;
-  color: #333;
-  transform: rotate(-15deg);
-}
-
 .task-timer {
   font-size: 1.1rem;
   font-weight: 600;
@@ -169,4 +163,21 @@
 .timeout-slide-message {
   font-size: 15px;
   font-weight: 500;
+}
+
+.rotate-animation {
+  animation: phone-swing 1.6s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+@keyframes phone-swing {
+  0% {
+    transform: rotate(-12deg);
+  }
+  50% {
+    transform: rotate(12deg);
+  }
+  100% {
+    transform: rotate(-12deg);
+  }
 }

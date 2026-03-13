@@ -13,7 +13,7 @@ import { Motion } from '@capacitor/motion';
 export class FlipTaskComponent implements TaskComponent<FlipTask>, OnInit, OnDestroy {
   readonly task = input.required<FlipTask>();
   readonly taskSolved = output();
-  readonly icon = 'phone-portrait-outline';
+  readonly imageSrc = 'assets/rotate-phone.png';
   readonly iconType = 'rotate';
 
   private motionHandler: PluginListenerHandle | null = null;

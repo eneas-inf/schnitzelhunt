@@ -46,6 +46,7 @@ export interface TaskComponent<T extends Task> {
   task: InputSignal<T>;
   taskSolved: OutputRef<void>;
   icon?: string;
+  imageSrc?: string;
   iconType?: 'rotate' | 'large';
 
   getTitle(): string;
