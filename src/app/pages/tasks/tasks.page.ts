@@ -267,6 +267,7 @@ export class TasksPage implements OnInit, OnDestroy {
     this.stopTaskTimer();
     this.remainingTimeMs = TasksPage.TASK_TIME_LIMIT_MS;
     this.currentTaskStartedAt = Date.now();
+    this.taskTimeout = false;
 
     this.taskTimerId = setInterval(() => {
       const elapsedMs = Date.now() - this.currentTaskStartedAt;
@@ -286,6 +287,10 @@ export class TasksPage implements OnInit, OnDestroy {
       clearInterval(this.taskTimerId);
       this.taskTimerId = null;
     }
+  }
+
+  protected showTimeoutMessage(): boolean {
+    return this.taskTimeout && !this.currentTaskSolved;
   }
 
   protected getRemainingTimeLabel(): string {

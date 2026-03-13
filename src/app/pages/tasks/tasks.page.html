@@ -35,6 +35,12 @@
       }
     </div>
 
+    @if (showTimeoutMessage()) {
+      <div class="timeout-inline-card">
+        <div class="timeout-slide-header">Time's up!</div>
+        <div class="timeout-slide-message">You will receive a potato.</div>
+      </div>
+    }
     <div class="task-timer" [style.color]="getTimerTextColor()">{{ getRemainingTimeLabel() }}</div>
     <ion-progress-bar [value]="getRemainingTimeProgress()" [color]="getTimerColor()"></ion-progress-bar>
 
