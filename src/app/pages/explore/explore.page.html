@@ -1,8 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      <div style="display: flex; align-items: center;">
-        <ion-icon name="compass" style="margin-right: 8px; font-size: 1.2em;"></ion-icon>
+      <div class="page-header">
+        <ion-icon name="compass"></ion-icon>
         Explore
       </div>
     </ion-title>
@@ -21,15 +21,18 @@
     <ion-chip
       [color]="sortKey === 'category' ? 'primary' : 'medium'"
       (click)="setSortKey('category')"
-    >Category</ion-chip>
+    >Category
+    </ion-chip>
     <ion-chip
       [color]="sortKey === 'difficulty' ? 'primary' : 'medium'"
       (click)="setSortKey('difficulty')"
-    >Difficulty</ion-chip>
+    >Difficulty
+    </ion-chip>
     <ion-chip
       [color]="sortKey === 'location' ? 'primary' : 'medium'"
       (click)="setSortKey('location')"
-    >Location</ion-chip>
+    >Location
+    </ion-chip>
   </div>
 
   @if (visibleHunts.length === 0) {
