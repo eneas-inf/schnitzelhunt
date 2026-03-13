@@ -1,4 +1,4 @@
-import { Component, inject, InputSignal, OnDestroy, OnInit, OutputRef, Type, viewChild, ViewContainerRef } from '@angular/core';
+import { Component, inject, inputBinding, InputSignal, OnDestroy, OnInit, outputBinding, OutputRef, signal, Type, viewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonButton, IonContent, IonHeader, IonIcon, IonProgressBar, IonTitle, IonToolbar } from '@ionic/angular/standalone';
@@ -103,9 +103,13 @@ export class TasksPage implements OnInit, OnDestroy {
     }
     this.taskCompRef().clear();
     this.taskComponent = null;
-    const cRef = this.taskCompRef().createComponent(this.getTaskComponentType());
-    cRef.setInput('task', this.currentTask);
-    cRef.instance.taskSolved.subscribe(() => this.onTaskSolved());
+    const cRef = this.taskCompRef().createComponent(
+      this.getTaskComponentType(), {
+        bindings: [
+          inputBinding('task' as 'task', signal(this.currentTask)),
+          outputBinding('taskSolved' as 'taskSolved', () => this.onTaskSolved()),
+        ],
+      });
     cRef.changeDetectorRef.detectChanges();
     this.taskComponent = cRef.instance;
   }

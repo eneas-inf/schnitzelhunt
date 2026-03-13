@@ -19,6 +19,7 @@ interface BatteryManagerLike extends EventTarget {
 export class PowerTaskComponent implements TaskComponent<PowerTask>, OnInit, OnDestroy {
   readonly task = input.required<PowerTask>();
   readonly taskSolved = output();
+  readonly imageSrc = 'assets/tasks/charge.png';
 
   protected statusText = 'Checking charging status...';
   protected isCharging = false;
