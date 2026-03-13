@@ -44,19 +44,9 @@
           </div>
         }
 
-        @if (showTimeoutPopup) {
-          <div class="timeout-slide-card">
-            <div class="timeout-slide-header">Time's up! ⏳</div>
-            <div class="timeout-slide-icon">
-              <ion-icon name="hourglass-outline"></ion-icon>
-            </div>
-            <div class="timeout-slide-message">You ran out of time for this task.</div>
-          </div>
-        }
-
         <ion-button
           expand="block"
-          [color]="showSuccessPopup ? undefined : showTimeoutPopup ? undefined : 'light'"
+          [color]="showSuccessPopup ? undefined : 'light'"
           class="action-button"
           (click)="onNextTaskClick()"
         >
@@ -69,7 +59,7 @@
         expand="block"
         color="danger"
         class="action-button"
-        [disabled]="showSuccessPopup || showTimeoutPopup"
+        [disabled]="showSuccessPopup"
         (click)="surrender()">
         Surrender
         <ion-icon slot="end" name="chevron-forward"></ion-icon>

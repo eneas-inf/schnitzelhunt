@@ -29,7 +29,6 @@ import {
   phonePortraitOutline,
   qrCodeOutline,
   wifiOutline,
-  hourglassOutline
 } from 'ionicons/icons';
 import {SchnitzelhuntService} from '../../services/schnitzelhunt.service';
 import {ActiveSchnitzelhunt} from '../../models/schnitzelhunt';
@@ -74,7 +73,7 @@ export interface TaskComponent<T extends Task> {
   ],
 })
 export class TasksPage implements OnInit, OnDestroy {
-  private static readonly TASK_TIME_LIMIT_MS = 5 * 60 * 1000;
+  private static readonly TASK_TIME_LIMIT_MS = 20 * 1000;
 
   private readonly router = inject(Router);
   private readonly activeRoute = inject(ActivatedRoute);
@@ -84,7 +83,6 @@ export class TasksPage implements OnInit, OnDestroy {
   protected hunt: ActiveSchnitzelhunt | null = null;
   protected currentTask: Task | null = null;
   protected showSuccessPopup = false;
-  protected showTimeoutPopup = false;
   protected taskComponent: TaskComponent<any> | null = null;
   private currentTaskStartedAt = 0;
   private currentTaskSolved = false;
@@ -92,6 +90,7 @@ export class TasksPage implements OnInit, OnDestroy {
 
   protected remainingTimeMs = TasksPage.TASK_TIME_LIMIT_MS;
   private taskTimerId: ReturnType<typeof setInterval> | null = null;
+  private taskTimeout: boolean = false;
 
   constructor() {
     addIcons({
@@ -102,7 +101,6 @@ export class TasksPage implements OnInit, OnDestroy {
       batteryChargingOutline,
       wifiOutline,
       chevronForward,
-      hourglassOutline
     });
   }
 
@@ -157,7 +155,7 @@ export class TasksPage implements OnInit, OnDestroy {
   }
 
   onNextTaskClick() {
-    if (this.showSuccessPopup || this.showTimeoutPopup) {
+    if (this.showSuccessPopup) {
       this.nextTask();
       return;
     }
@@ -182,7 +180,7 @@ export class TasksPage implements OnInit, OnDestroy {
   }
 
   getNextButtonLabel(): string {
-    return this.showSuccessPopup || this.currentTaskSolved || this.showTimeoutPopup ? 'Next Task' : 'Skip Task';
+    return this.showSuccessPopup || this.currentTaskSolved ? 'Next Task' : 'Skip Task';
   }
 
   skipTask() {
@@ -204,7 +202,6 @@ export class TasksPage implements OnInit, OnDestroy {
 
     this.applyCurrentTaskReward(this.hunt);
     this.showSuccessPopup = false;
-    this.showTimeoutPopup = false;
     if (this.hunt.currentTask < this.hunt.info.tasks.length - 1) {
       this.hunt.currentTask++;
       this.currentTask = this.hunt.info.tasks[this.hunt.currentTask] ?? null;
@@ -248,16 +245,11 @@ export class TasksPage implements OnInit, OnDestroy {
       return;
     }
 
-    const elapsedMs = Date.now() - this.currentTaskStartedAt;
-    const exceededLimit = elapsedMs > TasksPage.TASK_TIME_LIMIT_MS;
-    if (this.currentTaskSolved && exceededLimit) {
-      hunt.schnitzels += 1;
-      hunt.potatoes += 1;
-      return;
-    }
-
     if (this.currentTaskSolved) {
       hunt.schnitzels += 1;
+      if (this.taskTimeout) {
+        hunt.potatoes += 1;
+      }
     }
   }
 
@@ -274,7 +266,7 @@ export class TasksPage implements OnInit, OnDestroy {
 
       if (remaining <= 0) {
         this.stopTaskTimer();
-        this.onTaskTimedOut();
+        this.taskTimeout = true;
       }
     }, 1000);
   }
@@ -284,17 +276,6 @@ export class TasksPage implements OnInit, OnDestroy {
       clearInterval(this.taskTimerId);
       this.taskTimerId = null;
     }
-  }
-
-  private onTaskTimedOut(): void {
-    if (this.showTimeoutPopup) {
-      return;
-    }
-
-    if (this.hunt) {
-      this.hunt.potatoes += 1;
-    }
-    this.showTimeoutPopup = true;
   }
 
   protected getRemainingTimeLabel(): string {
