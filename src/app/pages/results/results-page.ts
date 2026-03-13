@@ -15,7 +15,7 @@ import { restaurant, egg, time, trophy } from 'ionicons/icons';
 import { SchnitzelhuntService } from '../../services/schnitzelhunt.service';
 import { firstValueFrom } from 'rxjs';
 import { UserService } from '../../services/user.service';
-import { HttpClient } from '@angular/common/http';
+import { LeaderboardService } from '../../services/leaderboard.service';
 
 @Component({
   selector: 'app-results',
@@ -38,7 +38,7 @@ export class ResultsPage implements OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly huntService = inject(SchnitzelhuntService);
   private readonly userService = inject(UserService);
-  private readonly http = inject(HttpClient);
+  private readonly leaderboardService = inject(LeaderboardService);
   status: 'success' | 'failed' = 'success';
   schnitzels = 0;
   potatoes = 0;
@@ -173,21 +173,11 @@ export class ResultsPage implements OnDestroy {
     const minutes = this.pad(Math.floor((totalSeconds % 3600) / 60));
     const seconds = this.pad(totalSeconds % 60);
     const duration = `${hours}:${minutes}:${seconds}`;
-    const url = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSe_rr4dfM11mWhSKwbjwoIzEDPi9ahrEsAsHhESicJ9zS9lTw/formResponse';
-
-    const body = new URLSearchParams();
-    body.set('entry.1860183935', name);
-    body.set('entry.985590604', duration);
-    body.set('entry.564282981', this.schnitzels.toString());
-    body.set('entry.1079317865', this.potatoes.toString());
-
-    this.http.post(url, body.toString(), {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    }).subscribe({
-      next: () => console.log('Data successfully sent!'),
-      error: (err) => {
-        console.warn('CORS warning (usually successful anyway)', err);
-      },
+    await this.leaderboardService.submitOnlineRun({
+      name,
+      schnitzelCount: this.schnitzels,
+      potatoCount: this.potatoes,
+      duration,
     });
   }
 
