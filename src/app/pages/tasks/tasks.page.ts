@@ -1,20 +1,47 @@
-import { Component, inject, InputSignal, OnInit, OutputRef, Type, viewChild, ViewContainerRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonButton, IonContent, IonHeader, IonIcon, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { batteryChargingOutline, checkmarkCircle, chevronForward, navigateCircleOutline, phonePortraitOutline, qrCodeOutline, wifiOutline } from 'ionicons/icons';
-import { SchnitzelhuntService } from '../../services/schnitzelhunt.service';
-import { ActiveSchnitzelhunt } from '../../models/schnitzelhunt';
-import { firstValueFrom } from 'rxjs';
-import { Task } from '../../models/task';
-import { addIcons } from 'ionicons';
-import { LocationTaskComponent } from './location-task/location-task.component';
-import { TravelTaskComponent } from './travel-task/travel-task.component';
-import { QrTaskComponent } from './qr-task/qr-task.component';
-import { FlipTaskComponent } from './flip-task/flip-task.component';
-import { PowerTaskComponent } from './power-task/power-task.component';
-import { WifiTaskComponent } from './wifi-task/wifi-task.component';
+import {
+  Component,
+  inject,
+  InputSignal,
+  OnDestroy,
+  OnInit,
+  OutputRef,
+  Type,
+  viewChild,
+  ViewContainerRef
+} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonProgressBar,
+  IonTitle,
+  IonToolbar
+} from '@ionic/angular/standalone';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
+import {
+  batteryChargingOutline,
+  checkmarkCircle,
+  chevronForward,
+  navigateCircleOutline,
+  phonePortraitOutline,
+  qrCodeOutline,
+  wifiOutline,
+  hourglassOutline
+} from 'ionicons/icons';
+import {SchnitzelhuntService} from '../../services/schnitzelhunt.service';
+import {ActiveSchnitzelhunt} from '../../models/schnitzelhunt';
+import {firstValueFrom} from 'rxjs';
+import {Task} from '../../models/task';
+import {addIcons} from 'ionicons';
+import {LocationTaskComponent} from './location-task/location-task.component';
+import {TravelTaskComponent} from './travel-task/travel-task.component';
+import {QrTaskComponent} from './qr-task/qr-task.component';
+import {FlipTaskComponent} from './flip-task/flip-task.component';
+import {PowerTaskComponent} from './power-task/power-task.component';
+import {WifiTaskComponent} from './wifi-task/wifi-task.component';
 
 export interface TaskComponent<T extends Task> {
   task: InputSignal<T>;
@@ -42,24 +69,29 @@ export interface TaskComponent<T extends Task> {
     IonTitle,
     IonButton,
     IonIcon,
+    IonProgressBar,
 
   ],
 })
-export class TasksPage implements OnInit {
-  private static readonly TASK_TIME_LIMIT_MS = 5 * 60 * 1000;
+export class TasksPage implements OnInit, OnDestroy {
+  private static readonly TASK_TIME_LIMIT_MS = 20 * 1000;
 
   private readonly router = inject(Router);
   private readonly activeRoute = inject(ActivatedRoute);
   private readonly huntService = inject(SchnitzelhuntService);
-  private readonly taskCompRef = viewChild.required('taskCompContainer', { read: ViewContainerRef });
+  private readonly taskCompRef = viewChild.required('taskCompContainer', {read: ViewContainerRef});
 
   protected hunt: ActiveSchnitzelhunt | null = null;
   protected currentTask: Task | null = null;
   protected showSuccessPopup = false;
+  protected showTimeoutPopup = false;
   protected taskComponent: TaskComponent<any> | null = null;
   private currentTaskStartedAt = 0;
   private currentTaskSolved = false;
   private currentTaskSkipped = false;
+
+  protected remainingTimeMs = TasksPage.TASK_TIME_LIMIT_MS;
+  private taskTimerId: ReturnType<typeof setInterval> | null = null;
 
   constructor() {
     addIcons({
@@ -70,6 +102,7 @@ export class TasksPage implements OnInit {
       batteryChargingOutline,
       wifiOutline,
       chevronForward,
+      hourglassOutline
     });
   }
 
@@ -83,6 +116,11 @@ export class TasksPage implements OnInit {
     this.currentTaskSkipped = false;
     this.huntService.persistActiveHuntProgress(this.hunt);
     this.createTaskComponent();
+    this.startTaskTimer();
+  }
+
+  ngOnDestroy(): void {
+    this.stopTaskTimer();
   }
 
   private createTaskComponent() {
@@ -119,7 +157,7 @@ export class TasksPage implements OnInit {
   }
 
   onNextTaskClick() {
-    if (this.showSuccessPopup) {
+    if (this.showSuccessPopup || this.showTimeoutPopup) {
       this.nextTask();
       return;
     }
@@ -138,18 +176,20 @@ export class TasksPage implements OnInit {
   }
 
   private onTaskSolved() {
+    this.stopTaskTimer();
     this.currentTaskSolved = true;
     this.completeTask();
   }
 
   getNextButtonLabel(): string {
-    return this.showSuccessPopup || this.currentTaskSolved ? 'Next Task' : 'Skip Task';
+    return this.showSuccessPopup || this.currentTaskSolved || this.showTimeoutPopup ? 'Next Task' : 'Skip Task';
   }
 
   skipTask() {
     if (this.showSuccessPopup) {
       return;
     }
+    this.stopTaskTimer();
     this.currentTaskSkipped = true;
     this.currentTaskSolved = true;
     this.completeTask();
@@ -160,8 +200,11 @@ export class TasksPage implements OnInit {
       return;
     }
 
+    this.stopTaskTimer();
+
     this.applyCurrentTaskReward(this.hunt);
     this.showSuccessPopup = false;
+    this.showTimeoutPopup = false;
     if (this.hunt.currentTask < this.hunt.info.tasks.length - 1) {
       this.hunt.currentTask++;
       this.currentTask = this.hunt.info.tasks[this.hunt.currentTask] ?? null;
@@ -170,6 +213,7 @@ export class TasksPage implements OnInit {
       this.currentTaskSkipped = false;
       this.huntService.persistActiveHuntProgress(this.hunt);
       this.createTaskComponent();
+      this.startTaskTimer();
     } else {
       const completed = this.huntService.completeSchnitzelhunt(this.hunt);
       this.router.navigate(['/results'], {
@@ -182,8 +226,10 @@ export class TasksPage implements OnInit {
   }
 
   surrender() {
+    this.stopTaskTimer();
+
     if (!this.hunt) {
-      this.router.navigate(['/results'], { queryParams: { status: 'failed' } });
+      this.router.navigate(['/results'], {queryParams: {status: 'failed'}});
       return;
     }
 
@@ -213,5 +259,53 @@ export class TasksPage implements OnInit {
     if (this.currentTaskSolved) {
       hunt.schnitzels += 1;
     }
+  }
+
+  private startTaskTimer(): void {
+    this.stopTaskTimer();
+    this.remainingTimeMs = TasksPage.TASK_TIME_LIMIT_MS;
+    this.currentTaskStartedAt = Date.now();
+
+    this.taskTimerId = setInterval(() => {
+      const elapsedMs = Date.now() - this.currentTaskStartedAt;
+      const remaining = Math.max(0, TasksPage.TASK_TIME_LIMIT_MS - elapsedMs);
+
+      this.remainingTimeMs = remaining;
+
+      if (remaining <= 0) {
+        this.stopTaskTimer();
+        this.onTaskTimedOut();
+      }
+    }, 1000);
+  }
+
+  private stopTaskTimer(): void {
+    if (this.taskTimerId) {
+      clearInterval(this.taskTimerId);
+      this.taskTimerId = null;
+    }
+  }
+
+  private onTaskTimedOut(): void {
+    if (this.showTimeoutPopup) {
+      return;
+    }
+
+    if (this.hunt) {
+      this.hunt.potatoes += 1;
+    }
+    this.showTimeoutPopup = true;
+  }
+
+  protected getRemainingTimeLabel(): string {
+    const totalSeconds = Math.ceil(this.remainingTimeMs / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  }
+
+  protected getRemainingTimeProgress(): number {
+    return this.remainingTimeMs / TasksPage.TASK_TIME_LIMIT_MS;
   }
 }
