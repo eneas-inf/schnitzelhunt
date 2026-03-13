@@ -21,15 +21,15 @@ interface DummyProfile {
 }
 
 const DEFAULT_DUMMIES: DummyProfile[] = [
-  { name: 'User A', schnitzels: 6, potatoes: 4, hunts: 8 }, // 40
-  { name: 'User B', schnitzels: 5, potatoes: 3, hunts: 7 }, // 35
-  { name: 'User C', schnitzels: 4, potatoes: 2, hunts: 6 }, // 30
-  { name: 'User D', schnitzels: 4, potatoes: 3, hunts: 6 }, // 25
-  { name: 'User E', schnitzels: 3, potatoes: 2, hunts: 5 }, // 20
-  { name: 'User F', schnitzels: 2, potatoes: 1, hunts: 4 }, // 15
-  { name: 'User G', schnitzels: 2, potatoes: 2, hunts: 3 }, // 10
-  { name: 'User H', schnitzels: 1, potatoes: 1, hunts: 2 }, // 5
-  { name: 'User I', schnitzels: 3, potatoes: 5, hunts: 2 }, // 5
+  { name: 'Philazy', schnitzels: 16, potatoes: 4, hunts: 8 }, // 40
+  { name: 'aaron_swiss', schnitzels: 15, potatoes: 3, hunts: 7 }, // 35
+  { name: 'eneas._', schnitzels: 14, potatoes: 2, hunts: 6 }, // 30
+  { name: 'hagel', schnitzels: 14, potatoes: 3, hunts: 6 }, // 25
+  { name: 'STREAMSNIPER487', schnitzels: 13, potatoes: 2, hunts: 5 }, // 20
+  { name: 'Jeromeee', schnitzels: 12, potatoes: 1, hunts: 4 }, // 15
+  { name: 'EpicGamer', schnitzels: 12, potatoes: 2, hunts: 3 }, // 10
+  { name: 'Legend', schnitzels: 11, potatoes: 1, hunts: 2 }, // 5
+  { name: 'MasterHunter', schnitzels: 13, potatoes: 5, hunts: 2 }, // 5
 ];
 
 @Injectable({ providedIn: 'root' })
