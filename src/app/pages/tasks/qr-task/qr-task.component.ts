@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, ElementRef, input, OnDestroy, output, viewChild } from '@angular/core';
 import { TaskComponent } from '../tasks.page';
 import { QrTask } from '../../../models/task';
-import { Haptics } from '@capacitor/haptics';
 import jsQR from 'jsqr';
+import { vibratePattern } from '../../../services/vibration';
 
 @Component({
   selector: 'app-qr-task',
@@ -123,14 +123,7 @@ export class QrTaskComponent implements TaskComponent<QrTask>, AfterViewInit, On
     window.setTimeout(() => {
       this.previewErrorFlash = false;
     }, 250);
-
-    try {
-      await Haptics.vibrate({ duration: 150 });
-    } catch {
-      if (navigator.vibrate) {
-        navigator.vibrate(150);
-      }
-    }
+    vibratePattern(60, 20, 60, 20, 60);
   }
 
   private stopScan(): void {
