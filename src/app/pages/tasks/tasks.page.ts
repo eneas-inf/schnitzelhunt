@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonButton, IonContent, IonHeader, IonIcon, IonProgressBar, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { batteryChargingOutline, checkmarkCircle, chevronForward, navigateCircleOutline, phonePortraitOutline, qrCodeOutline, warningOutline, wifiOutline } from 'ionicons/icons';
+import { batteryChargingOutline, chevronForward, navigateCircleOutline, phonePortraitOutline, qrCodeOutline, wifiOutline } from 'ionicons/icons';
 import { SchnitzelhuntService } from '../../services/schnitzelhunt.service';
 import { ActiveSchnitzelhunt } from '../../models/schnitzelhunt';
 import { firstValueFrom } from 'rxjs';
@@ -15,6 +15,8 @@ import { QrTaskComponent } from './qr-task/qr-task.component';
 import { FlipTaskComponent } from './flip-task/flip-task.component';
 import { PowerTaskComponent } from './power-task/power-task.component';
 import { WifiTaskComponent } from './wifi-task/wifi-task.component';
+import { TaskCompletedPopupComponent } from './task-completed-popup/task-completed-popup.component';
+import { TaskTimeoutHintComponent } from './task-timeout-hint/task-timeout-hint.component';
 import { vibratePattern } from '../../services/vibration';
 
 export interface TaskComponent<T extends Task> {
@@ -45,7 +47,9 @@ export interface TaskComponent<T extends Task> {
     IonButton,
     IonIcon,
     IonProgressBar,
-
+    TaskCompletedPopupComponent,
+    TaskTimeoutHintComponent,
+    TaskTimeoutHintComponent,
   ],
 })
 export class TasksPage implements OnInit, OnDestroy {
@@ -71,13 +75,11 @@ export class TasksPage implements OnInit, OnDestroy {
   constructor() {
     addIcons({
       navigateCircleOutline,
-      checkmarkCircle,
       qrCodeOutline,
       phonePortraitOutline,
       batteryChargingOutline,
       wifiOutline,
       chevronForward,
-      warningOutline,
     });
   }
 
@@ -291,8 +293,12 @@ export class TasksPage implements OnInit, OnDestroy {
   protected getTimerTextColor(): string {
     const secondsLeft = this.remainingTimeMs / 1000;
 
-    if (secondsLeft <= 60) return '#ef4444';
-    if (secondsLeft <= 120) return '#f59e0b';
+    if (secondsLeft <= 60) {
+      return '#ef4444';
+    }
+    if (secondsLeft <= 120) {
+      return '#f59e0b';
+    }
 
     return '#3b82f6';
   }

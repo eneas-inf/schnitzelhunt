@@ -1,0 +1,7 @@
+<div class="success-slide-card" [class.success-slide-card--skipped]="skipped">
+  <div class="success-slide-header">{{ title }}</div>
+  <div class="success-slide-icon">
+    <ion-icon [name]="skipped() ? 'warning-outline' : 'checkmark-circle'"></ion-icon>
+  </div>
+  <div class="success-slide-message">{{ message }}</div>
+</div>
