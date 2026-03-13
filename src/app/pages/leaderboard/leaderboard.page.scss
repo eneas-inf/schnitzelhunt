@@ -30,3 +30,11 @@ p {
   border-radius: 12px;
 }
 
+.entry-name {
+  display: inline-block;
+  max-width: calc(100% - 64px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}

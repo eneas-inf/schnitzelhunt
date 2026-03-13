@@ -34,7 +34,7 @@
         <ion-item [class.current-user-item]="isCurrentUser(entry)">
           <ion-label>
             <h2>
-              {{ i + 1 }}. {{ entry.name }}
+              <span class="entry-name">{{ i + 1 }}. {{ entry.name }}</span>
               @if (isCurrentUser(entry)) {
                 <ion-badge color="success" class="you-badge">You</ion-badge>
               }
