@@ -1,16 +1,13 @@
 ion-content {
-  --background: none; /* Remove default Ionic background */
+  --background: none;
   background: url('/assets/background.png') no-repeat center center / cover;
 }
 
 .content-container {
   position: relative;
-  z-index: 10;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
   text-align: center;
   padding-top: 60px;
   padding-bottom: 40px;

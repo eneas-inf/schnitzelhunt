@@ -43,8 +43,8 @@
 
         <ion-button
           expand="block"
-          color="light"
-          class="next-btn"
+          [color]="showSuccessPopup ? undefined : 'light'"
+          class="action-button"
           (click)="onNextTaskClick()"
         >
           {{ getNextButtonLabel() }}
@@ -52,8 +52,12 @@
         </ion-button>
       </div>
 
-      <ion-button expand="block" color="danger" class="surrender-btn" [disabled]="showSuccessPopup"
-                  (click)="surrender()">
+      <ion-button
+        expand="block"
+        color="danger"
+        class="action-button"
+        [disabled]="showSuccessPopup"
+        (click)="surrender()">
         Surrender
         <ion-icon slot="end" name="chevron-forward"></ion-icon>
       </ion-button>
