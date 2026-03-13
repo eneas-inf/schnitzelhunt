@@ -1,17 +1,10 @@
 import { Component, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {
-  IonContent,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonButton,
-  IonIcon,
-} from '@ionic/angular/standalone';
-import { RouterModule, ActivatedRoute } from '@angular/router';
+import { IonButton, IonContent, IonHeader, IonIcon, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { addIcons } from 'ionicons';
-import { restaurant, egg, time, trophy } from 'ionicons/icons';
+import { egg, restaurant, time, trophy } from 'ionicons/icons';
 import { SchnitzelhuntService } from '../../services/schnitzelhunt.service';
 import { firstValueFrom } from 'rxjs';
 import { UserService } from '../../services/user.service';
@@ -32,7 +25,7 @@ import { LeaderboardService } from '../../services/leaderboard.service';
     IonTitle,
     IonButton,
     IonIcon,
-  ]
+  ],
 })
 export class ResultsPage implements OnDestroy {
   private readonly route = inject(ActivatedRoute);
@@ -78,7 +71,7 @@ export class ResultsPage implements OnDestroy {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
-    return `${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}`;
+    return `${ this.pad(hours) }:${ this.pad(minutes) }:${ this.pad(seconds) }`;
   }
 
   ngOnDestroy(): void {
@@ -166,13 +159,12 @@ export class ResultsPage implements OnDestroy {
   }
 
   private async sendToLeaderboard(): Promise<void> {
-    await this.userService.ensureLoaded();
-    const name = this.userService.getUsername().trim() || 'unknown';
+    const name = (await this.userService.getUsername()).trim() || 'unknown';
     const totalSeconds = Math.max(0, Math.floor(this.durationMs / 1000));
     const hours = this.pad(Math.floor(totalSeconds / 3600));
     const minutes = this.pad(Math.floor((totalSeconds % 3600) / 60));
     const seconds = this.pad(totalSeconds % 60);
-    const duration = `${hours}:${minutes}:${seconds}`;
+    const duration = `${ hours }:${ minutes }:${ seconds }`;
     await this.leaderboardService.submitOnlineRun({
       name,
       schnitzelCount: this.schnitzels,

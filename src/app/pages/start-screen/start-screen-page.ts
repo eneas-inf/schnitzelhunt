@@ -18,8 +18,7 @@ export class StartScreenPage {
   private permissionService: PermissionService = inject(PermissionService);
 
   async usernameAlert() {
-    await this.userService.ensureLoaded();
-    if (this.userService.getUsername()) {
+    if (await this.userService.getUsername()) {
       await this.navigateAfterUsername();
       return;
     }

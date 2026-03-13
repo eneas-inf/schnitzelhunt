@@ -10,25 +10,17 @@ export class PermissionService {
   public async hasCameraPermission(prompt?: boolean): Promise<boolean> {
     const state = (await Camera.checkPermissions()).camera;
     if (state !== 'granted' && prompt && this.canPrompt(state)) {
-      return await this.requestCameraPermission();
+      return (await Camera.requestPermissions({ permissions: ['camera'] })).camera === 'granted';
     }
     return state === 'granted';
-  }
-
-  public async requestCameraPermission(): Promise<boolean> {
-    return (await Camera.requestPermissions({ permissions: ['camera'] })).camera === 'granted';
   }
 
   public async hasLocationPermission(prompt?: boolean): Promise<boolean> {
     const state = (await Geolocation.checkPermissions()).location;
     if (state !== 'granted' && prompt && this.canPrompt(state)) {
-      return await this.requestLocationPermission();
+      return (await Geolocation.requestPermissions({ permissions: ['location'] })).location === 'granted';
     }
     return state === 'granted';
-  }
-
-  public async requestLocationPermission(): Promise<boolean> {
-    return (await Geolocation.requestPermissions({ permissions: ['location'] })).location === 'granted';
   }
 
   private canPrompt(state: PermissionState | CameraPermissionState) {

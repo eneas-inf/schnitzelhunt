@@ -1,17 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
-import {
-  IonBadge,
-  IonContent,
-  IonHeader,
-  IonIcon,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonTitle,
-  IonToolbar
-} from '@ionic/angular/standalone';
-import {addIcons} from "ionicons";
-import {trophy} from "ionicons/icons";
+import { IonBadge, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { trophy } from 'ionicons/icons';
 import { firstValueFrom } from 'rxjs';
 import { LeaderboardEntry, LeaderboardService } from '../../services/leaderboard.service';
 import { UserService } from '../../services/user.service';
@@ -48,10 +38,6 @@ export class LeaderboardPage implements OnInit {
     await this.loadLeaderboard();
   }
 
-  async ionViewWillEnter(): Promise<void> {
-    await this.loadLeaderboard();
-  }
-
   protected getBadgeColor(index: number): string {
     if (index === 0) {
       return 'warning';
@@ -73,8 +59,7 @@ export class LeaderboardPage implements OnInit {
   }
 
   private async loadLeaderboard(): Promise<void> {
-    await this.userService.ensureLoaded();
-    this.currentUsername = this.userService.getUsername().trim().toLowerCase();
+    this.currentUsername = (await this.userService.getUsername()).trim().toLowerCase();
     this.entries = await firstValueFrom(this.leaderboardService.getLeaderboard());
   }
 }
