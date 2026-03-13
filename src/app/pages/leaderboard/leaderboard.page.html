@@ -10,7 +10,23 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  @if (entries.length === 0) {
+  @if (isLoading) {
+    <ion-list>
+      @for (_ of [].constructor(10); track $index) {
+        <ion-item>
+          <ion-label>
+            <h2>
+              <ion-skeleton-text [animated]="true" class="skeleton-name"/>
+            </h2>
+            <p>
+              <ion-skeleton-text [animated]="true" class="skeleton-hunts"/>
+            </p>
+          </ion-label>
+          <ion-skeleton-text [animated]="true" class="skeleton-badge" slot="end"/>
+        </ion-item>
+      }
+    </ion-list>
+  } @else if (entries.length === 0) {
     <p>No leaderboard entries yet.</p>
   } @else {
     <ion-list>

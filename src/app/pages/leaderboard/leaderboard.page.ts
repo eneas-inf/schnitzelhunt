@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { IonBadge, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonBadge, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonSkeletonText, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { trophy } from 'ionicons/icons';
 import { firstValueFrom } from 'rxjs';
@@ -21,6 +21,7 @@ import { UserService } from '../../services/user.service';
     IonLabel,
     IonBadge,
     IonIcon,
+    IonSkeletonText,
   ],
 })
 export class LeaderboardPage implements OnInit {
@@ -29,6 +30,7 @@ export class LeaderboardPage implements OnInit {
 
   protected entries: LeaderboardEntry[] = [];
   protected currentUsername = '';
+  protected isLoading = true;
 
   constructor() {
     addIcons({ trophy });
@@ -61,5 +63,6 @@ export class LeaderboardPage implements OnInit {
   private async loadLeaderboard(): Promise<void> {
     this.currentUsername = (await this.userService.getUsername()).trim().toLowerCase();
     this.entries = await firstValueFrom(this.leaderboardService.getLeaderboard());
+    this.isLoading = false;
   }
 }
